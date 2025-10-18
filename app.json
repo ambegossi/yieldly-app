@@ -27,6 +27,7 @@
       "package": "com.ambegossi.yieldly"
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./src/assets/images/favicon.png"
     },
