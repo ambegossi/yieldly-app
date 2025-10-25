@@ -16,5 +16,8 @@ module.exports = defineConfig([
         },
       },
     },
+    rules: {
+      "eol-last": "off",
+    },
   },
 ]);
