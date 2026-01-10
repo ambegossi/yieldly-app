@@ -1,4 +1,4 @@
-import { createRepositories } from "@/infra/container";
+import { HttpRepositories } from "@/infra/repositories/HttpRepository";
 import { RepositoryProvider } from "@/infra/repositories/RepositoryProvider";
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -7,12 +7,10 @@ import "../../global.css";
 
 const queryClient = new QueryClient();
 
-const repositories = createRepositories();
-
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RepositoryProvider value={repositories}>
+      <RepositoryProvider value={HttpRepositories}>
         <Stack />
         <PortalHost />
       </RepositoryProvider>
