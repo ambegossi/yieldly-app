@@ -111,3 +111,7 @@ const { data, isLoading, error } = useAppQuery({
 - Global styles must be imported in `_layout.tsx`
 - Portal components require `<PortalHost />` in root layout (already configured)
 - React 19 and React Compiler are experimental features currently enabled
+
+## Commits
+
+- Use conventional commits specification to write commit messages
