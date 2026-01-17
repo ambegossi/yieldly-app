@@ -1,0 +1,244 @@
+import { RepositoryProvider } from "@/infra/repositories/RepositoryProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { renderHook, waitFor } from "@testing-library/react-native";
+import { ReactNode } from "react";
+import { Pool } from "../../Pool";
+import { PoolRepo } from "../../PoolRepo";
+import { usePoolFindAll } from "../usePoolFindAll";
+
+const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
+  return {
+    findAll: jest.fn(),
+    ...overrides,
+  };
+};
+
+const createWrapper = (poolRepo: PoolRepo) => {
+  return function Wrapper({ children }: { children: ReactNode }) {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+          gcTime: 0,
+        },
+      },
+    });
+
+    return (
+      <QueryClientProvider client={queryClient}>
+        <RepositoryProvider value={{ poolRepo }}>{children}</RepositoryProvider>
+      </QueryClientProvider>
+    );
+  };
+};
+
+describe("usePoolFindAll", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should fetch pools successfully", async () => {
+    const mockPools: Pool[] = [
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 5.2,
+        url: "https://aave.com/pool/1",
+      },
+      {
+        id: "2",
+        chain: "polygon",
+        project: "Yearn",
+        symbol: "DAI",
+        apy: 8.7,
+        url: "https://yearn.finance/pool/2",
+      },
+    ];
+
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockResolvedValue(mockPools),
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    expect(result.current.isPending).toBe(true);
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(result.current.data).toEqual(mockPools);
+    expect(result.current.error).toBeFalsy();
+  });
+
+  it("should handle loading states correctly", async () => {
+    const mockPools: Pool[] = [
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Compound",
+        symbol: "ETH",
+        apy: 3.5,
+        url: "https://compound.finance/pool/1",
+      },
+    ];
+
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockResolvedValue(mockPools),
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    expect(result.current.isPending).toBe(true);
+    expect(result.current.isLoading).toBe(true);
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  it("should handle errors from repository", async () => {
+    const mockError = new Error("Failed to fetch pools");
+
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockRejectedValue(mockError),
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(result.current.error).toEqual(mockError);
+    expect(result.current.data).toBeUndefined();
+  });
+
+  it("should handle empty array response", async () => {
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockResolvedValue([]),
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(result.current.data).toEqual([]);
+    expect(result.current.error).toBeFalsy();
+  });
+
+  it("should use correct query key", async () => {
+    const mockPools: Pool[] = [];
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockResolvedValue(mockPools),
+    });
+
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+          gcTime: 0,
+        },
+      },
+    });
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={queryClient}>
+        <RepositoryProvider value={{ poolRepo: mockPoolRepo }}>
+          {children}
+        </RepositoryProvider>
+      </QueryClientProvider>
+    );
+
+    renderHook(() => usePoolFindAll(), { wrapper });
+
+    await waitFor(() => {
+      const queries = queryClient.getQueryCache().getAll();
+      expect(queries.length).toBe(1);
+      expect(queries[0].queryKey).toEqual(["pools"]);
+    });
+  });
+
+  it("should call poolRepo.findAll exactly once", async () => {
+    const mockPools: Pool[] = [];
+    const findAllMock = jest.fn().mockResolvedValue(mockPools);
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: findAllMock,
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(findAllMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should handle network errors gracefully", async () => {
+    const networkError = new Error("Network request failed");
+
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockRejectedValue(networkError),
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(result.current.error).toEqual(networkError);
+    expect(result.current.data).toBeUndefined();
+  });
+
+  it("should not refetch on component re-render", async () => {
+    const mockPools: Pool[] = [
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Uniswap",
+        symbol: "UNI",
+        apy: 12.5,
+        url: "https://uniswap.org/pool/1",
+      },
+    ];
+
+    const findAllMock = jest.fn().mockResolvedValue(mockPools);
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: findAllMock,
+    });
+
+    const { result, rerender } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+
+    expect(findAllMock).toHaveBeenCalledTimes(1);
+
+    rerender({} as any);
+
+    expect(findAllMock).toHaveBeenCalledTimes(1);
+  });
+});

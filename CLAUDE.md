@@ -9,15 +9,18 @@ Yieldly is a React Native mobile application built with Expo SDK 54, using file-
 ## Development Commands
 
 ### Running the app
-- `npm start` - Start Expo development server
-- `npm run android` - Run on Android emulator
-- `npm run ios` - Run on iOS simulator
-- `npm run web` - Run in web browser
+
+- `bun start` - Start Expo development server
+- `bun run android` - Run on Android emulator
+- `bun run ios` - Run on iOS simulator
+- `bun run web` - Run in web browser
 
 ### Code quality
-- `npm run lint` - Run ESLint (configured with Expo config + Prettier)
+
+- `bun run lint` - Run ESLint (configured with Expo config + Prettier)
 
 ### Package management
+
 This project uses Bun as the package manager (note the `bun.lock` file).
 
 ## Architecture
@@ -44,6 +47,7 @@ The codebase follows Clean Architecture with three main layers:
 ### Dependency Injection Pattern
 
 Repositories are injected via React Context:
+
 - Domain defines interfaces in `src/domain/Repositories.ts`
 - Infrastructure provides `RepositoryProvider` and `useRepository()` hook
 - Concrete implementations are passed to `RepositoryProvider` at the root level
@@ -55,12 +59,14 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 ## Styling System
 
 ### NativeWind v4 Configuration
+
 - Uses Tailwind CSS via NativeWind for cross-platform styling
 - `global.css` defines CSS variables for theming
 - Dark mode support via `darkMode: "class"` in tailwind config
 - Custom color system based on HSL CSS variables (--primary, --secondary, --background, etc.)
 
 ### UI Components
+
 - Located in `src/components/ui/`
 - Built with react-native-reusables patterns
 - Uses `cn()` utility from `src/lib/utils.ts` for className merging
@@ -89,6 +95,7 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 ## Development Patterns
 
 ### Adding New Features
+
 1. Define domain entities and repository interfaces in `src/domain/[feature]/`
 2. Create use cases in `src/domain/[feature]/useCases/`
 3. Implement repository in infrastructure layer
@@ -97,7 +104,9 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 6. Use `useRepository()` hook to access repositories in components
 
 ### Data Fetching Pattern
+
 Use `useAppQuery` wrapper for consistent React Query integration:
+
 ```typescript
 const { data, isLoading, error } = useAppQuery({
   queryKey: ['key'],
@@ -111,6 +120,103 @@ const { data, isLoading, error } = useAppQuery({
 - Global styles must be imported in `_layout.tsx`
 - Portal components require `<PortalHost />` in root layout (already configured)
 - React 19 and React Compiler are experimental features currently enabled
+
+## Testing Standards
+
+### Test Organization
+
+- Tests are co-located with source code in `__tests__/` directories
+- Test files use `.test.ts` extension (or `.test.tsx` if the test contains JSX)
+- Follow the pattern: `src/[layer]/[feature]/__tests__/[filename].test.{ts,tsx}`
+- Example: `src/domain/pool/useCases/__tests__/usePoolFindAll.test.tsx`
+
+### Testing Framework
+
+- **Jest** with `jest-expo` preset for React Native compatibility
+- **React Native Testing Library** (`@testing-library/react-native`) for component and hook testing
+- **Testing Library utilities**: `renderHook`, `waitFor`, `render`, `screen`
+- Path alias `@/*` supported via Jest module name mapper
+
+### Running Tests
+
+```bash
+bun test                    # Run all tests
+bun test --watch            # Run in watch mode
+bun test [pattern]          # Run tests matching pattern
+bun run test:coverage       # Run with coverage report
+```
+
+### Testing Custom Hooks
+
+When testing custom hooks that depend on repositories and React Query:
+
+**1. Mock Repository Factory**
+
+```typescript
+const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
+  return {
+    findAll: jest.fn(),
+    ...overrides,
+  };
+};
+```
+
+**2. Wrapper Factory for Providers**
+
+```typescript
+const createWrapper = (poolRepo: PoolRepo) => {
+  return function Wrapper({ children }: { children: ReactNode }) {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,  // Prevent retry for faster, predictable tests
+          gcTime: 0,     // Disable cache for test isolation
+        },
+      },
+    });
+
+    return (
+      <QueryClientProvider client={queryClient}>
+        <RepositoryProvider value={{ poolRepo }}>
+          {children}
+        </RepositoryProvider>
+      </QueryClientProvider>
+    );
+  };
+};
+```
+
+**3. Test Implementation**
+
+```typescript
+const { result } = renderHook(() => usePoolFindAll(), {
+  wrapper: createWrapper(mockPoolRepo),
+});
+
+await waitFor(() => {
+  expect(result.current.isPending).toBe(false);
+});
+```
+
+### Test Coverage Requirements
+
+Every test suite should cover:
+
+1. **Success scenarios** - Verify expected behavior with valid data
+2. **Loading states** - Test `isPending` and `isLoading` transitions
+3. **Error handling** - Verify graceful error handling and error state exposure
+4. **Edge cases** - Test empty data, null values, boundary conditions
+5. **Call verification** - Ensure dependencies are called with correct arguments
+6. **Query key verification** - Confirm React Query uses correct cache keys
+
+### Best Practices
+
+- **Isolation**: Create fresh QueryClient per test with retry/cache disabled
+- **Async handling**: Always use `waitFor` for async state changes
+- **Cleanup**: Use `afterEach(() => jest.clearAllMocks())` to reset mocks
+- **Descriptive names**: Use clear test descriptions that explain the scenario
+- **AAA Pattern**: Structure tests with Arrange-Act-Assert pattern
+- **Mock stability**: Verify hooks don't refetch on component re-renders
 
 ## Commits
 
