@@ -161,20 +161,27 @@ const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
 };
 ```
 
-**2. Wrapper Factory for Providers**
+**2. QueryClient Factory**
 
 ```typescript
-const createWrapper = (poolRepo: PoolRepo) => {
-  return function Wrapper({ children }: { children: ReactNode }) {
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,  // Prevent retry for faster, predictable tests
-          gcTime: 0,     // Disable cache for test isolation
-        },
+const createQueryClient = () => {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,    // Prevent retry for faster, predictable tests
+        gcTime: 0,       // Disable cache for test isolation
+        staleTime: 0,    // Always consider data stale
       },
-    });
+    },
+  });
+};
+```
 
+**3. Wrapper Factory for Providers**
+
+```typescript
+const createWrapper = (poolRepo: PoolRepo, queryClient: QueryClient) => {
+  return function Wrapper({ children }: { children: ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
         <RepositoryProvider value={{ poolRepo }}>
@@ -186,15 +193,34 @@ const createWrapper = (poolRepo: PoolRepo) => {
 };
 ```
 
-**3. Test Implementation**
+**4. Test Setup and Cleanup**
 
 ```typescript
-const { result } = renderHook(() => usePoolFindAll(), {
-  wrapper: createWrapper(mockPoolRepo),
-});
+describe("usePoolFindAll", () => {
+  let queryClient: QueryClient;
 
-await waitFor(() => {
-  expect(result.current.isPending).toBe(false);
+  beforeEach(() => {
+    queryClient = createQueryClient();
+  });
+
+  afterEach(() => {
+    queryClient.clear();  // Clean up queries to prevent act() warnings
+    jest.clearAllMocks();
+  });
+
+  it("should fetch pools successfully", async () => {
+    const mockPoolRepo = createMockPoolRepo({
+      findAll: jest.fn().mockResolvedValue(mockPools),
+    });
+
+    const { result } = renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo, queryClient),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false);
+    });
+  });
 });
 ```
 
@@ -211,9 +237,9 @@ Every test suite should cover:
 
 ### Best Practices
 
-- **Isolation**: Create fresh QueryClient per test with retry/cache disabled
+- **Isolation**: Create fresh QueryClient in `beforeEach` and clean up in `afterEach` with `queryClient.clear()`
 - **Async handling**: Always use `waitFor` for async state changes
-- **Cleanup**: Use `afterEach(() => jest.clearAllMocks())` to reset mocks
+- **Cleanup**: Use `afterEach(() => { queryClient.clear(); jest.clearAllMocks(); })` to prevent act() warnings
 - **Descriptive names**: Use clear test descriptions that explain the scenario
 - **AAA Pattern**: Structure tests with Arrange-Act-Assert pattern
 - **Mock stability**: Verify hooks don't refetch on component re-renders

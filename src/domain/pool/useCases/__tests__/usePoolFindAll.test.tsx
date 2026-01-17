@@ -13,17 +13,20 @@ const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
   };
 };
 
-const createWrapper = (poolRepo: PoolRepo) => {
-  return function Wrapper({ children }: { children: ReactNode }) {
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-          gcTime: 0,
-        },
+const createQueryClient = () => {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        gcTime: 0,
+        staleTime: 0,
       },
-    });
+    },
+  });
+};
 
+const createWrapper = (poolRepo: PoolRepo, queryClient: QueryClient) => {
+  return function Wrapper({ children }: { children: ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
         <RepositoryProvider value={{ poolRepo }}>{children}</RepositoryProvider>
@@ -33,7 +36,14 @@ const createWrapper = (poolRepo: PoolRepo) => {
 };
 
 describe("usePoolFindAll", () => {
+  let queryClient: QueryClient;
+
+  beforeEach(() => {
+    queryClient = createQueryClient();
+  });
+
   afterEach(() => {
+    queryClient.clear();
     jest.clearAllMocks();
   });
 
@@ -62,7 +72,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     expect(result.current.isPending).toBe(true);
@@ -92,7 +102,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     expect(result.current.isPending).toBe(true);
@@ -113,7 +123,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     await waitFor(() => {
@@ -130,7 +140,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     await waitFor(() => {
@@ -147,24 +157,9 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockResolvedValue(mockPools),
     });
 
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-          gcTime: 0,
-        },
-      },
+    renderHook(() => usePoolFindAll(), {
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
-
-    const wrapper = ({ children }: { children: ReactNode }) => (
-      <QueryClientProvider client={queryClient}>
-        <RepositoryProvider value={{ poolRepo: mockPoolRepo }}>
-          {children}
-        </RepositoryProvider>
-      </QueryClientProvider>
-    );
-
-    renderHook(() => usePoolFindAll(), { wrapper });
 
     await waitFor(() => {
       const queries = queryClient.getQueryCache().getAll();
@@ -181,7 +176,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     await waitFor(() => {
@@ -199,7 +194,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     await waitFor(() => {
@@ -228,7 +223,7 @@ describe("usePoolFindAll", () => {
     });
 
     const { result, rerender } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo),
+      wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
     await waitFor(() => {
