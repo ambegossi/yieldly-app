@@ -148,101 +148,24 @@ bun run test:coverage       # Run with coverage report
 
 ### Testing Custom Hooks
 
-When testing custom hooks that depend on repositories and React Query:
+When testing hooks with React Query and repositories:
 
-**1. Mock Repository Factory**
+- Create mock repositories using factory functions with `jest.fn()` and optional overrides
+- Create QueryClient with `retry: false`, `gcTime: 0`, `staleTime: 0` for test isolation
+- Build wrapper with `QueryClientProvider` and `RepositoryProvider`
+- Create fresh QueryClient in `beforeEach`, clean up with `queryClient.clear()` in `afterEach`
+- Use `renderHook` with wrapper and `waitFor` for async state changes
 
-```typescript
-const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
-  return {
-    findAll: jest.fn(),
-    ...overrides,
-  };
-};
-```
+### Test Coverage
 
-**2. QueryClient Factory**
-
-```typescript
-const createQueryClient = () => {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,    // Prevent retry for faster, predictable tests
-        gcTime: 0,       // Disable cache for test isolation
-        staleTime: 0,    // Always consider data stale
-      },
-    },
-  });
-};
-```
-
-**3. Wrapper Factory for Providers**
-
-```typescript
-const createWrapper = (poolRepo: PoolRepo, queryClient: QueryClient) => {
-  return function Wrapper({ children }: { children: ReactNode }) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <RepositoryProvider value={{ poolRepo }}>
-          {children}
-        </RepositoryProvider>
-      </QueryClientProvider>
-    );
-  };
-};
-```
-
-**4. Test Setup and Cleanup**
-
-```typescript
-describe("usePoolFindAll", () => {
-  let queryClient: QueryClient;
-
-  beforeEach(() => {
-    queryClient = createQueryClient();
-  });
-
-  afterEach(() => {
-    queryClient.clear();  // Clean up queries to prevent act() warnings
-    jest.clearAllMocks();
-  });
-
-  it("should fetch pools successfully", async () => {
-    const mockPoolRepo = createMockPoolRepo({
-      findAll: jest.fn().mockResolvedValue(mockPools),
-    });
-
-    const { result } = renderHook(() => usePoolFindAll(), {
-      wrapper: createWrapper(mockPoolRepo, queryClient),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isPending).toBe(false);
-    });
-  });
-});
-```
-
-### Test Coverage Requirements
-
-Every test suite should cover:
-
-1. **Success scenarios** - Verify expected behavior with valid data
-2. **Loading states** - Test `isPending` and `isLoading` transitions
-3. **Error handling** - Verify graceful error handling and error state exposure
-4. **Edge cases** - Test empty data, null values, boundary conditions
-5. **Call verification** - Ensure dependencies are called with correct arguments
-6. **Query key verification** - Confirm React Query uses correct cache keys
+Cover success scenarios, loading states, error handling, edge cases, call verification, and query key verification.
 
 ### Best Practices
 
-- **Isolation**: Create fresh QueryClient in `beforeEach` and clean up in `afterEach` with `queryClient.clear()`
-- **Async handling**: Always use `waitFor` for async state changes
-- **Cleanup**: Use `afterEach(() => { queryClient.clear(); jest.clearAllMocks(); })` to prevent act() warnings
-- **Descriptive names**: Use clear test descriptions that explain the scenario
-- **AAA Pattern**: Structure tests with Arrange-Act-Assert pattern
-- **Mock stability**: Verify hooks don't refetch on component re-renders
+- Create fresh QueryClient in `beforeEach`, clean up in `afterEach` with `queryClient.clear()` and `jest.clearAllMocks()`
+- Always use `waitFor` for async state changes
+- Use descriptive test names and Arrange-Act-Assert pattern
+- Verify hooks don't refetch on component re-renders
 
 ## Commits
 
