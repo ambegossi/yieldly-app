@@ -20,4 +20,26 @@ module.exports = defineConfig([
       "eol-last": "off",
     },
   },
+  // Jest configuration for test files
+  {
+    files: [
+      "**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "**/*.{spec,test}.{js,jsx,ts,tsx}",
+      "jest.setup.js",
+      "jest.config.js",
+    ],
+    languageOptions: {
+      globals: {
+        jest: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        test: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+      },
+    },
+  },
 ]);
