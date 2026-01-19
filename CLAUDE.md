@@ -153,8 +153,9 @@ When testing hooks with React Query and repositories:
 - Create mock repositories using factory functions with `jest.fn()` and optional overrides
 - Create QueryClient with `retry: false`, `gcTime: 0`, `staleTime: 0` for test isolation
 - Build wrapper with `QueryClientProvider` and `RepositoryProvider`
-- Create fresh QueryClient in `beforeEach`, clean up with `queryClient.clear()` in `afterEach`
+- Create fresh QueryClient in `beforeEach`, clean up with `jest.clearAllMocks()` in `afterEach`
 - Use `renderHook` with wrapper and `waitFor` for async state changes
+- Always call `unmount()` at the end of each test to prevent `act()` warnings
 
 ### Test Coverage
 
@@ -162,8 +163,9 @@ Cover success scenarios, loading states, error handling, edge cases, call verifi
 
 ### Best Practices
 
-- Create fresh QueryClient in `beforeEach`, clean up in `afterEach` with `queryClient.clear()` and `jest.clearAllMocks()`
+- Create fresh QueryClient in `beforeEach`, clean up in `afterEach` with `jest.clearAllMocks()`
 - Always use `waitFor` for async state changes
+- Always call `unmount()` at the end of each test to prevent `act()` warnings from React Query updates
 - Use descriptive test names and Arrange-Act-Assert pattern
 - Verify hooks don't refetch on component re-renders
 

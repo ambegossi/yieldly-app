@@ -43,7 +43,6 @@ describe("usePoolFindAll", () => {
   });
 
   afterEach(() => {
-    queryClient.clear();
     jest.clearAllMocks();
   });
 
@@ -71,7 +70,7 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockResolvedValue(mockPools),
     });
 
-    const { result } = renderHook(() => usePoolFindAll(), {
+    const { result, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -83,6 +82,8 @@ describe("usePoolFindAll", () => {
 
     expect(result.current.data).toEqual(mockPools);
     expect(result.current.error).toBeFalsy();
+
+    unmount();
   });
 
   it("should handle loading states correctly", async () => {
@@ -101,7 +102,7 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockResolvedValue(mockPools),
     });
 
-    const { result } = renderHook(() => usePoolFindAll(), {
+    const { result, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -113,6 +114,8 @@ describe("usePoolFindAll", () => {
     });
 
     expect(result.current.isLoading).toBe(false);
+
+    unmount();
   });
 
   it("should handle errors from repository", async () => {
@@ -122,7 +125,7 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockRejectedValue(mockError),
     });
 
-    const { result } = renderHook(() => usePoolFindAll(), {
+    const { result, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -132,6 +135,8 @@ describe("usePoolFindAll", () => {
 
     expect(result.current.error).toEqual(mockError);
     expect(result.current.data).toBeUndefined();
+
+    unmount();
   });
 
   it("should handle empty array response", async () => {
@@ -139,7 +144,7 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockResolvedValue([]),
     });
 
-    const { result } = renderHook(() => usePoolFindAll(), {
+    const { result, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -149,6 +154,8 @@ describe("usePoolFindAll", () => {
 
     expect(result.current.data).toEqual([]);
     expect(result.current.error).toBeFalsy();
+
+    unmount();
   });
 
   it("should use correct query key", async () => {
@@ -157,7 +164,7 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockResolvedValue(mockPools),
     });
 
-    renderHook(() => usePoolFindAll(), {
+    const { unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -166,6 +173,8 @@ describe("usePoolFindAll", () => {
       expect(queries.length).toBe(1);
       expect(queries[0].queryKey).toEqual(["pools"]);
     });
+
+    unmount();
   });
 
   it("should call poolRepo.findAll exactly once", async () => {
@@ -175,7 +184,7 @@ describe("usePoolFindAll", () => {
       findAll: findAllMock,
     });
 
-    const { result } = renderHook(() => usePoolFindAll(), {
+    const { result, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -184,6 +193,8 @@ describe("usePoolFindAll", () => {
     });
 
     expect(findAllMock).toHaveBeenCalledTimes(1);
+
+    unmount();
   });
 
   it("should handle network errors gracefully", async () => {
@@ -193,7 +204,7 @@ describe("usePoolFindAll", () => {
       findAll: jest.fn().mockRejectedValue(networkError),
     });
 
-    const { result } = renderHook(() => usePoolFindAll(), {
+    const { result, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -203,6 +214,8 @@ describe("usePoolFindAll", () => {
 
     expect(result.current.error).toEqual(networkError);
     expect(result.current.data).toBeUndefined();
+
+    unmount();
   });
 
   it("should not refetch on component re-render", async () => {
@@ -222,7 +235,7 @@ describe("usePoolFindAll", () => {
       findAll: findAllMock,
     });
 
-    const { result, rerender } = renderHook(() => usePoolFindAll(), {
+    const { result, rerender, unmount } = renderHook(() => usePoolFindAll(), {
       wrapper: createWrapper(mockPoolRepo, queryClient),
     });
 
@@ -235,5 +248,7 @@ describe("usePoolFindAll", () => {
     rerender({} as any);
 
     expect(findAllMock).toHaveBeenCalledTimes(1);
+
+    unmount();
   });
 });

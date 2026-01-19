@@ -37,6 +37,12 @@ module.exports = {
 
     // Exclude DTOs (pure types)
     "!src/infra/repositories/HttpRepository/**/PoolDTO.ts",
+
+    // Exclude HTTP client interfaces (no implementation)
+    "!src/infra/http/HttpClient.ts",
+
+    // Exclude HTTP client instances (configuration only)
+    "!src/infra/http/clients/*.ts",
   ],
   transformIgnorePatterns: [
     "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",

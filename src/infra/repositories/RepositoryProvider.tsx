@@ -8,11 +8,5 @@ export const RepositoryContext = React.createContext<Repositories>(
 export const RepositoryProvider = RepositoryContext.Provider;
 
 export function useRepository(): Repositories {
-  const context = React.useContext(RepositoryContext);
-
-  if (!context) {
-    throw new Error("useRepository must be used within a RepositoryProvider");
-  }
-
-  return context;
+  return React.useContext(RepositoryContext);
 }
