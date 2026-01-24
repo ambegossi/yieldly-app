@@ -1,18 +1,15 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: N/A → 1.0.0 (initial ratification)
-Modified principles: N/A (initial creation)
-Added sections:
-  - Core Principles (I-IV)
-  - Technology Constraints
-  - Development Workflow
-  - Governance
-Removed sections: N/A
+Version change: 1.0.0 → 1.0.1
+Modified principles:
+  - III. User Experience Consistency: Added react-native-reusables requirement
+Added sections: None
+Removed sections: None
 Templates requiring updates:
-  - .specify/templates/plan-template.md - ✅ compatible (Constitution Check section exists)
-  - .specify/templates/spec-template.md - ✅ compatible (requirements align)
-  - .specify/templates/tasks-template.md - ✅ compatible (phase structure aligns)
+  - .specify/templates/plan-template.md - ✅ compatible
+  - .specify/templates/spec-template.md - ✅ compatible
+  - .specify/templates/tasks-template.md - ✅ compatible
 Follow-up TODOs: None
 -->
 
@@ -74,7 +71,8 @@ consistency:
 - Theme colors MUST use CSS variables defined in `global.css` (e.g., `--primary`,
   `--background`).
 - Dark mode MUST be supported via the `darkMode: "class"` configuration.
-- UI components MUST be built on `src/components/ui/` primitives.
+- UI components in `src/components/ui/` MUST be created using react-native-reusables
+  patterns and primitives.
 - The `cn()` utility from `src/lib/utils.ts` MUST be used for className merging.
 
 Non-negotiable rules:
@@ -166,4 +164,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-24
+**Version**: 1.0.1 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-24
