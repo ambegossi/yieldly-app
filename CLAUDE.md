@@ -67,7 +67,8 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 
 ### UI Components
 
-- Located in `src/components/ui/`
+- Core components (Button, Text, TextInput, etc.) are located in `src/components/core/`
+- Other composite components are located in `src/components/`
 - Built with react-native-reusables patterns
 - Uses `cn()` utility from `src/lib/utils.ts` for className merging
 - Theme utilities in `src/lib/theme.ts`

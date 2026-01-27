@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.0 → 1.0.1
+Version change: 1.0.1 → 1.0.2
 Modified principles:
-  - III. User Experience Consistency: Added react-native-reusables requirement
+  - III. User Experience Consistency: Updated component folder structure (ui → core)
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -71,8 +71,9 @@ consistency:
 - Theme colors MUST use CSS variables defined in `global.css` (e.g., `--primary`,
   `--background`).
 - Dark mode MUST be supported via the `darkMode: "class"` configuration.
-- UI components in `src/components/ui/` MUST be created using react-native-reusables
-  patterns and primitives.
+- Core UI components (Button, Text, TextInput, etc.) in `src/components/core/` MUST be
+  created using react-native-reusables patterns and primitives.
+- Composite components that use core components MUST reside in `src/components/`.
 - The `cn()` utility from `src/lib/utils.ts` MUST be used for className merging.
 
 Non-negotiable rules:
@@ -164,4 +165,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.1 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-24
+**Version**: 1.0.2 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-27
