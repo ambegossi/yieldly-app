@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.1 → 1.0.2
+Version change: 1.0.2 → 1.0.3
 Modified principles:
-  - III. User Experience Consistency: Updated component folder structure (ui → core)
+  - I. Clean Architecture & Code Quality: Added file structure and naming conventions
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -25,14 +25,20 @@ All code MUST follow Clean Architecture with strict layer separation:
   and use cases. MUST NOT import from infrastructure or presentation layers.
 - **Infrastructure Layer** (`src/infra/`): Concrete implementations of domain interfaces.
   MUST NOT contain business logic.
-- **Presentation Layer** (`src/app/`): UI components and routing. MUST access domain
-  through infrastructure's dependency injection via `useRepository()` hook.
+- **Presentation Layer**:
+  - `src/app/`: Routes and route layouts only (Expo Router file-based routing).
+  - `src/screens/`: Screen components in camelCase folders with `index.tsx` entry point.
+  - Screen-specific components MUST live in `src/screens/[screenName]/components/`.
+  - MUST access domain through infrastructure's dependency injection via `useRepository()` hook.
 
 Non-negotiable rules:
 - TypeScript strict mode MUST remain enabled; `any` type is prohibited except in
   type guards with explicit runtime validation.
 - Path alias `@/*` MUST be used for all imports from `src/`.
 - New features MUST define domain interfaces before infrastructure implementations.
+- Components MUST be created using function declarations with named exports.
+- Hooks MUST be created using function declarations with named exports and use
+  camelCase naming pattern.
 - ESLint and Prettier MUST pass with zero warnings before merge.
 
 **Rationale**: Layer separation ensures testability, maintainability, and prevents
@@ -165,4 +171,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.2 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-27
+**Version**: 1.0.3 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-27

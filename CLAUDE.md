@@ -56,6 +56,28 @@ Repositories are injected via React Context:
 
 TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 
+### File Structure & Naming Conventions
+
+**Routes and Screens:**
+- `src/app/` directory contains routes and route layouts (Expo Router file-based routing)
+- `src/screens/` directory contains screen components
+- Each screen is a folder with a camelCase name (e.g., `homeScreen/`, `poolDetails/`)
+- Each screen folder contains an `index.tsx` file as the main entry point
+- Screen-specific components live in a `components/` folder inside the screen folder
+  - Example: `src/screens/homeScreen/components/PoolCard.tsx`
+
+**Component Conventions:**
+- Components MUST be created using function declarations with named exports
+- Example: `export function Button() { ... }`
+- Core components (Button, Text, TextInput, etc.) live in `src/components/core/`
+- Composite/shared components live in `src/components/`
+- Screen-specific components live in `src/screens/[screenName]/components/`
+
+**Hook Conventions:**
+- Hooks MUST be created using function declarations with named exports
+- Hooks MUST use camelCase naming pattern (e.g., `usePoolData`, `useAuth`)
+- Example: `export function usePoolData() { ... }`
+
 ## Styling System
 
 ### NativeWind v4 Configuration
