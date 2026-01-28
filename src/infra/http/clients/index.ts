@@ -1,1 +1,1 @@
-export { defiLlamaHttpClient } from "./defiLlamaHttpClient";
+export { defiLlamaHttpClient } from "./defi-llama-http-client";

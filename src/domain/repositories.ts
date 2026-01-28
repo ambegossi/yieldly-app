@@ -1,4 +1,4 @@
-import { PoolRepo } from "./pool/PoolRepo";
+import { PoolRepo } from "./pool/pool-repo";
 
 export interface Repositories {
   poolRepo: PoolRepo;

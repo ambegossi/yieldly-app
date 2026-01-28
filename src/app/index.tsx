@@ -1,4 +1,4 @@
-import { usePoolFindAll } from "@/domain/pool/useCases/usePoolFindAll";
+import { usePoolFindAll } from "@/domain/pool/use-cases/use-pool-find-all";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export default function Index() {

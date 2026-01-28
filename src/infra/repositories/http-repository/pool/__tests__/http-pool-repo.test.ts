@@ -1,6 +1,6 @@
-import { HttpPoolRepo } from "../HttpPoolRepo";
-import { HttpClient } from "@/infra/http/HttpClient";
-import { DefiLlamaGetPoolsResponseDTO } from "../PoolDTO";
+import { HttpPoolRepo } from "../http-pool-repo";
+import { HttpClient } from "@/infra/http/http-client";
+import { DefiLlamaGetPoolsResponseDTO } from "../pool-dto";
 
 describe("HttpPoolRepo", () => {
   describe("findAll", () => {

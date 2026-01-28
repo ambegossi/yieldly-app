@@ -1,5 +1,5 @@
-import { Pool } from "@/domain/pool/Pool";
-import { DefiLlamaPoolDTO } from "./PoolDTO";
+import { Pool } from "@/domain/pool/pool";
+import { DefiLlamaPoolDTO } from "./pool-dto";
 
 export function defiLlamaPoolDTOToPool(dto: DefiLlamaPoolDTO): Pool {
   return {

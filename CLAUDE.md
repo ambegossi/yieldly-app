@@ -33,12 +33,12 @@ The codebase follows Clean Architecture with three main layers:
    - Contains pure business logic and entities
    - Defines repository interfaces (e.g., `PoolRepo`)
    - Organizes features by domain (e.g., `pool/`)
-   - Use cases are located in feature-specific `useCases/` directories
+   - Use cases are located in feature-specific `use-cases/` directories
 
 2. **Infrastructure Layer** (`src/infra/`)
    - Implements domain interfaces with concrete implementations
-   - `repositories/RepositoryProvider.tsx` - React Context for dependency injection
-   - `useCases/useAppQuery.ts` - Wrapper around React Query for consistent data fetching
+   - `repositories/repository-provider.tsx` - React Context for dependency injection
+   - `use-cases/use-app-query.ts` - Wrapper around React Query for consistent data fetching
 
 3. **Presentation Layer** (`src/app/`)
    - File-based routing using expo-router
@@ -48,13 +48,39 @@ The codebase follows Clean Architecture with three main layers:
 
 Repositories are injected via React Context:
 
-- Domain defines interfaces in `src/domain/Repositories.ts`
+- Domain defines interfaces in `src/domain/repositories.ts`
 - Infrastructure provides `RepositoryProvider` and `useRepository()` hook
 - Concrete implementations are passed to `RepositoryProvider` at the root level
 
 ### Path Aliases
 
 TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
+
+### File and Directory Naming Conventions
+
+All files and directories MUST use kebab-case naming:
+
+**Files:**
+- Component files: `button.tsx`, `pool-card.tsx`, `home-screen.tsx`
+- Hook files: `use-pool-find-all.ts`, `use-app-query.ts`, `use-auth.ts`
+- Class/Service files: `http-client.ts`, `pool-adapter.ts`, `http-pool-repo.ts`
+- Entity/Interface files: `pool.ts`, `pool-repo.ts`, `repositories.ts`
+- DTO files: `pool-dto.ts`, `user-dto.ts`
+- Test files: `use-pool-find-all.test.tsx`, `pool-adapter.test.ts`
+
+**Directories:**
+- Feature directories: `pool/`, `user/`, `auth/`
+- Utility directories: `use-cases/`, `http-repository/`, `core/`
+
+**Code-level naming remains unchanged:**
+- Components: PascalCase (`export function Button() {}`)
+- Hooks: camelCase (`export function usePoolFindAll() {}`)
+- Classes: PascalCase (`export class HttpClient {}`)
+- Interfaces: PascalCase (`export interface Pool {}`)
+
+**Rationale:** Consistent kebab-case file naming improves cross-platform compatibility,
+reduces case-sensitivity issues in version control, and creates visual distinction
+between file names (kebab-case) and code exports (PascalCase/camelCase).
 
 ### File Structure & Naming Conventions
 
@@ -120,9 +146,9 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 ### Adding New Features
 
 1. Define domain entities and repository interfaces in `src/domain/[feature]/`
-2. Create use cases in `src/domain/[feature]/useCases/`
+2. Create use cases in `src/domain/[feature]/use-cases/`
 3. Implement repository in infrastructure layer
-4. Register repository in `src/domain/Repositories.ts` interface
+4. Register repository in `src/domain/repositories.ts` interface
 5. Provide implementation via `RepositoryProvider` in root layout
 6. Use `useRepository()` hook to access repositories in components
 
@@ -151,7 +177,7 @@ const { data, isLoading, error } = useAppQuery({
 - Tests are co-located with source code in `__tests__/` directories
 - Test files use `.test.ts` extension (or `.test.tsx` if the test contains JSX)
 - Follow the pattern: `src/[layer]/[feature]/__tests__/[filename].test.{ts,tsx}`
-- Example: `src/domain/pool/useCases/__tests__/usePoolFindAll.test.tsx`
+- Example: `src/domain/pool/use-cases/__tests__/use-pool-find-all.test.tsx`
 
 ### Testing Framework
 

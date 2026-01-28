@@ -1,7 +1,7 @@
 import React from "react";
 import { renderHook } from "@testing-library/react-native";
-import { RepositoryProvider, useRepository } from "../RepositoryProvider";
-import { Repositories } from "@/domain/Repositories";
+import { RepositoryProvider, useRepository } from "../repository-provider";
+import { Repositories } from "@/domain/repositories";
 
 describe("RepositoryProvider", () => {
   describe("useRepository", () => {

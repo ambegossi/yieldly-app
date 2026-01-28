@@ -1,5 +1,5 @@
-import { defiLlamaPoolDTOToPool } from "../PoolAdapter";
-import { DefiLlamaPoolDTO } from "../PoolDTO";
+import { defiLlamaPoolDTOToPool } from "../pool-adapter";
+import { DefiLlamaPoolDTO } from "../pool-dto";
 
 describe("PoolAdapter", () => {
   describe("defiLlamaPoolDTOToPool", () => {

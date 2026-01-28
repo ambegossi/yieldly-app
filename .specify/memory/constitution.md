@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.2 → 1.0.3
+Version change: 1.0.3 → 1.0.4
 Modified principles:
-  - I. Clean Architecture & Code Quality: Added file structure and naming conventions
+  - I. Clean Architecture & Code Quality: Added kebab-case file naming requirement
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -22,7 +22,7 @@ Follow-up TODOs: None
 All code MUST follow Clean Architecture with strict layer separation:
 
 - **Domain Layer** (`src/domain/`): Pure business logic, entities, repository interfaces,
-  and use cases. MUST NOT import from infrastructure or presentation layers.
+  and use cases in `use-cases/` directories. MUST NOT import from infrastructure or presentation layers.
 - **Infrastructure Layer** (`src/infra/`): Concrete implementations of domain interfaces.
   MUST NOT contain business logic.
 - **Presentation Layer**:
@@ -39,6 +39,7 @@ Non-negotiable rules:
 - Components MUST be created using function declarations with named exports.
 - Hooks MUST be created using function declarations with named exports and use
   camelCase naming pattern.
+- File and directory names MUST use kebab-case convention (e.g., `use-pool-find-all.ts`, `http-client.ts`, `use-cases/`).
 - ESLint and Prettier MUST pass with zero warnings before merge.
 
 **Rationale**: Layer separation ensures testability, maintainability, and prevents
@@ -171,4 +172,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.3 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-27
+**Version**: 1.0.4 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-27

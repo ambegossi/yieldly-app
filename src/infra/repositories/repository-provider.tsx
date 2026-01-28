@@ -1,4 +1,4 @@
-import { Repositories } from "@/domain/Repositories";
+import { Repositories } from "@/domain/repositories";
 import React from "react";
 
 export const RepositoryContext = React.createContext<Repositories>(

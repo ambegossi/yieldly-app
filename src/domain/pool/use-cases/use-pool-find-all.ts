@@ -1,5 +1,5 @@
-import { useRepository } from "@/infra/repositories/RepositoryProvider";
-import { useAppQuery } from "@/infra/useCases/useAppQuery";
+import { useRepository } from "@/infra/repositories/repository-provider";
+import { useAppQuery } from "@/infra/use-cases/use-app-query";
 
 export function usePoolFindAll() {
   const { poolRepo } = useRepository();
