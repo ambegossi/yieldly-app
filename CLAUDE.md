@@ -61,6 +61,7 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 All files and directories MUST use kebab-case naming:
 
 **Files:**
+
 - Component files: `button.tsx`, `pool-card.tsx`, `home-screen.tsx`
 - Hook files: `use-pool-find-all.ts`, `use-app-query.ts`, `use-auth.ts`
 - Class/Service files: `http-client.ts`, `pool-adapter.ts`, `http-pool-repo.ts`
@@ -69,10 +70,12 @@ All files and directories MUST use kebab-case naming:
 - Test files: `use-pool-find-all.test.tsx`, `pool-adapter.test.ts`
 
 **Directories:**
+
 - Feature directories: `pool/`, `user/`, `auth/`
 - Utility directories: `use-cases/`, `http-repository/`, `core/`
 
 **Code-level naming remains unchanged:**
+
 - Components: PascalCase (`export function Button() {}`)
 - Hooks: camelCase (`export function usePoolFindAll() {}`)
 - Classes: PascalCase (`export class HttpClient {}`)
@@ -85,14 +88,16 @@ between file names (kebab-case) and code exports (PascalCase/camelCase).
 ### File Structure & Naming Conventions
 
 **Routes and Screens:**
+
 - `src/app/` directory contains routes and route layouts (Expo Router file-based routing)
 - `src/screens/` directory contains screen components
-- Each screen is a folder with a kebab-case name (e.g., `home-screen/`, `pool-details/`)
+- Each screen is a folder with a kebab-case name (e.g., `home/`, `pool-details/`)
 - Each screen folder contains an `index.tsx` file as the main entry point
 - Screen-specific components live in a `components/` folder inside the screen folder
-  - Example: `src/screens/home-screen/components/pool-card.tsx`
+  - Example: `src/screens/home/components/pool-card.tsx`
 
 **Component Conventions:**
+
 - Components MUST be created using function declarations with named exports
 - Example: `export function Button() { ... }`
 - Core components (Button, Text, TextInput, etc.) live in `src/components/core/`
@@ -100,6 +105,7 @@ between file names (kebab-case) and code exports (PascalCase/camelCase).
 - Screen-specific components live in `src/screens/[screenName]/components/`
 
 **Hook Conventions:**
+
 - Hooks MUST be created using function declarations with named exports
 - Hooks MUST use camelCase naming pattern (e.g., `usePoolData`, `useAuth`)
 - Example: `export function usePoolData() { ... }`
@@ -156,12 +162,18 @@ between file names (kebab-case) and code exports (PascalCase/camelCase).
 
 Use `useAppQuery` wrapper for consistent React Query integration:
 
+````typescript
+const { data, isLoading, error } = useAppQuery({
+  queryKey: ["key"],
+  fetchData: () => repository.method(),
+Use `useAppQuery` wrapper for consistent React Query integration:
+
 ```typescript
 const { data, isLoading, error } = useAppQuery({
   queryKey: ['key'],
   fetchData: () => repository.method()
 });
-```
+````
 
 ## Important Notes
 
