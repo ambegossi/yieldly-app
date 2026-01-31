@@ -87,10 +87,10 @@ between file names (kebab-case) and code exports (PascalCase/camelCase).
 **Routes and Screens:**
 - `src/app/` directory contains routes and route layouts (Expo Router file-based routing)
 - `src/screens/` directory contains screen components
-- Each screen is a folder with a camelCase name (e.g., `homeScreen/`, `poolDetails/`)
+- Each screen is a folder with a kebab-case name (e.g., `home-screen/`, `pool-details/`)
 - Each screen folder contains an `index.tsx` file as the main entry point
 - Screen-specific components live in a `components/` folder inside the screen folder
-  - Example: `src/screens/homeScreen/components/PoolCard.tsx`
+  - Example: `src/screens/home-screen/components/pool-card.tsx`
 
 **Component Conventions:**
 - Components MUST be created using function declarations with named exports

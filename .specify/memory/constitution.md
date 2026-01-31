@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.3 → 1.0.4
+Version change: 1.0.4 → 1.0.5
 Modified principles:
-  - I. Clean Architecture & Code Quality: Added kebab-case file naming requirement
+  - I. Clean Architecture & Code Quality: Clarified kebab-case applies to screen folders (corrected camelCase references)
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -27,8 +27,8 @@ All code MUST follow Clean Architecture with strict layer separation:
   MUST NOT contain business logic.
 - **Presentation Layer**:
   - `src/app/`: Routes and route layouts only (Expo Router file-based routing).
-  - `src/screens/`: Screen components in camelCase folders with `index.tsx` entry point.
-  - Screen-specific components MUST live in `src/screens/[screenName]/components/`.
+  - `src/screens/`: Screen components in kebab-case folders with `index.tsx` entry point.
+  - Screen-specific components MUST live in `src/screens/[screen-name]/components/`.
   - MUST access domain through infrastructure's dependency injection via `useRepository()` hook.
 
 Non-negotiable rules:
@@ -172,4 +172,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.4 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-27
+**Version**: 1.0.5 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-31
