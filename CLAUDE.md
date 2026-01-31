@@ -230,6 +230,30 @@ Cover success scenarios, loading states, error handling, edge cases, call verifi
 - Use descriptive test names and Arrange-Act-Assert pattern
 - Verify hooks don't refetch on component re-renders
 
+## MCP Tools
+
+### iOS Simulator Integration
+
+When implementing UI features, use the `ios-simulator` MCP tools to validate the implementation:
+
+- **Visual Validation**: Use `mcp__ios-simulator__screenshot` to capture the current state and compare with design specs
+- **UI Inspection**: Use `mcp__ios-simulator__ui_describe_all` to verify accessibility elements and layout structure
+- **Interactive Testing**: Use `mcp__ios-simulator__ui_tap`, `mcp__ios-simulator__ui_swipe`, and `mcp__ios-simulator__ui_type` to simulate user interactions
+- **Recording**: Use `mcp__ios-simulator__record_video` to capture interaction flows for review
+
+Always validate that the implementation matches the design specifications before considering a feature complete.
+
+### Perplexity Research
+
+Use the `perplexity` MCP tools for research when needed:
+
+- **Quick Questions**: Use `mcp__perplexity__perplexity_ask` for conversational queries about React Native, Expo, or libraries
+- **Deep Research**: Use `mcp__perplexity__perplexity_research` for comprehensive research with citations on complex topics
+- **Technical Reasoning**: Use `mcp__perplexity__perplexity_reason` for well-reasoned responses on architectural decisions
+- **Web Search**: Use `mcp__perplexity__perplexity_search` to find up-to-date documentation, best practices, or solutions
+
+Use these tools proactively to stay current with best practices and resolve technical uncertainties.
+
 ## Commits
 
 - Use conventional commits specification to write commit messages

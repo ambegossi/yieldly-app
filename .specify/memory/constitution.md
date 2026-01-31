@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.4 → 1.0.5
+Version change: 1.0.5 → 1.1.0
 Modified principles:
-  - I. Clean Architecture & Code Quality: Clarified kebab-case applies to screen folders (corrected camelCase references)
+  - Development Workflow: Added MCP tools guidance for ios-simulator validation and perplexity research
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -142,17 +142,24 @@ performance directly impacts user retention and app store ratings.
 1. Read existing code in the affected area before proposing changes.
 2. Verify Clean Architecture compliance of the proposed design.
 3. Identify affected test files.
+4. Use `perplexity` MCP tools to research best practices and technical uncertainties.
 
 **During Implementation**:
 1. Run `bun run lint` frequently to catch issues early.
 2. Write/update tests alongside implementation.
 3. Use conventional commits for all commits.
+4. For UI features, use `ios-simulator` MCP tools to validate implementation against design:
+   - Capture screenshots to compare with design specs.
+   - Inspect UI elements and accessibility information.
+   - Test user interactions (tap, swipe, type).
+   - Record interaction flows for review.
 
 **Before Merge**:
 1. All tests MUST pass (`bun test`).
 2. Lint MUST pass with zero warnings (`bun run lint`).
 3. No `TODO` comments without linked issue numbers.
 4. Coverage MUST NOT decrease.
+5. UI MUST be validated with ios-simulator screenshots matching design specifications.
 
 ## Governance
 
@@ -172,4 +179,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.5 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-31
+**Version**: 1.1.0 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-31
