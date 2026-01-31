@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.5 → 1.1.0
+Version change: 1.1.0 → 1.2.0
 Modified principles:
-  - Development Workflow: Added MCP tools guidance for ios-simulator validation and perplexity research
+  - Development Workflow: Added TypeScript type checking requirement in "Before Merge" section
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -156,10 +156,11 @@ performance directly impacts user retention and app store ratings.
 
 **Before Merge**:
 1. All tests MUST pass (`bun test`).
-2. Lint MUST pass with zero warnings (`bun run lint`).
-3. No `TODO` comments without linked issue numbers.
-4. Coverage MUST NOT decrease.
-5. UI MUST be validated with ios-simulator screenshots matching design specifications.
+2. TypeScript types MUST pass with zero errors (`bun run types`).
+3. Lint MUST pass with zero warnings (`bun run lint`).
+4. No `TODO` comments without linked issue numbers.
+5. Coverage MUST NOT decrease.
+6. UI MUST be validated with ios-simulator screenshots matching design specifications.
 
 ## Governance
 
@@ -179,4 +180,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.1.0 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-31
+**Version**: 1.2.0 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-31

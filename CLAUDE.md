@@ -18,6 +18,7 @@ Yieldly is a React Native mobile application built with Expo SDK 54, using file-
 ### Code quality
 
 - `bun run lint` - Run ESLint (configured with Expo config + Prettier)
+- `bun run types` - Check TypeScript types without emitting files
 
 ### Package management
 
