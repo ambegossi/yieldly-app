@@ -2,8 +2,10 @@
 
 **Feature Branch**: `001-home-screen`
 **Created**: 2026-01-24
+**Updated**: 2026-01-31
 **Status**: Draft
 **Input**: User description: "Build the home screen of the app. The home screen should show a list of stablecoins sorted by the biggest APY. The list should have two filters (network and protocol). When the user touch one item of the list, he should be navigated to the details of that stablecoin. Each item of the list should have the stablecoin symbol, name, protocol, network, and the APY. Check the images for references from the home screen on desktop, tablet and phone."
+**UI References**: See `phone.png`, `tablet.png`, and `web.png` in this directory for visual design references
 
 ## Clarifications
 
@@ -14,6 +16,16 @@
 - Q: What uniquely identifies a stablecoin opportunity in the list? → A: The combination of symbol + protocol + network (e.g., USDT on Aave on Optimism is different from USDT on Compound on Optimism)
 - Q: Should the filter modal include a way to clear selections before applying? → A: Include a "Clear All" or "Reset" action within the filter modal to deselect all checkboxes
 - Q: How should the list handle large numbers of stablecoins? → A: Display all items in a scrollable list with efficient rendering (virtualized list for performance)
+
+### Session 2026-01-31
+
+- **UI Layout Update**: Updated list item layout based on new design references (phone.png, tablet.png, web.png):
+  - List items now use a horizontal card layout with circular badge containing text symbol, stablecoin name, protocol/network info, APY, and chevron arrow
+  - Stablecoin symbols are displayed as text (e.g., "USDT", "USDC", "DAI") in circular badges with light/mint green background
+  - On phone: protocol appears in a beige/tan badge below the stablecoin name
+  - On tablet/desktop: protocol and network appear on the same line separated by a bullet point (e.g., "Aave • Optimism")
+  - APY is displayed prominently on the right with "Best APY" label below
+  - Chevron arrow on far right indicates tappability
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -28,10 +40,17 @@ A user opens the app to quickly see which stablecoins offer the highest APY acro
 **Acceptance Scenarios**:
 
 1. **Given** the app is opened for the first time, **When** the home screen loads, **Then** a list of stablecoins sorted by highest APY is displayed
-2. **Given** stablecoin data is available, **When** viewing the list, **Then** each item shows symbol, full name, protocol name, network name, and APY percentage
+2. **Given** stablecoin data is available, **When** viewing the list, **Then** each item shows:
+   - Left: circular badge with stablecoin symbol as text (e.g., "USDT", "USDC", "DAI") on a light/mint green background
+   - Center-top: stablecoin full name (e.g., "Tether", "USD Coin", "Dai")
+   - Center-bottom: protocol name and network name separated by a bullet point (e.g., "Aave • Optimism")
+   - Right: APY percentage in large text with "Best APY" label below
+   - Far right: chevron arrow indicating the item is tappable
 3. **Given** multiple stablecoins exist, **When** comparing list items, **Then** items are ordered from highest to lowest APY
 4. **Given** the list is displayed, **When** viewing APY values, **Then** percentages are formatted with two decimal places and labeled as "Best APY"
 5. **Given** the list is displayed, **When** the user performs a pull-to-refresh gesture, **Then** a loading indicator appears and the stablecoin data is refreshed with the latest APY values
+6. **Given** the list is displayed on phone screens, **When** viewing list items, **Then** the protocol name appears in a beige/tan badge below the stablecoin name
+7. **Given** the list is displayed on tablet or desktop screens, **When** viewing list items, **Then** the protocol and network appear on the same line separated by a bullet point
 
 ---
 
@@ -136,7 +155,13 @@ A user wants to see stablecoin opportunities that match both specific networks A
 - **FR-002**: System MUST display all available stablecoin opportunities in a single scrollable list without pagination
 - **FR-003**: System MUST use efficient rendering techniques (e.g., virtualization) to maintain smooth scrolling performance with large data volumes
 - **FR-004**: System MUST treat each combination of symbol + protocol + network as a unique entry in the list (e.g., USDT on Aave on Optimism is a separate entry from USDT on Compound on Optimism)
-- **FR-005**: System MUST show the following information for each stablecoin in the list: symbol (e.g., "USDT"), full name (e.g., "Tether"), protocol name (e.g., "Aave"), network name (e.g., "Optimism"), and APY percentage
+- **FR-005**: System MUST show the following information for each stablecoin list item:
+  - Circular badge with stablecoin symbol as text displayed on the left (e.g., "USDT", "USDC", "DAI") with a light/mint green background
+  - Stablecoin full name displayed prominently in the center-top position (e.g., "Tether", "USD Coin", "Dai")
+  - Protocol name and network name displayed in the center-bottom position, separated by a bullet point separator (e.g., "Aave • Optimism")
+  - APY percentage displayed in large text on the right side
+  - "Best APY" label displayed below the APY percentage
+  - Chevron arrow indicator on the far right indicating the item is tappable
 - **FR-006**: System MUST format APY values as percentages with exactly two decimal places
 - **FR-007**: System MUST label APY values with "Best APY" text
 - **FR-008**: System MUST provide a "Network" filter button that opens a modal or bottom sheet for network selection
@@ -157,16 +182,19 @@ A user wants to see stablecoin opportunities that match both specific networks A
 - **FR-023**: System MUST maintain active filter selections when performing pull-to-refresh (refresh applies to filtered data)
 - **FR-024**: System MUST provide visual indication (e.g., icon, badge) when filters are active
 - **FR-025**: System MUST allow users to clear active filters to restore the full unfiltered list
-- **FR-026**: System MUST display stablecoin icons/logos in each list item
+- **FR-026**: System MUST display stablecoin symbols as text in circular badges with light/mint green background in each list item
 - **FR-027**: System MUST adapt layout responsively across phone, tablet, and desktop screen sizes as shown in reference designs
 - **FR-028**: System MUST use a card-based layout for list items with clear visual separation
-- **FR-029**: System MUST show a prominent heading "Find the Best Stablecoin Yields" on the home screen
-- **FR-030**: System MUST show a descriptive subtitle "Compare lending rates across DeFi protocols and maximize your returns"
-- **FR-031**: System MUST apply secondary alphabetical sorting by symbol when multiple stablecoins have identical APY values
+- **FR-029**: System MUST display the protocol name in a beige/tan badge on phone screens
+- **FR-030**: System MUST display the protocol and network on the same line with bullet point separator on tablet and desktop screens
+- **FR-031**: System MUST include a chevron arrow on the right side of each list item to indicate tappability
+- **FR-032**: System MUST show a prominent heading "Find the Best Stablecoin Yields" on the home screen
+- **FR-033**: System MUST show a descriptive subtitle "Compare lending rates across DeFi protocols and maximize your returns"
+- **FR-034**: System MUST apply secondary alphabetical sorting by symbol when multiple stablecoins have identical APY values
 
 ### Key Entities
 
-- **Stablecoin**: Represents a stablecoin yield opportunity with attributes: symbol (short identifier like "USDT"), name (full name like "Tether"), protocol (DeFi protocol name like "Aave"), network (blockchain network like "Optimism"), APY (annual percentage yield as decimal number), and icon/logo (visual identifier). Each entry is uniquely identified by the combination of symbol + protocol + network, meaning the same stablecoin can appear multiple times in the list if it's available across different protocols or networks with different APY rates.
+- **Stablecoin**: Represents a stablecoin yield opportunity with attributes: symbol (short identifier like "USDT" displayed in circular badge), name (full name like "Tether"), protocol (DeFi protocol name like "Aave"), network (blockchain network like "Optimism"), and APY (annual percentage yield as decimal number). Each entry is uniquely identified by the combination of symbol + protocol + network, meaning the same stablecoin can appear multiple times in the list if it's available across different protocols or networks with different APY rates.
 
 - **Network**: Represents a blockchain network with attributes: name (e.g., "Ethereum", "Polygon", "Optimism"), identifier (unique ID), and display order
 
@@ -192,7 +220,7 @@ A user wants to see stablecoin opportunities that match both specific networks A
 1. **Data Source**: Stablecoin yield data is provided by a backend API or data service (implementation details out of scope for this specification)
 2. **Real-time Updates**: APY data is relatively static and does not require real-time updates (polling or refresh strategy is an implementation detail)
 3. **Authentication**: No authentication is required to view the home screen - it is publicly accessible
-4. **Network Icons**: Icon/logo assets for networks and protocols are available from the backend or are bundled with the app
+4. **Visual Identifiers**: Stablecoin symbols are displayed as text in circular badges rather than using logo/icon image assets
 5. **Filter Persistence**: Filter selections are session-based and do not persist between app restarts (persistent filters would be a future enhancement)
 6. **Accessibility**: Standard mobile accessibility features (screen readers, dynamic text sizing) are supported following platform guidelines
 7. **Language**: Initial version supports English only (internationalization is a future consideration)
@@ -202,7 +230,6 @@ A user wants to see stablecoin opportunities that match both specific networks A
 ## Dependencies
 
 - **Backend API**: Requires a functional API endpoint that provides stablecoin yield data including symbol, name, protocol, network, and APY
-- **Design Assets**: Requires stablecoin, network, and protocol logo/icon assets
 
 ## Out of Scope
 
