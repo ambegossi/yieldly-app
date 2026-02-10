@@ -1,248 +1,286 @@
-# Feature Specification: Home Screen - Stablecoin Yield Comparison
+# Feature Specification: Home Screen
 
 **Feature Branch**: `001-home-screen`
-**Created**: 2026-01-24
-**Updated**: 2026-01-31
+**Created**: 2026-02-03
 **Status**: Draft
-**Input**: User description: "Build the home screen of the app. The home screen should show a list of stablecoins sorted by the biggest APY. The list should have two filters (network and protocol). When the user touch one item of the list, he should be navigated to the details of that stablecoin. Each item of the list should have the stablecoin symbol, name, protocol, network, and the APY. Check the images for references from the home screen on desktop, tablet and phone."
-**UI References**: See `phone.png`, `tablet.png`, and `web.png` in this directory for visual design references
+**Input**: User description: "Build the home screen of the app. The home screen should have a title and a subtitle, and show to the user a list of stablecoins sorted by the biggest APY. The list should have two filters (network and protocol). Each item of the list should have the stablecoin symbol, protocol, network, and the APY. Check the images for references from the home screen on desktop, tablet and phone. Build the app header too, with the Yieldly logo and name."
 
 ## Clarifications
 
-### Session 2026-01-24
+### Session 2026-02-03
 
-- Q: How should the multi-select filter interface work? → A: Filter is a modal/bottom sheet with checkboxes and "Apply" or "Done" button to commit selections
-- Q: How should users refresh stablecoin yield data? → A: Pull-to-refresh gesture on the list with visual feedback (standard mobile pattern)
-- Q: What uniquely identifies a stablecoin opportunity in the list? → A: The combination of symbol + protocol + network (e.g., USDT on Aave on Optimism is different from USDT on Compound on Optimism)
-- Q: Should the filter modal include a way to clear selections before applying? → A: Include a "Clear All" or "Reset" action within the filter modal to deselect all checkboxes
-- Q: How should the list handle large numbers of stablecoins? → A: Display all items in a scrollable list with efficient rendering (virtualized list for performance)
-
-### Session 2026-01-31
-
-- **UI Layout Update**: Updated list item layout based on new design references (phone.png, tablet.png, web.png):
-  - List items now use a horizontal card layout with circular badge containing text symbol, stablecoin name, protocol/network info, APY, and chevron arrow
-  - Stablecoin symbols are displayed as text (e.g., "USDT", "USDC", "DAI") in circular badges with light/mint green background
-  - On phone: protocol appears in a beige/tan badge below the stablecoin name
-  - On tablet/desktop: protocol and network appear on the same line separated by a bullet point (e.g., "Aave • Optimism")
-  - APY is displayed prominently on the right with "Best APY" label below
-  - Chevron arrow on far right indicates tappability
+- Q: Data Source for Stablecoin Yields → A: Use existing backend API endpoint that provides aggregated yield data
+- Q: Filter Selection UI Pattern → A: Dropdown menu for desktop and tablet, bottom sheet for phone
+- Q: Data Refresh Strategy → A: Auto-refresh on app foreground with cached data shown immediately
+- Q: Offline Behavior → A: Show cached data with offline indicator
+- Q: Maximum List Size → A: Paginated with 24 items per page
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - View Top Stablecoin Yields (Priority: P1)
+### User Story 1 - View Best Stablecoin Yields (Priority: P1)
 
-A user opens the app to quickly see which stablecoins offer the highest APY across all available DeFi protocols and networks. The list is automatically sorted by APY from highest to lowest, allowing users to immediately identify the best opportunities.
+Users can see a ranked list of stablecoin yield opportunities across DeFi protocols to identify the best returns for their investment.
 
-**Why this priority**: This is the core value proposition of the app - helping users find the best yields. Without this, the app has no purpose. Users must be able to see yield data immediately upon opening the app.
+**Why this priority**: This is the core value proposition of the app - helping users find the highest APY for stablecoins. Without this, the app has no purpose.
 
-**Independent Test**: Can be fully tested by launching the app and verifying that stablecoins are displayed in descending APY order. Delivers immediate value by showing comparative yield data.
+**Independent Test**: Can be fully tested by launching the app and verifying that a list of stablecoins appears sorted by APY (highest first), with each item showing symbol, protocol, network, and APY percentage.
 
 **Acceptance Scenarios**:
 
-1. **Given** the app is opened for the first time, **When** the home screen loads, **Then** a list of stablecoins sorted by highest APY is displayed
-2. **Given** stablecoin data is available, **When** viewing the list, **Then** each item shows:
-   - Left: circular badge with stablecoin symbol as text (e.g., "USDT", "USDC", "DAI") on a light/mint green background
-   - Center-top: stablecoin full name (e.g., "Tether", "USD Coin", "Dai")
-   - Center-bottom: protocol name and network name separated by a bullet point (e.g., "Aave • Optimism")
-   - Right: APY percentage in large text with "Best APY" label below
-   - Far right: chevron arrow indicating the item is tappable
-3. **Given** multiple stablecoins exist, **When** comparing list items, **Then** items are ordered from highest to lowest APY
-4. **Given** the list is displayed, **When** viewing APY values, **Then** percentages are formatted with two decimal places and labeled as "Best APY"
-5. **Given** the list is displayed, **When** the user performs a pull-to-refresh gesture, **Then** a loading indicator appears and the stablecoin data is refreshed with the latest APY values
-6. **Given** the list is displayed on phone screens, **When** viewing list items, **Then** the protocol name appears in a beige/tan badge below the stablecoin name
-7. **Given** the list is displayed on tablet or desktop screens, **When** viewing list items, **Then** the protocol and network appear on the same line separated by a bullet point
+1. **Given** the user opens the app, **When** the home screen loads, **Then** they see a title "Find the Best Stablecoin Yields" and subtitle "Compare lending rates across DeFi protocols and maximize your returns"
+2. **Given** the home screen has loaded, **When** the user views the stablecoin list, **Then** they see the first 24 items sorted by APY from highest to lowest
+3. **Given** the user views a stablecoin item, **When** they look at the item details, **Then** they see the stablecoin symbol (e.g., USDT), protocol name (e.g., Aave), network name (e.g., Optimism), and APY percentage (e.g., 5.67%)
+4. **Given** multiple stablecoins have yields, **When** the list displays, **Then** each item shows a visual indicator (icon/badge) for the stablecoin symbol
+5. **Given** the user views the highest APY, **When** they look at the percentage, **Then** it is displayed prominently in green with "Best APY" label positioned below the percentage value
+6. **Given** the user scrolls to the bottom of the first page, **When** more results are available, **Then** the next 24 items load automatically
 
 ---
 
 ### User Story 2 - Filter by Network (Priority: P2)
 
-A user only wants to see stablecoin opportunities on specific blockchain networks (e.g., Ethereum, Polygon, Optimism) that they currently use or prefer. They can filter the list to show only stablecoins available on their selected network(s).
+Users can filter the stablecoin list by blockchain network to focus on opportunities available on their preferred network.
 
-**Why this priority**: Important for user experience and relevance. Users often have network preferences based on their existing holdings, gas fees, or technical constraints. This prevents information overload and improves decision-making efficiency.
+**Why this priority**: Users may have assets on specific networks or prefer certain networks for gas fees and ecosystem familiarity. This helps them find relevant opportunities faster.
 
-**Independent Test**: Can be fully tested by selecting network filters and verifying the list updates to show only matching stablecoins. Delivers value by personalizing the results to user needs.
+**Independent Test**: Can be fully tested by tapping the "Network" filter button and selecting a network (e.g., "Optimism"), then verifying that only stablecoins on that network appear in the list.
 
 **Acceptance Scenarios**:
 
-1. **Given** the home screen is displayed, **When** a user taps the "Network" filter button, **Then** a modal or bottom sheet appears with checkboxes showing all available networks and a "Clear All" or "Reset" action
-2. **Given** the network filter modal is opened, **When** the user selects one or more network checkboxes and taps "Apply" or "Done", **Then** the modal closes and the list updates to show only stablecoins available on the selected network(s)
-3. **Given** the network filter modal has one or more checkboxes selected, **When** the user taps "Clear All" or "Reset", **Then** all checkboxes are deselected within the modal
-4. **Given** network filters are active, **When** viewing the list, **Then** all displayed items match the selected network criteria and remain sorted by APY
-5. **Given** network filters are active, **When** the user clears the filter, **Then** the full list of stablecoins is restored, still sorted by APY
-6. **Given** a network filter is applied, **When** no stablecoins match the criteria, **Then** an empty state message is displayed
-7. **Given** the network filter modal is opened with existing selections, **When** the user dismisses the modal without tapping "Apply" or "Done", **Then** the previous filter selections remain unchanged
+1. **Given** the user is on the home screen, **When** they tap the "Network" filter button, **Then** a list of available networks appears in a bottom sheet (phone) or dropdown menu (tablet/desktop)
+2. **Given** the network filter is open, **When** the user selects a specific network, **Then** the list updates to show only stablecoins available on that network
+3. **Given** a network filter is active, **When** the user views the list, **Then** all items display the selected network
+4. **Given** a network filter is active, **When** the user taps the filter button again, **Then** they can clear the filter to see all networks
+5. **Given** no stablecoins exist for a selected network, **When** the filter is applied, **Then** the user sees an appropriate message indicating no results
 
 ---
 
 ### User Story 3 - Filter by Protocol (Priority: P2)
 
-A user wants to see opportunities only from specific DeFi protocols (e.g., Aave, Spark, Compound) that they trust or are familiar with. They can filter the list to show only stablecoins from their selected protocol(s).
+Users can filter the stablecoin list by DeFi protocol to compare yields within a specific platform or focus on protocols they trust.
 
-**Why this priority**: Important for risk management and user trust. Users often have strong preferences for specific protocols based on security audits, reputation, or past experience. This helps users stay within their comfort zone.
+**Why this priority**: Users may have existing relationships with specific protocols or want to diversify/concentrate their holdings. This enables protocol-specific research and comparison.
 
-**Independent Test**: Can be fully tested by selecting protocol filters and verifying the list updates to show only matching stablecoins. Delivers value by reducing perceived risk and focusing on trusted options.
+**Independent Test**: Can be fully tested by tapping the "Protocol" filter button and selecting a protocol (e.g., "Aave"), then verifying that only stablecoins on that protocol appear in the list.
 
 **Acceptance Scenarios**:
 
-1. **Given** the home screen is displayed, **When** a user taps the "Protocol" filter button, **Then** a modal or bottom sheet appears with checkboxes showing all available protocols and a "Clear All" or "Reset" action
-2. **Given** the protocol filter modal is opened, **When** the user selects one or more protocol checkboxes and taps "Apply" or "Done", **Then** the modal closes and the list updates to show only stablecoins available on the selected protocol(s)
-3. **Given** the protocol filter modal has one or more checkboxes selected, **When** the user taps "Clear All" or "Reset", **Then** all checkboxes are deselected within the modal
-4. **Given** protocol filters are active, **When** viewing the list, **Then** all displayed items match the selected protocol criteria and remain sorted by APY
-5. **Given** protocol filters are active, **When** the user clears the filter, **Then** the full list of stablecoins is restored, still sorted by APY
-6. **Given** a protocol filter is applied, **When** no stablecoins match the criteria, **Then** an empty state message is displayed
-7. **Given** the protocol filter modal is opened with existing selections, **When** the user dismisses the modal without tapping "Apply" or "Done", **Then** the previous filter selections remain unchanged
+1. **Given** the user is on the home screen, **When** they tap the "Protocol" filter button, **Then** a list of available protocols appears in a bottom sheet (phone) or dropdown menu (tablet/desktop)
+2. **Given** the protocol filter is open, **When** the user selects a specific protocol, **Then** the list updates to show only stablecoins available on that protocol
+3. **Given** a protocol filter is active, **When** the user views the list, **Then** all items display the selected protocol
+4. **Given** a protocol filter is active, **When** the user taps the filter button again, **Then** they can clear the filter to see all protocols
+5. **Given** no stablecoins exist for a selected protocol, **When** the filter is applied, **Then** the user sees an appropriate message indicating no results
 
 ---
 
-### User Story 4 - Combine Multiple Filters (Priority: P3)
+### User Story 4 - View App Branding (Priority: P1)
 
-A user wants to see stablecoin opportunities that match both specific networks AND specific protocols simultaneously (e.g., only show Aave opportunities on Polygon). They can apply both network and protocol filters together, with results showing only items that satisfy both criteria.
+Users see consistent Yieldly branding in the app header to build trust and recognize the platform.
 
-**Why this priority**: Nice-to-have enhancement for power users. Most users will use filters individually, but combining them provides advanced targeting for sophisticated users with specific requirements.
+**Why this priority**: Branding establishes identity and trust. As part of the initial screen users see, it's critical for user confidence and professional appearance.
 
-**Independent Test**: Can be fully tested by applying both network and protocol filters and verifying only items matching both criteria are shown. Delivers value by enabling precise opportunity discovery.
+**Independent Test**: Can be fully tested by opening the app and verifying that the header displays the Yieldly logo (green circle with "Y") and "Yieldly" name.
 
 **Acceptance Scenarios**:
 
-1. **Given** the home screen is displayed, **When** a user selects both network and protocol filters, **Then** the list shows only stablecoins that match both criteria simultaneously
-2. **Given** both filters are active, **When** viewing the list, **Then** results remain sorted by highest APY among the filtered subset
-3. **Given** combined filters result in no matches, **When** viewing the list, **Then** an empty state message is displayed
-4. **Given** both filters are active, **When** the user clears one filter type, **Then** the list updates to show all items matching the remaining active filter
+1. **Given** the user opens the app, **When** the home screen loads, **Then** they see a header at the top with the Yieldly logo and name
+2. **Given** the user views the header, **When** they look at the logo, **Then** it displays as a green circular icon with a white "Y" letter
+3. **Given** the user views the header, **When** they look at the app name, **Then** it displays "Yieldly" in the app's brand font next to the logo
+
+---
+
+### User Story 5 - Combine Multiple Filters (Priority: P3)
+
+Users can apply both network and protocol filters simultaneously to narrow down to specific yield opportunities.
+
+**Why this priority**: Power users may want to find yields for a specific combination (e.g., "Aave on Optimism"). This is a nice-to-have enhancement but not critical for MVP.
+
+**Independent Test**: Can be fully tested by selecting both a network filter (e.g., "Polygon") and protocol filter (e.g., "Aave"), then verifying that only items matching both criteria appear.
+
+**Acceptance Scenarios**:
+
+1. **Given** the user has selected a network filter, **When** they also select a protocol filter, **Then** the list shows only stablecoins that match both the network AND protocol
+2. **Given** multiple filters are active, **When** the user views the filter buttons, **Then** both buttons show an active/selected state
+3. **Given** multiple filters are active, **When** no results match both criteria, **Then** the user sees a message indicating no matching results
+4. **Given** multiple filters are active, **When** the user clears one filter, **Then** the list updates to show results matching the remaining filter
 
 ---
 
 ### Edge Cases
 
 - What happens when the API fails to load stablecoin data?
-  - Display error state with retry option
-  - Preserve any previously loaded data if available (stale data better than no data)
+  - User should see an error message with option to retry
+  - App should not crash or show blank screen
 
-- What happens when there are no stablecoins available (empty data set)?
-  - Display empty state message explaining no opportunities are currently available
+- What happens when a stablecoin has 0% APY?
+  - Item should still display with "0.00%" shown clearly
+  - Should not be hidden from the list
 
-- What happens when filters eliminate all results?
-  - Display empty state message indicating no stablecoins match the selected criteria
-  - Provide quick action to clear filters
+- What happens when filter results return zero items?
+  - User sees "No stablecoins found for selected filters" message
+  - Filters remain active so user can adjust them
 
-- What happens when APY values are identical for multiple stablecoins?
-  - Secondary sort by stablecoin symbol alphabetically
+- What happens when APY values are extremely long (e.g., 123.456789%)?
+  - APY should be formatted to 2 decimal places maximum
 
-- What happens when network or protocol names are very long?
-  - Truncate with ellipsis while ensuring key information remains visible
+- What happens when APY values are negative?
+  - Negative APY should be displayed as red text with minus sign (e.g., "-2.50%")
+  - Item should still appear in the list, sorted by actual value
+  - No special warning needed (market reality)
 
-- What happens when the user has slow or unstable internet connection?
-  - Show loading state with spinner
-  - Implement reasonable timeout (10 seconds) before showing error
-  - Allow retry without restarting the app
+- What happens when network/protocol names are very long?
+  - Text should truncate with ellipsis if needed to prevent layout breaking
 
-- What happens when new data arrives while filters are active?
-  - Maintain current filter state and apply to new data
-  - Keep user's scroll position if possible
+- What happens on slow network connections?
+  - Show loading indicator while data is being fetched
+  - List items should not flicker or jump during loading
 
-- What happens when the user rotates their device (orientation change)?
-  - Preserve filter state and scroll position
-  - Adapt layout responsively (as shown in desktop/tablet/phone references)
+- What happens when user taps on a stablecoin item?
+  - User should see visual feedback (e.g., highlight/press state) when tapping an item
+  - Item shows a toast message "Details coming soon" (detail screen is out of scope for this feature)
+  - Navigation to detail screen will be implemented in a future feature
 
-- What happens when pull-to-refresh fails due to network error?
-  - Show error message but preserve existing data in the list
-  - User can attempt pull-to-refresh again
+- What happens when cached data is displayed but fresh data fails to load?
+  - Cached data remains visible
+  - User sees a subtle error indicator (e.g., banner or toast)
+  - Retry option is available without disrupting the cached view
+
+- What happens when device goes offline while user is viewing the list?
+  - Cached data remains visible
+  - Offline indicator appears immediately
+  - Filters continue to work with cached data
+  - Refresh actions are disabled until connection is restored
+
+- What happens when user opens the app for the first time while offline?
+  - User sees "No internet connection" message with clear explanation
+  - User is prompted to connect to internet to load initial data
+  - No functionality is available until connection is established
+
+- What happens when user scrolls to the end of a page?
+  - System automatically loads the next page (infinite scroll pattern)
+  - Loading indicator appears at the bottom of the list
+  - New items are appended smoothly without disrupting scroll position
+
+- What happens when pagination fails to load the next page?
+  - Current page remains visible
+  - Error message appears with retry option
+  - User can continue viewing current results and retry loading more
+
+- What happens when filters are changed while viewing page 2 or later?
+  - List resets to page 1 with new filter criteria
+  - Previous pagination state is cleared
+  - Fresh results matching new filters are loaded
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: System MUST display a list of stablecoins sorted by APY in descending order (highest first)
-- **FR-002**: System MUST display all available stablecoin opportunities in a single scrollable list without pagination
-- **FR-003**: System MUST use efficient rendering techniques (e.g., virtualization) to maintain smooth scrolling performance with large data volumes
-- **FR-004**: System MUST treat each combination of symbol + protocol + network as a unique entry in the list (e.g., USDT on Aave on Optimism is a separate entry from USDT on Compound on Optimism)
-- **FR-005**: System MUST show the following information for each stablecoin list item:
-  - Circular badge with stablecoin symbol as text displayed on the left (e.g., "USDT", "USDC", "DAI") with a light/mint green background
-  - Stablecoin full name displayed prominently in the center-top position (e.g., "Tether", "USD Coin", "Dai")
-  - Protocol name and network name displayed in the center-bottom position, separated by a bullet point separator (e.g., "Aave • Optimism")
-  - APY percentage displayed in large text on the right side
-  - "Best APY" label displayed below the APY percentage
-  - Chevron arrow indicator on the far right indicating the item is tappable
-- **FR-006**: System MUST format APY values as percentages with exactly two decimal places
-- **FR-007**: System MUST label APY values with "Best APY" text
-- **FR-008**: System MUST provide a "Network" filter button that opens a modal or bottom sheet for network selection
-- **FR-009**: System MUST provide a "Protocol" filter button that opens a modal or bottom sheet for protocol selection
-- **FR-010**: System MUST display network options as checkboxes within the filter modal allowing multiple selections
-- **FR-011**: System MUST display protocol options as checkboxes within the filter modal allowing multiple selections
-- **FR-012**: System MUST provide an "Apply" or "Done" button in filter modals that commits the selected filters and closes the modal
-- **FR-013**: System MUST preserve existing filter selections if the user dismisses the filter modal without tapping "Apply" or "Done"
-- **FR-014**: System MUST provide a "Clear All" or "Reset" action within each filter modal that deselects all checkboxes
-- **FR-015**: System MUST keep the filter modal open when the user taps "Clear All" or "Reset" (does not auto-apply or close)
-- **FR-016**: System MUST apply both network and protocol filters simultaneously when both are active
-- **FR-017**: System MUST maintain APY-based sorting (highest first) even when filters are applied
-- **FR-018**: System MUST display an empty state message when no stablecoins match the current filter criteria
-- **FR-019**: System MUST display an error state with retry option when data loading fails
-- **FR-020**: System MUST display a loading state while fetching stablecoin data
-- **FR-021**: System MUST support pull-to-refresh gesture on the stablecoin list to manually trigger data refresh
-- **FR-022**: System MUST display a visual loading indicator during pull-to-refresh and update the list with refreshed data when complete
-- **FR-023**: System MUST maintain active filter selections when performing pull-to-refresh (refresh applies to filtered data)
-- **FR-024**: System MUST provide visual indication (e.g., icon, badge) when filters are active
-- **FR-025**: System MUST allow users to clear active filters to restore the full unfiltered list
-- **FR-026**: System MUST display stablecoin symbols as text in circular badges with light/mint green background in each list item
-- **FR-027**: System MUST adapt layout responsively across phone, tablet, and desktop screen sizes as shown in reference designs
-- **FR-028**: System MUST use a card-based layout for list items with clear visual separation
-- **FR-029**: System MUST display the protocol name in a beige/tan badge on phone screens
-- **FR-030**: System MUST display the protocol and network on the same line with bullet point separator on tablet and desktop screens
-- **FR-031**: System MUST include a chevron arrow on the right side of each list item to indicate tappability
-- **FR-032**: System MUST show a prominent heading "Find the Best Stablecoin Yields" on the home screen
-- **FR-033**: System MUST show a descriptive subtitle "Compare lending rates across DeFi protocols and maximize your returns"
-- **FR-034**: System MUST apply secondary alphabetical sorting by symbol when multiple stablecoins have identical APY values
+#### Header
+- **FR-001**: App MUST display a header component at the top of the screen containing the Yieldly logo and name
+- **FR-002**: Logo MUST be a green circular icon with white "Y" letter
+- **FR-003**: App name "Yieldly" MUST appear next to the logo in brand typography
+
+#### Content Area
+- **FR-004**: Home screen MUST display the title "Find the Best Stablecoin Yields"
+- **FR-005**: Home screen MUST display the subtitle "Compare lending rates across DeFi protocols and maximize your returns"
+- **FR-006**: Title and subtitle MUST be positioned above the filters and list
+
+#### Filters
+- **FR-007**: Home screen MUST provide a "Network" filter button
+- **FR-008**: Home screen MUST provide a "Protocol" filter button
+- **FR-009**: Filter buttons MUST display a filter icon alongside the label
+- **FR-010**: When a filter button is tapped, it MUST open a selection interface showing available options
+- **FR-011**: On phone screens, filter selection MUST use a bottom sheet UI pattern
+- **FR-012**: On tablet and desktop screens, filter selection MUST use a dropdown menu UI pattern
+- **FR-013**: Network filter MUST show all unique networks present in the stablecoin data
+- **FR-014**: Protocol filter MUST show all unique protocols present in the stablecoin data
+- **FR-015**: Users MUST be able to select one network at a time from the Network filter
+- **FR-016**: Users MUST be able to select one protocol at a time from the Protocol filter
+- **FR-017**: Users MUST be able to clear an active filter to return to unfiltered view
+- **FR-018**: Active filters MUST show a visual indication that they are applied
+- **FR-019**: Multiple filters (network + protocol) MUST work together with AND logic
+
+#### Stablecoin List
+- **FR-020**: Home screen MUST display a list of stablecoin yield opportunities
+- **FR-021**: List MUST be sorted by APY in descending order (highest APY first)
+- **FR-022**: Each list item MUST display the stablecoin symbol (e.g., USDT, USDC, DAI)
+- **FR-023**: Each list item MUST display the protocol name (e.g., Aave, Spark)
+- **FR-024**: Each list item MUST display the network name (e.g., Optimism, Polygon, Ethereum)
+- **FR-025**: Each list item MUST display the APY as a percentage with 2 decimal places
+- **FR-026**: Each list item MUST show a visual icon or badge representing the stablecoin
+- **FR-027**: APY percentage MUST be displayed prominently, larger than other text
+- **FR-028**: APY MUST be displayed in green color to indicate positive yield
+- **FR-029**: APY MUST show "Best APY" label positioned below the percentage value for clarity
+- **FR-030**: When filters are applied, list MUST update to show only matching items
+- **FR-031**: When no items match the filters, system MUST display a "No results" message
+- **FR-032**: Each list item MUST be tappable/clickable
+- **FR-033**: When a list item is tapped, system MUST show visual press feedback and display a "Details coming soon" toast message (detail screen navigation will be implemented in a future feature)
+- **FR-034**: List MUST be paginated with 24 items displayed per page
+- **FR-035**: System MUST provide a way to load the next page of results
+- **FR-036**: System MUST show a loading indicator while loading additional pages
+- **FR-037**: When user reaches the last page, system MUST indicate no more results are available
+- **FR-038**: Pagination state MUST reset when filters are changed
+
+**Note**: The detail screen is out of scope for this feature and will be specified separately.
+
+#### Data & State
+- **FR-039**: System MUST fetch stablecoin yield data from the backend API endpoint that provides aggregated yield data
+- **FR-040**: System MUST cache fetched stablecoin data locally
+- **FR-041**: On app launch, system MUST display cached data immediately (if available) while fetching fresh data in the background
+- **FR-042**: When app returns to foreground, system MUST automatically fetch fresh data and update the displayed list
+- **FR-043**: System MUST show a full-screen loading indicator with Suspense boundary during initial data fetch (when no cached data exists)
+- **FR-044**: System MUST show a subtle pull-to-refresh indicator or top-of-screen spinner during background refresh (when cached data is already displayed and visible)
+- **FR-045**: System MUST handle data fetching errors gracefully with user-friendly error messages
+- **FR-046**: System MUST allow user to retry data fetching if it fails
+- **FR-047**: Stablecoin data MUST include: symbol, protocol, network, and APY for each item
+- **FR-048**: When device is offline, system MUST display cached data (if available)
+- **FR-049**: When device is offline, system MUST show a persistent banner at the top of the screen with text "Offline - showing cached data" and an offline icon
+- **FR-050**: When device is offline, system MUST disable refresh functionality until connection is restored
+- **FR-051**: When device is offline and no cached data exists, system MUST show an appropriate message indicating offline state
+
+#### Integration & External Dependencies
+- **FR-052**: System MUST integrate with backend API endpoint for stablecoin yield data
+- **FR-053**: API response MUST support pagination with page size parameter and page number
+- **FR-054**: API response MUST provide a list of yield opportunities with at minimum: stablecoin symbol, protocol name, network name, and APY value
+- **FR-055**: API response MUST include total count of available items and current page information
+- **FR-056**: System MUST handle API response delays gracefully with loading states
+- **FR-057**: System MUST handle API failures (network errors, 5xx errors, timeouts) with retry capability
+
+#### Layout & Responsiveness
+- **FR-058**: Layout MUST adapt to phone, tablet, and desktop screen sizes
+- **FR-059**: On phone screens, list items MUST stack vertically in a single column
+- **FR-060**: On tablet and desktop screens, list items MUST remain in single column but with appropriate width constraints
+- **FR-061**: Header MUST remain visible at the top across all screen sizes
+- **FR-062**: Filters MUST be positioned below the title/subtitle and above the list
 
 ### Key Entities
 
-- **Stablecoin**: Represents a stablecoin yield opportunity with attributes: symbol (short identifier like "USDT" displayed in circular badge), name (full name like "Tether"), protocol (DeFi protocol name like "Aave"), network (blockchain network like "Optimism"), and APY (annual percentage yield as decimal number). Each entry is uniquely identified by the combination of symbol + protocol + network, meaning the same stablecoin can appear multiple times in the list if it's available across different protocols or networks with different APY rates.
+- **Stablecoin Yield**: Represents a yield opportunity for a specific stablecoin on a specific protocol and network
+  - Attributes: symbol (e.g., "USDT"), protocol (e.g., "Aave"), network (e.g., "Optimism"), APY (e.g., 5.67)
 
-- **Network**: Represents a blockchain network with attributes: name (e.g., "Ethereum", "Polygon", "Optimism"), identifier (unique ID), and display order
+- **Network**: Represents a blockchain network where stablecoins can be deposited
+  - Attributes: name (e.g., "Ethereum", "Polygon", "Optimism", "Arbitrum")
 
-- **Protocol**: Represents a DeFi protocol with attributes: name (e.g., "Aave", "Compound", "Spark"), identifier (unique ID), and display order
-
-- **Filter State**: Represents the current user filter selections with attributes: selected networks (array of network identifiers), selected protocols (array of protocol identifiers), and active status (boolean indicating if any filters are applied)
+- **Protocol**: Represents a DeFi protocol offering yield on stablecoins
+  - Attributes: name (e.g., "Aave", "Spark", "Compound", "Yearn")
 
 ## Success Criteria *(mandatory)*
 
-### Measurable Outcomes
+### User-Observable Outcomes
 
-- **SC-001**: Users can view the complete list of stablecoins sorted by APY within 3 seconds of opening the app on a standard mobile connection
-- **SC-002**: Users can apply network or protocol filters and see updated results within 500 milliseconds
-- **SC-003**: The home screen displays correctly and remains functional across phone (320px-428px width), tablet (768px-1024px width), and desktop (1024px+ width) screen sizes
-- **SC-004**: 95% of users can identify the highest APY stablecoin within 5 seconds of viewing the home screen
-- **SC-005**: Users can successfully apply and clear filters with zero failed interactions
-- **SC-006**: The app handles no-network scenarios gracefully, displaying appropriate error messages to 100% of users experiencing connection issues
-- **SC-007**: Empty states and error states are displayed correctly in 100% of applicable scenarios
-- **SC-008**: All stablecoin data (symbol, name, protocol, network, APY) is displayed accurately with zero data omissions per list item
+- **SC-001**: Highest APY pool is visible in viewport on initial render without scrolling
+- **SC-002**: Filter updates apply immediately with no perceived delay (client-side filtering)
+- **SC-003**: Filter updates apply immediately with no perceived delay (client-side filtering)
+- **SC-004**: App displays data successfully on 95% of page loads (when API is available and returns 200 status)
+- **SC-005**: List remains readable and usable on phone screens (width 320px - 428px), tablet screens (width 768px - 1024px), and desktop screens (width 1280px+)
+- **SC-006**: Users can distinguish between different stablecoins at a glance through clear visual symbols
+- **SC-007**: Loading indicator displays before any blank screen is visible to user
+- **SC-008**: Error states provide clear next steps (retry button) for 100% of error scenarios
 
-## Assumptions
+### Performance Targets
 
-1. **Data Source**: Stablecoin yield data is provided by a backend API or data service (implementation details out of scope for this specification)
-2. **Real-time Updates**: APY data is relatively static and does not require real-time updates (polling or refresh strategy is an implementation detail)
-3. **Authentication**: No authentication is required to view the home screen - it is publicly accessible
-4. **Visual Identifiers**: Stablecoin symbols are displayed as text in circular badges rather than using logo/icon image assets
-5. **Filter Persistence**: Filter selections are session-based and do not persist between app restarts (persistent filters would be a future enhancement)
-6. **Accessibility**: Standard mobile accessibility features (screen readers, dynamic text sizing) are supported following platform guidelines
-7. **Language**: Initial version supports English only (internationalization is a future consideration)
-8. **Data Freshness**: Users accept that APY data may be slightly delayed (exact refresh rate is an implementation detail)
-9. **Network Types**: The set of available networks and protocols is determined by the data source and may change over time
+Technical benchmarks for validation (measured with profiling tools on iPhone 12 baseline device):
 
-## Dependencies
-
-- **Backend API**: Requires a functional API endpoint that provides stablecoin yield data including symbol, name, protocol, network, and APY
-
-## Out of Scope
-
-- **Detail Screen Navigation**: Tapping on list items to view detailed stablecoin information (will be added in a future feature)
-- **User Accounts**: User registration, authentication, and personalized settings
-- **Favorites/Watchlists**: Ability to save or bookmark specific stablecoins
-- **Historical Data**: Viewing historical APY trends or charts
-- **Notifications**: Push notifications or alerts for APY changes
-- **Search Functionality**: Text-based search for specific stablecoins
-- **Sorting Options**: Alternative sorting methods (by name, protocol, etc.)
-- **Detailed Protocol Information**: In-depth protocol descriptions, risk ratings, or audit reports
-- **Transaction Features**: Ability to invest or interact with protocols directly from the app
-- **Comparison Tools**: Side-by-side comparison of multiple stablecoins
-- **Advanced Filtering**: Range filters for APY, date-based filters, or complex boolean logic
-- **Data Export**: Downloading or sharing yield data
-- **Offline Mode**: Full functionality without internet connection (basic error handling is in scope)
+- **Time to Interactive**: < 3s on WiFi with cached data available
+- **Filter Response Time**: < 100ms (client-side filtering, measured from state update to re-render)
+- **Scrolling Performance**: Maintain 60 FPS during scroll with FlashList virtualization
+- **Loading Indicator Render**: < 100ms from query initiation to Suspense fallback display

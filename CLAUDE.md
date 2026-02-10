@@ -258,3 +258,10 @@ Use these tools proactively to stay current with best practices and resolve tech
 ## Commits
 
 - Use conventional commits specification to write commit messages
+
+## Active Technologies
+- TypeScript 5.9.2 with strict mode enabled + Expo SDK 54, React 19.1.0, React Query v5, FlashList, @gorhom/bottom-sheet, NativeWind v4 (001-home-screen)
+- React Query cache for data persistence (no database needed for MVP) (001-home-screen)
+
+## Recent Changes
+- 001-home-screen: Added TypeScript 5.9.2 with strict mode enabled + Expo SDK 54, React 19.1.0, React Query v5, FlashList, @gorhom/bottom-sheet, NativeWind v4
