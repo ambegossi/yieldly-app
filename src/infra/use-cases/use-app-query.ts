@@ -1,30 +1,23 @@
-import { useQuery } from "@tanstack/react-query";
+import {
+  useQuery,
+  type DefaultError,
+  type UseQueryOptions,
+} from "@tanstack/react-query";
 
-interface UseAppQueryReturn<DataT> {
-  data?: DataT;
-  isLoading: boolean;
-  isPending: boolean;
-  error: unknown;
+interface UseAppQueryParams<TData> {
+  queryKey: unknown[];
+  fetchData: () => Promise<TData>;
+  options?: Omit<UseQueryOptions<TData, DefaultError>, "queryKey" | "queryFn">;
 }
 
-interface UseAppQueryParams<DataT> {
-  queryKey: (string | null | undefined | number)[];
-  fetchData: () => Promise<DataT>;
-}
-
-export function useAppQuery<DataT>({
+export function useAppQuery<TData>({
   fetchData,
   queryKey,
-}: UseAppQueryParams<DataT>): UseAppQueryReturn<DataT> {
-  const { data, isLoading, isPending, error } = useQuery({
+  options,
+}: UseAppQueryParams<TData>) {
+  return useQuery({
     queryKey,
     queryFn: fetchData,
+    ...options,
   });
-
-  return {
-    data,
-    isLoading,
-    isPending,
-    error,
-  };
 }
