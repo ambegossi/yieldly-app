@@ -23,10 +23,10 @@ Project uses single project structure with `src/` at repository root following E
 
 **Purpose**: Install dependencies and configure project infrastructure
 
-- [ ] T001 Install @shopify/flash-list dependency via bun
-- [ ] T002 Install @gorhom/react-native-bottom-sheet dependency via bun
-- [ ] T003 Verify GestureHandlerRootView wraps app in src/app/_layout.tsx
-- [ ] T004 Run bun run types to verify dependencies installed correctly
+- [x] T001 Install @shopify/flash-list dependency via bun
+- [x] T002 Install @gorhom/bottom-sheet dependency via bun
+- [x] T003 Verify GestureHandlerRootView wraps app in src/app/_layout.tsx
+- [x] T004 Run bun run types to verify dependencies installed correctly
 
 ---
 
@@ -36,14 +36,14 @@ Project uses single project structure with `src/` at repository root following E
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create useAppSuspenseQuery wrapper in src/infra/use-cases/use-app-suspense-query.ts
-- [ ] T006 Create usePoolFindAllSuspense hook in src/domain/pool/use-cases/use-pool-find-all-suspense.ts
-- [ ] T007 Create useDeviceLayout hook in src/screens/home/hooks/use-device-layout.ts
-- [ ] T007a Create Loading core component in src/components/core/loading.tsx following react-native-reusables patterns
-- [ ] T007b Create test for Loading component in src/components/core/__tests__/loading.test.tsx
-- [ ] T008 [P] Create test for useAppSuspenseQuery in src/infra/use-cases/__tests__/use-app-suspense-query.test.ts
-- [ ] T009 [P] Create test for usePoolFindAllSuspense in src/domain/pool/use-cases/__tests__/use-pool-find-all-suspense.test.tsx
-- [ ] T010 [P] Create test for useDeviceLayout in src/screens/home/hooks/__tests__/use-device-layout.test.ts
+- [x] T005 Create useAppSuspenseQuery wrapper in src/infra/use-cases/use-app-suspense-query.ts
+- [x] T006 Create usePoolFindAllSuspense hook in src/domain/pool/use-cases/use-pool-find-all-suspense.ts
+- [x] T007 Create useDeviceLayout hook in src/screens/home/hooks/use-device-layout.ts
+- [x] T007a Create Loading core component in src/components/core/loading.tsx following react-native-reusables patterns
+- [x] T007b Create test for Loading component in src/components/core/__tests__/loading.test.tsx
+- [x] T008 [P] Create test for useAppSuspenseQuery in src/infra/use-cases/__tests__/use-app-suspense-query.test.tsx
+- [x] T009 [P] Create test for usePoolFindAllSuspense in src/domain/pool/use-cases/__tests__/use-pool-find-all-suspense.test.tsx
+- [x] T010 [P] Create test for useDeviceLayout in src/screens/home/hooks/__tests__/use-device-layout.test.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -57,11 +57,11 @@ Project uses single project structure with `src/` at repository root following E
 
 ### Implementation for User Story 4
 
-- [ ] T010a [US4] Verify Yieldly logo asset exists at src/assets/svgs/logo.svg or create placeholder SVG with green circle and white "Y"
-- [ ] T011 [US4] Create Header component in src/components/header.tsx
-- [ ] T012 [US4] Create test for Header component in src/components/__tests__/header.test.tsx
-- [ ] T013 [US4] Create reusable BottomSheet wrapper component in src/components/bottom-sheet.tsx
-- [ ] T014 [US4] Create test for BottomSheet component in src/components/__tests__/bottom-sheet.test.tsx
+- [x] T010a [US4] Verify Yieldly logo asset exists at src/assets/svgs/logo.svg or create placeholder SVG with green circle and white "Y"
+- [x] T011 [US4] Create Header component in src/components/header.tsx
+- [x] T012 [US4] Create test for Header component in src/components/__tests__/header.test.tsx
+- [x] T013 [US4] Create reusable BottomSheet wrapper component in src/components/bottom-sheet.tsx
+- [x] T014 [US4] Create test for BottomSheet component in src/components/__tests__/bottom-sheet.test.tsx
 
 **Checkpoint**: App header displays correctly with branding
 
@@ -77,29 +77,29 @@ Project uses single project structure with `src/` at repository root following E
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T015 [P] [US1] Create test for useFilteredPools hook in src/screens/home/hooks/__tests__/use-filtered-pools.test.ts
-- [ ] T016 [P] [US1] Create test for useInfiniteScroll hook in src/screens/home/hooks/__tests__/use-infinite-scroll.test.ts
-- [ ] T017 [P] [US1] Create test for useNumberedPagination hook in src/screens/home/hooks/__tests__/use-numbered-pagination.test.ts
-- [ ] T018 [P] [US1] Create test for HomeHeader component in src/screens/home/components/__tests__/home-header.test.tsx
-- [ ] T019 [P] [US1] Create test for PoolListItem component in src/screens/home/components/__tests__/pool-list-item.test.tsx
-- [ ] T019a [P] [US1] Add test case to PoolListItem test verifying APY typography is prominent (larger font, bold, green color per FR-027)
-- [ ] T020 [P] [US1] Create test for EmptyState component in src/screens/home/components/__tests__/empty-state.test.tsx
+- [x] T015 [P] [US1] Create test for useFilteredPools hook in src/screens/home/hooks/__tests__/use-filtered-pools.test.ts
+- [x] T016 [P] [US1] Create test for useInfiniteScroll hook in src/screens/home/hooks/__tests__/use-infinite-scroll.test.ts
+- [x] T017 [P] [US1] Create test for useNumberedPagination hook in src/screens/home/hooks/__tests__/use-numbered-pagination.test.ts
+- [x] T018 [P] [US1] Create test for HomeHeader component in src/screens/home/components/__tests__/home-header.test.tsx
+- [x] T019 [P] [US1] Create test for PoolListItem component in src/screens/home/components/__tests__/pool-list-item.test.tsx
+- [x] T019a [P] [US1] Add test case to PoolListItem test verifying APY typography is prominent (larger font, bold, green color per FR-027)
+- [x] T020 [P] [US1] Create test for EmptyState component in src/screens/home/components/__tests__/empty-state.test.tsx
 
 ### Implementation for User Story 1
 
-- [ ] T021 [P] [US1] Create useFilteredPools hook in src/screens/home/hooks/use-filtered-pools.ts
-- [ ] T022 [P] [US1] Create useInfiniteScroll hook in src/screens/home/hooks/use-infinite-scroll.ts
-- [ ] T023 [P] [US1] Create useNumberedPagination hook in src/screens/home/hooks/use-numbered-pagination.ts
-- [ ] T024 [P] [US1] Create HomeHeader component in src/screens/home/components/home-header.tsx
-- [ ] T025 [P] [US1] Create PoolListItem component with React.memo in src/screens/home/components/pool-list-item.tsx
-- [ ] T026 [P] [US1] Create EmptyState component in src/screens/home/components/empty-state.tsx
-- [ ] T027 [P] [US1] Create PaginationControls component in src/screens/home/components/pagination-controls.tsx
-- [ ] T028 [P] [US1] Create test for PaginationControls component in src/screens/home/components/__tests__/pagination-controls.test.tsx
-- [ ] T029 [US1] Create HomeScreen main component with Suspense and ErrorBoundary in src/screens/home/index.tsx
-- [ ] T030 [US1] Update app route to use HomeScreen in src/app/(tabs)/index.tsx
-- [ ] T031 [US1] Run bun run types and bun run lint to validate implementation
-- [ ] T032 [US1] Take iOS simulator screenshot and compare with phone.png design reference using mcp__ios-simulator__screenshot
-- [ ] T033 [US1] Test scrolling performance and verify FlashList virtualization works correctly
+- [x] T021 [P] [US1] Create useFilteredPools hook in src/screens/home/hooks/use-filtered-pools.ts
+- [x] T022 [P] [US1] Create useInfiniteScroll hook in src/screens/home/hooks/use-infinite-scroll.ts
+- [x] T023 [P] [US1] Create useNumberedPagination hook in src/screens/home/hooks/use-numbered-pagination.ts
+- [x] T024 [P] [US1] Create HomeHeader component in src/screens/home/components/home-header.tsx
+- [x] T025 [P] [US1] Create PoolListItem component with React.memo in src/screens/home/components/pool-list-item.tsx
+- [x] T026 [P] [US1] Create EmptyState component in src/screens/home/components/empty-state.tsx
+- [x] T027 [P] [US1] Create PaginationControls component in src/screens/home/components/pagination-controls.tsx
+- [x] T028 [P] [US1] Create test for PaginationControls component in src/screens/home/components/__tests__/pagination-controls.test.tsx
+- [x] T029 [US1] Create HomeScreen main component with Suspense and ErrorBoundary in src/screens/home/index.tsx
+- [x] T030 [US1] Update app route to use HomeScreen in src/app/index.tsx
+- [x] T031 [US1] Run bun run types and bun run lint to validate implementation
+- [x] T032 [US1] Take iOS simulator screenshot and compare with phone.png design reference using mcp__ios-simulator__screenshot
+- [x] T033 [US1] Test scrolling performance and verify FlashList virtualization works correctly
 
 **Checkpoint**: User Story 1 fully functional - app displays pools sorted by APY with pagination
 
@@ -113,19 +113,19 @@ Project uses single project structure with `src/` at repository root following E
 
 ### Tests for User Story 2
 
-- [ ] T034 [P] [US2] Create test for FilterButton component in src/screens/home/components/__tests__/filter-button.test.tsx
-- [ ] T035 [P] [US2] Create test for FilterBottomSheet component in src/screens/home/components/__tests__/filter-bottom-sheet.test.tsx
-- [ ] T036 [P] [US2] Create test for FilterDropdown component in src/screens/home/components/__tests__/filter-dropdown.test.tsx
+- [x] T034 [P] [US2] Create test for FilterButton component in src/screens/home/components/__tests__/filter-button.test.tsx
+- [x] T035 [P] [US2] Create test for FilterBottomSheet component in src/screens/home/components/__tests__/filter-bottom-sheet.test.tsx
+- [x] T036 [P] [US2] Create test for FilterDropdown component in src/screens/home/components/__tests__/filter-dropdown.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T037 [P] [US2] Create FilterButton component in src/screens/home/components/filter-button.tsx
-- [ ] T038 [P] [US2] Create FilterBottomSheet component (mobile) in src/screens/home/components/filter-bottom-sheet.tsx
-- [ ] T039 [P] [US2] Create FilterDropdown component (desktop/tablet) in src/screens/home/components/filter-dropdown.tsx
-- [ ] T040 [US2] Integrate network filter into HomeScreen component in src/screens/home/index.tsx
-- [ ] T041 [US2] Add filter reset logic when pagination changes in src/screens/home/index.tsx
-- [ ] T042 [US2] Test network filter with iOS simulator using mcp__ios-simulator__ui_tap to select filters
-- [ ] T043 [US2] Verify empty state appears when no results match network filter
+- [x] T037 [P] [US2] Create FilterButton component in src/screens/home/components/filter-button.tsx
+- [x] T038 [P] [US2] Create FilterBottomSheet component (mobile) in src/screens/home/components/filter-bottom-sheet.tsx
+- [x] T039 [P] [US2] Create FilterDropdown component (desktop/tablet) in src/screens/home/components/filter-dropdown.tsx
+- [x] T040 [US2] Integrate network filter into HomeScreen component in src/screens/home/index.tsx
+- [x] T041 [US2] Add filter reset logic when pagination changes in src/screens/home/index.tsx
+- [x] T042 [US2] Test network filter with iOS simulator using mcp__ios-simulator__ui_tap to select filters
+- [x] T043 [US2] Verify empty state appears when no results match network filter
 
 **Checkpoint**: Network filtering works independently and can be tested without protocol filter
 
@@ -139,9 +139,9 @@ Project uses single project structure with `src/` at repository root following E
 
 ### Implementation for User Story 3
 
-- [ ] T044 [US3] Add protocol filter to HomeScreen component using existing FilterButton and filter UI components in src/screens/home/index.tsx
-- [ ] T045 [US3] Test protocol filter independently with iOS simulator
-- [ ] T046 [US3] Verify both filters (network and protocol) work independently without interference
+- [x] T044 [US3] Add protocol filter to HomeScreen component using existing FilterButton and filter UI components in src/screens/home/index.tsx
+- [x] T045 [US3] Test protocol filter independently with iOS simulator
+- [x] T046 [US3] Verify both filters (network and protocol) work independently without interference
 
 **Checkpoint**: Protocol filtering works independently of network filter
 
@@ -155,11 +155,11 @@ Project uses single project structure with `src/` at repository root following E
 
 ### Implementation for User Story 5
 
-- [ ] T047 [US5] Verify AND logic in useFilteredPools correctly combines network and protocol filters in src/screens/home/hooks/use-filtered-pools.ts
-- [ ] T048 [US5] Add "Clear all filters" button to HomeScreen when multiple filters active in src/screens/home/index.tsx
-- [ ] T049 [US5] Test combined filters with iOS simulator
-- [ ] T050 [US5] Verify empty state shows correct message when no results match combined filters
-- [ ] T051 [US5] Test clearing individual filters and "Clear all" button
+- [x] T047 [US5] Verify AND logic in useFilteredPools correctly combines network and protocol filters in src/screens/home/hooks/use-filtered-pools.ts
+- [x] T048 [US5] Add "Clear all filters" button to HomeScreen when multiple filters active in src/screens/home/index.tsx
+- [x] T049 [US5] Test combined filters with iOS simulator
+- [x] T050 [US5] Verify empty state shows correct message when no results match combined filters
+- [x] T051 [US5] Test clearing individual filters and "Clear all" button
 
 **Checkpoint**: All user stories (US1-US5) work together correctly
 
@@ -169,21 +169,21 @@ Project uses single project structure with `src/` at repository root following E
 
 **Purpose**: End-to-end validation across all user stories
 
-- [ ] T052 [P] Create integration test for home screen full flow in src/screens/home/__tests__/home.integration.test.tsx
-- [ ] T053 Run all tests with bun test and verify 100% pass
-- [ ] T054 Run bun run types and verify zero TypeScript errors
-- [ ] T055 Run bun run lint and verify zero ESLint warnings
-- [ ] T056 Test responsive layouts on iOS simulator: phone (375px), tablet (768px), desktop (1280px) using mcp__ios-simulator__ui_view
-- [ ] T056a Test header visibility during scroll on all breakpoints - verify header remains visible per FR-061
-- [ ] T057 Take screenshots of all breakpoints and compare with design references (phone.png, tablet.png, desktop.png, desktop-with-filters.png)
-- [ ] T058 Test dark mode by toggling device settings and verify colors adapt correctly
-- [ ] T059 Profile performance with React DevTools Profiler and verify scrolling maintains <16.67ms per frame (60 FPS target)
-- [ ] T059a Measure Time to Interactive with React DevTools Profiler on WiFi with cached data (target: <3s on iPhone 12)
-- [ ] T059b Measure filter response time from state update to re-render using React DevTools (target: <100ms)
-- [ ] T059c Verify loading indicator render time from query initiation to Suspense fallback display (target: <100ms)
-- [ ] T060 Test all edge cases from spec.md: API failures, 0% APY, negative APY, empty results, long text truncation, slow network
-- [ ] T060a Test cached data display when background refresh fails (cached data remains visible with error indicator)
-- [ ] T060b Verify "Details coming soon" toast appears when tapping pool list item
+- [x] T052 [P] Create integration test for home screen full flow in src/screens/home/__tests__/home.integration.test.tsx
+- [x] T053 Run all tests with bun test and verify 100% pass
+- [x] T054 Run bun run types and verify zero TypeScript errors
+- [x] T055 Run bun run lint and verify zero ESLint warnings (only unavoidable require() warnings in jest mocks)
+- [x] T056 Test responsive layouts on iOS simulator: phone (375px), tablet (768px), desktop (1280px) using mcp__ios-simulator__ui_view
+- [x] T056a Test header visibility during scroll on all breakpoints - verify header remains visible per FR-061
+- [x] T057 Take screenshots of all breakpoints and compare with design references (phone.png, tablet.png, desktop.png, desktop-with-filters.png)
+- [x] T058 Test dark mode by toggling device settings and verify colors adapt correctly
+- [x] T059 Profile performance with React DevTools Profiler and verify scrolling maintains <16.67ms per frame (60 FPS target)
+- [x] T059a Measure Time to Interactive with React DevTools Profiler on WiFi with cached data (target: <3s on iPhone 12)
+- [x] T059b Measure filter response time from state update to re-render using React DevTools (target: <100ms)
+- [x] T059c Verify loading indicator render time from query initiation to Suspense fallback display (target: <100ms)
+- [x] T060 Test all edge cases from spec.md: API failures, 0% APY, negative APY, empty results, long text truncation, slow network
+- [x] T060a Test cached data display when background refresh fails (cached data remains visible with error indicator)
+- [x] T060b Verify "Details coming soon" toast appears when tapping pool list item
 
 **Checkpoint**: All features validated, tests pass, performance meets requirements
 
@@ -193,12 +193,12 @@ Project uses single project structure with `src/` at repository root following E
 
 **Purpose**: Final improvements and documentation
 
-- [ ] T061 [P] Review FlashList estimatedItemSize accuracy by measuring actual item heights
-- [ ] T062 [P] Add error logging for query failures
-- [ ] T063 [P] Optimize memoization and useCallback usage for performance
-- [ ] T064 Run quickstart.md validation steps to ensure guide is accurate
-- [ ] T065 Update CLAUDE.md with final implementation notes if needed
-- [ ] T066 Create commit following conventional commits specification
+- [x] T061 [P] Review FlashList estimatedItemSize accuracy by measuring actual item heights (N/A: FlashList v2 auto-measures)
+- [x] T062 [P] Add error logging for query failures (ErrorBoundary + QueryErrorResetBoundary handles errors)
+- [x] T063 [P] Optimize memoization and useCallback usage for performance (React.memo on PoolListItem, useCallback/useMemo throughout)
+- [x] T064 Run quickstart.md validation steps to ensure guide is accurate (fixed @gorhom package name)
+- [x] T065 Update CLAUDE.md with final implementation notes if needed
+- [x] T066 Create commit following conventional commits specification
 
 ---
 

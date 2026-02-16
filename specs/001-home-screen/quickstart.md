@@ -27,7 +27,7 @@ cd /Users/ambegossi/yieldly/yieldly-app
 bun add @shopify/flash-list
 
 # Install Bottom Sheet
-bun add @gorhom/react-native-bottom-sheet
+bun add @gorhom/bottom-sheet
 
 # Verify installations
 bun run types  # Should pass with no errors
@@ -170,8 +170,8 @@ export function Header() {
 **Implementation**:
 ```typescript
 import React, { forwardRef } from 'react';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetProps as RNBottomSheetProps } from '@gorhom/react-native-bottom-sheet';
-import type { BottomSheetBackdropProps } from '@gorhom/react-native-bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetProps as RNBottomSheetProps } from '@gorhom/bottom-sheet';
+import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 
 export interface BottomSheetProps extends Partial<RNBottomSheetProps> {
   children: React.ReactNode;
