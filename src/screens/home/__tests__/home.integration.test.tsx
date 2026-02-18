@@ -50,6 +50,16 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 
+jest.mock("@/components/core/dropdown-menu", () => {
+  const { View } = require("react-native");
+  return {
+    DropdownMenu: View,
+    DropdownMenuTrigger: View,
+    DropdownMenuContent: View,
+    DropdownMenuCheckboxItem: View,
+  };
+});
+
 // Mock useWindowDimensions to simulate mobile
 jest.mock("react-native/Libraries/Utilities/useWindowDimensions", () => ({
   __esModule: true,

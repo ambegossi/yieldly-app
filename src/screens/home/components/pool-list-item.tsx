@@ -41,9 +41,9 @@ export const PoolListItem = React.memo(
         accessibilityLabel={`${pool.symbol} on ${pool.project} via ${pool.chain}, ${formatAPY(pool.apy)} APY`}
       >
         {/* Symbol Icon */}
-        <View className="h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-green-200 bg-green-100 dark:border-green-800 dark:bg-green-900/30">
+        <View className="h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-brand/20 bg-brand/10 dark:border-brand/20 dark:bg-brand/10">
           <Text
-            className="text-base font-semibold text-green-700 dark:text-green-400"
+            className="text-base font-semibold text-brand dark:text-brand"
             numberOfLines={1}
           >
             {pool.symbol}
@@ -58,10 +58,8 @@ export const PoolListItem = React.memo(
           >
             {pool.project}
           </Text>
-          <Badge variant="default" className="self-start">
-            <Text className="text-green-600 dark:text-green-400">
-              {"\u2022 "}
-            </Text>
+          <Badge variant="subtle" className="self-start">
+            <Text className="text-brand dark:text-brand">{"\u2022 "}</Text>
             <Text>{pool.chain}</Text>
           </Badge>
         </View>
@@ -69,7 +67,7 @@ export const PoolListItem = React.memo(
         {/* APY */}
         <View className="items-end">
           <Text
-            className={`text-xl font-bold ${isNegative ? "text-red-500" : "text-green-600"}`}
+            className={`text-xl font-bold ${isNegative ? "text-red-500" : "text-brand"}`}
           >
             {formatAPY(pool.apy)}
           </Text>
