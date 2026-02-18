@@ -45,6 +45,6 @@ module.exports = {
     "!src/infra/http/clients/*.ts",
   ],
   transformIgnorePatterns: [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",
+    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",
   ],
 };
