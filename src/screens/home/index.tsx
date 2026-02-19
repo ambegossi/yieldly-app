@@ -144,27 +144,26 @@ function HomeScreenContent() {
         </View>
 
         {/* List */}
-        {itemsToDisplay.length === 0 ? (
-          <EmptyState
-            message={
-              pools.length === 0
-                ? "No stablecoin pools available"
-                : "No stablecoins found for selected filters"
-            }
-            showClearFilters={hasActiveFilters}
-            onClearFilters={clearFilters}
-          />
-        ) : (
-          <FlashList
-            data={itemsToDisplay}
-            renderItem={({ item }) => (
-              <PoolListItem pool={item} onPress={handlePoolPress} />
-            )}
-            onEndReached={isMobile && hasMore ? loadMore : undefined}
-            onEndReachedThreshold={0.5}
-            keyExtractor={(item) => item.id}
-          />
-        )}
+        <FlashList
+          data={itemsToDisplay}
+          renderItem={({ item }) => (
+            <PoolListItem pool={item} onPress={handlePoolPress} />
+          )}
+          ListEmptyComponent={
+            <EmptyState
+              message={
+                pools.length === 0
+                  ? "No stablecoin pools available"
+                  : "No stablecoins found for selected filters"
+              }
+              showClearFilters={hasActiveFilters}
+              onClearFilters={clearFilters}
+            />
+          }
+          onEndReached={isMobile && hasMore ? loadMore : undefined}
+          onEndReachedThreshold={0.5}
+          keyExtractor={(item) => item.id}
+        />
 
         {/* Pagination controls for desktop/tablet */}
         {!isMobile && totalPages > 1 && (
