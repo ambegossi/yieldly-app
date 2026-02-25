@@ -1,12 +1,10 @@
 import { Button } from "@/components/core/button";
-import { Loading } from "@/components/core/loading";
 import { Text } from "@/components/core/text";
 import { Header } from "@/components/header";
 import { Pool } from "@/domain/pool/pool";
 import { usePoolFindAllSuspense } from "@/domain/pool/use-cases/use-pool-find-all-suspense";
 import { FlashList } from "@shopify/flash-list";
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import React, { Suspense, useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { EmptyState } from "./components/empty-state";
 import {
@@ -23,25 +21,7 @@ import { useFilteredPools } from "./hooks/use-filtered-pools";
 import { useInfiniteScroll } from "./hooks/use-infinite-scroll";
 import { useNumberedPagination } from "./hooks/use-numbered-pagination";
 
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode; onReset: () => void; fallback: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}
-
-function HomeScreenContent() {
+export default function Home() {
   const { data: pools } = usePoolFindAllSuspense();
   const { isMobile } = useDeviceLayout();
 
@@ -197,34 +177,5 @@ function HomeScreenContent() {
         </View>
       )}
     </View>
-  );
-}
-
-export default function HomeScreen() {
-  return (
-    <QueryErrorResetBoundary>
-      {({ reset }) => (
-        <ErrorBoundary
-          onReset={reset}
-          fallback={
-            <View className="flex-1 bg-background">
-              <Header />
-              <View className="flex-1 items-center justify-center p-4">
-                <Text className="mb-4 text-lg text-destructive">
-                  Something went wrong loading pools
-                </Text>
-                <Button onPress={reset}>
-                  <Text>Retry</Text>
-                </Button>
-              </View>
-            </View>
-          }
-        >
-          <Suspense fallback={<Loading />}>
-            <HomeScreenContent />
-          </Suspense>
-        </ErrorBoundary>
-      )}
-    </QueryErrorResetBoundary>
   );
 }
