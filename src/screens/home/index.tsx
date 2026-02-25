@@ -89,6 +89,7 @@ export default function Home() {
                 activeFilter={networkFilter}
                 onPress={handleNetworkFilterPress}
               />
+
               <FilterButton
                 label="Protocol"
                 activeFilter={protocolFilter}
@@ -103,6 +104,7 @@ export default function Home() {
                 selectedValue={networkFilter}
                 onSelect={setNetworkFilter}
               />
+
               <FilterDropdown
                 label="Protocol"
                 options={filterOptions.protocols}
@@ -111,6 +113,7 @@ export default function Home() {
               />
             </>
           )}
+
           {hasActiveFilters && (
             <Button
               variant="ghost"
@@ -166,6 +169,7 @@ export default function Home() {
             onSelect={setNetworkFilter}
             onClose={() => {}}
           />
+
           <FilterBottomSheet
             ref={protocolSheetRef}
             filterType="protocol"

@@ -105,6 +105,11 @@ between file names (kebab-case) and code exports (PascalCase/camelCase).
 - Composite/shared components live in `src/components/`
 - Screen-specific components live in `src/screens/[screenName]/components/`
 
+**JSX Formatting:**
+
+- Sibling JSX components MUST be separated by a blank line.
+- Exception: files in `src/components/core/` (react-native-reusables primitives).
+
 **Hook Conventions:**
 
 - Hooks MUST be created using function declarations with named exports

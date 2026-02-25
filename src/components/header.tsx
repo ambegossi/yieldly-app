@@ -20,6 +20,7 @@ export function Header() {
         contentFit="contain"
         accessibilityLabel="Yieldly logo"
       />
+
       <Text className="ml-3 text-xl font-bold text-foreground">Yieldly</Text>
     </View>
   );

@@ -10,6 +10,7 @@ export function HomeHeader() {
       >
         Find the Best Stablecoin Yields
       </Text>
+
       <Text className="mt-2 text-center text-base text-muted-foreground md:text-lg">
         Compare lending rates across DeFi protocols and maximize your returns
       </Text>

@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.1.0 → 1.2.0
+Version change: 1.2.0 → 1.2.1
 Modified principles:
-  - Development Workflow: Added TypeScript type checking requirement in "Before Merge" section
+  - User Experience Consistency: Added JSX blank lines rule (sibling components must be separated by a blank line; exception: src/components/core/)
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -89,6 +89,7 @@ Non-negotiable rules:
 - Touch targets MUST be minimum 44x44 points for accessibility.
 - Loading states MUST be shown for all async operations.
 - Error states MUST be user-friendly with actionable guidance.
+- Sibling JSX components MUST be separated by a blank line; exception: `src/components/core/` files.
 
 **Rationale**: Design system consistency reduces cognitive load for users and
 development overhead for the team.
@@ -180,4 +181,4 @@ This constitution supersedes all other practices when conflicts arise.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.2.0 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-31
+**Version**: 1.2.1 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-02-24

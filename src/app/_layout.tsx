@@ -15,6 +15,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
       <Text className="mb-4 text-center text-lg text-destructive">
         {error.message || "Something went wrong"}
       </Text>
+
       <Button onPress={retry}>
         <Text>Try Again</Text>
       </Button>
@@ -30,6 +31,7 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <RepositoryProvider value={HttpRepositories}>
           <Stack screenOptions={{ headerShown: false }} />
+
           <PortalHost />
         </RepositoryProvider>
       </QueryClientProvider>

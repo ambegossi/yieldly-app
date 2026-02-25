@@ -21,6 +21,7 @@ export function EmptyState({
       <Text className="mb-4 text-center text-lg text-muted-foreground">
         {message}
       </Text>
+
       {showClearFilters && onClearFilters && (
         <Button onPress={onClearFilters} accessibilityLabel="Clear filters">
           <Text>Clear Filters</Text>

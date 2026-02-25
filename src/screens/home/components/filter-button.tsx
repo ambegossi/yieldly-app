@@ -28,6 +28,7 @@ export const FilterButton = React.forwardRef<View, FilterButtonProps>(
         >
           <View className="flex-row items-center gap-1.5">
             <Feather name="filter" size={14} />
+
             <Text>{isActive ? `${label}: ${activeFilter}` : label}</Text>
           </View>
         </Button>

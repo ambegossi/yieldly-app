@@ -22,6 +22,7 @@ class ErrorBoundary extends React.Component<
           <Text className="mb-4 text-center text-lg text-destructive">
             Something went wrong
           </Text>
+
           <Button onPress={this.props.onRetry}>
             <Text>Retry</Text>
           </Button>

@@ -50,6 +50,7 @@ export const FilterBottomSheet = React.forwardRef<
       <View className="px-4 pb-2 pt-2">
         <Text className="text-lg font-semibold text-foreground">{title}</Text>
       </View>
+
       <ScrollView className="flex-1">
         <Pressable
           onPress={() => handleSelect(null)}
@@ -59,6 +60,7 @@ export const FilterBottomSheet = React.forwardRef<
           <Text className="text-base text-foreground">All</Text>
           {selectedValue === null && <Text className="text-primary">✓</Text>}
         </Pressable>
+
         {options.map((option) => (
           <Pressable
             key={option}
@@ -67,6 +69,7 @@ export const FilterBottomSheet = React.forwardRef<
             accessibilityRole="menuitem"
           >
             <Text className="text-base text-foreground">{option}</Text>
+
             {selectedValue === option && (
               <Text className="text-primary">✓</Text>
             )}

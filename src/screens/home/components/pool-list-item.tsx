@@ -58,6 +58,7 @@ export const PoolListItem = React.memo(
           >
             {pool.project}
           </Text>
+
           <Badge variant="subtle" className="self-start">
             <Text className="text-brand dark:text-brand">{"\u2022 "}</Text>
             <Text>{pool.chain}</Text>
@@ -71,6 +72,7 @@ export const PoolListItem = React.memo(
           >
             {formatAPY(pool.apy)}
           </Text>
+
           <Text className="text-xs text-muted-foreground">Best APY</Text>
         </View>
 

@@ -53,6 +53,7 @@ export function FilterDropdown({
       <DropdownMenuTrigger asChild>
         <FilterButton label={label} activeFilter={selectedValue} />
       </DropdownMenuTrigger>
+
       <DropdownMenuContent
         align="start"
         sideOffset={4}
@@ -69,6 +70,7 @@ export function FilterDropdown({
             autoCorrect={false}
           />
         </View>
+
         <ScrollView className="max-h-72">
           {filteredOptions.map((option) => (
             <DropdownMenuCheckboxItem
@@ -83,6 +85,7 @@ export function FilterDropdown({
               </Text>
             </DropdownMenuCheckboxItem>
           ))}
+
           {filteredOptions.length === 0 && (
             <View className="px-2 py-4">
               <Text className="text-center text-sm text-muted-foreground">
