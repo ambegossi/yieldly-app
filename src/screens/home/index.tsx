@@ -13,7 +13,7 @@ import {
 } from "./components/filter-bottom-sheet";
 import { FilterButton } from "./components/filter-button";
 import { FilterDropdown } from "./components/filter-dropdown";
-import { HomeHeader } from "./components/home-header";
+import { Header as HomeHeader } from "./components/header";
 import { PaginationControls } from "./components/pagination-controls";
 import { PoolListItem } from "./components/pool-list-item";
 import { useDeviceLayout } from "./hooks/use-device-layout";

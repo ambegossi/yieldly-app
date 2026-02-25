@@ -1,7 +1,7 @@
 import { Text } from "@/components/core/text";
 import { View } from "react-native";
 
-export function HomeHeader() {
+export function Header() {
   return (
     <View className="mb-6 items-center">
       <Text
