@@ -240,7 +240,7 @@ Cover success scenarios, loading states, error handling, edge cases, call verifi
 
 ### iOS Simulator Integration
 
-When implementing UI features, use the `ios-simulator` MCP tools to validate the implementation:
+Use the `ios-simulator` MCP tools for mobile-based validation when needed:
 
 - **Visual Validation**: Use `mcp__ios-simulator__screenshot` to capture the current state and compare with design specs
 - **UI Inspection**: Use `mcp__ios-simulator__ui_describe_all` to verify accessibility elements and layout structure
@@ -248,6 +248,18 @@ When implementing UI features, use the `ios-simulator` MCP tools to validate the
 - **Recording**: Use `mcp__ios-simulator__record_video` to capture interaction flows for review
 
 Always validate that the implementation matches the design specifications before considering a feature complete.
+
+### Agent Browser CLI
+
+Use the `agent-browser` skill for browser-based validation when needed:
+
+- **Web Validation**: Use `/agent-browser` to interact with the web version of the app or external services
+- **Form & Interaction Testing**: Automate form submissions, button clicks, and navigation flows
+- **Screenshot Capture**: Take screenshots of web implementations to compare with design specs
+- **Data Extraction**: Scrape and verify data rendered on web pages
+- **End-to-End Testing**: Automate complete user journeys in the browser
+
+Use this skill when validating web-facing features, testing API integrations via browser, or when the iOS simulator alone is insufficient.
 
 ### Perplexity Research
 
@@ -265,8 +277,10 @@ Use these tools proactively to stay current with best practices and resolve tech
 - Use conventional commits specification to write commit messages
 
 ## Active Technologies
+
 - TypeScript 5.9.2 with strict mode enabled + Expo SDK 54, React 19.1.0, React Query v5, FlashList, @gorhom/bottom-sheet, NativeWind v4 (001-home-screen)
 - React Query cache for data persistence (no database needed for MVP) (001-home-screen)
 
 ## Recent Changes
+
 - 001-home-screen: Added TypeScript 5.9.2 with strict mode enabled + Expo SDK 54, React 19.1.0, React Query v5, FlashList, @gorhom/bottom-sheet, NativeWind v4

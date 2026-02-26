@@ -32,6 +32,7 @@ All code MUST follow Clean Architecture with strict layer separation:
   - MUST access domain through infrastructure's dependency injection via `useRepository()` hook.
 
 Non-negotiable rules:
+
 - TypeScript strict mode MUST remain enabled; `any` type is prohibited except in
   type guards with explicit runtime validation.
 - Path alias `@/*` MUST be used for all imports from `src/`.
@@ -56,11 +57,13 @@ All production code MUST have corresponding tests following these standards:
 - Coverage MUST NOT decrease; new code MUST maintain or improve coverage percentage.
 
 Test categories required:
+
 - **Unit tests**: All domain use cases and pure utility functions.
 - **Hook tests**: All custom React hooks with loading, success, and error scenarios.
 - **Component tests**: Interactive components with user event simulation.
 
 Non-negotiable rules:
+
 - `jest.clearAllMocks()` MUST be called in `afterEach`.
 - `waitFor` MUST be used for all async state assertions.
 - Mock repositories MUST use factory functions with `jest.fn()`.
@@ -84,6 +87,7 @@ consistency:
 - The `cn()` utility from `src/lib/utils.ts` MUST be used for className merging.
 
 Non-negotiable rules:
+
 - Hardcoded colors are prohibited; use theme variables exclusively.
 - New components MUST support both light and dark modes.
 - Touch targets MUST be minimum 44x44 points for accessibility.
@@ -107,6 +111,7 @@ The application MUST meet these performance targets on supported devices:
 - **Image loading**: Images MUST be lazy-loaded with appropriate placeholders.
 
 Non-negotiable rules:
+
 - `useCallback` and `useMemo` MUST be used for expensive computations passed as props.
 - Inline object/array creation in render is prohibited for components receiving
   those as props.
@@ -120,42 +125,53 @@ performance directly impacts user retention and app store ratings.
 ## Technology Constraints
 
 **Runtime Environment**:
+
 - Expo SDK 54 with new architecture enabled
 - React 19.1.0 with React Compiler
 - React Native with Hermes engine
 
 **Package Management**:
+
 - Bun MUST be used as the package manager
 - Dependencies MUST be added via `bun add`
 - Lock file (`bun.lock`) MUST be committed
 
 **Routing**:
+
 - Expo Router v6 with typed routes MUST be used
 - All routes MUST reside in `src/app/` directory
 
 **Data Fetching**:
+
 - React Query (`@tanstack/react-query`) MUST be used for server state
 - `useAppQuery` wrapper MUST be used for consistent patterns
 
 ## Development Workflow
 
 **Before Implementation**:
+
 1. Read existing code in the affected area before proposing changes.
 2. Verify Clean Architecture compliance of the proposed design.
 3. Identify affected test files.
 4. Use `perplexity` MCP tools to research best practices and technical uncertainties.
 
 **During Implementation**:
+
 1. Run `bun run lint` frequently to catch issues early.
 2. Write/update tests alongside implementation.
 3. Use conventional commits for all commits.
-4. For UI features, use `ios-simulator` MCP tools to validate implementation against design:
+4. For mobile-facing features or when mobile validations is needed, use `ios-simulator` MCP tools:
    - Capture screenshots to compare with design specs.
    - Inspect UI elements and accessibility information.
    - Test user interactions (tap, swipe, type).
    - Record interaction flows for review.
+5. For web-facing features or when browser validation is needed, use the `agent-browser` skill (`/agent-browser`):
+   - Automate browser interactions (navigate, click, type, screenshot).
+   - Verify forms, navigation flows, and API integrations in the browser.
+   - Capture screenshots to compare with design specs.
 
 **Before Merge**:
+
 1. All tests MUST pass (`bun test`).
 2. TypeScript types MUST pass with zero errors (`bun run types`).
 3. Lint MUST pass with zero warnings (`bun run lint`).
@@ -168,6 +184,7 @@ performance directly impacts user retention and app store ratings.
 This constitution supersedes all other practices when conflicts arise.
 
 **Amendment Process**:
+
 1. Propose amendment with rationale in a pull request.
 2. Amendment MUST include migration plan for existing code if applicable.
 3. Team review required; breaking changes require explicit approval.
@@ -177,6 +194,21 @@ This constitution supersedes all other practices when conflicts arise.
    - PATCH: Clarifications and typo fixes
 
 **Compliance**:
+
+This constitution supersedes all other practices when conflicts arise.
+
+**Amendment Process**:
+
+1. Propose amendment with rationale in a pull request.
+2. Amendment MUST include migration plan for existing code if applicable.
+3. Team review required; breaking changes require explicit approval.
+4. Version increment follows semantic versioning:
+   - MAJOR: Principle removal or redefinition
+   - MINOR: New principle or expanded guidance
+   - PATCH: Clarifications and typo fixes
+
+**Compliance**:
+
 - All pull requests MUST verify compliance with these principles.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
