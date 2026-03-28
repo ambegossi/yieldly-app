@@ -125,14 +125,14 @@ describe("PoolListItem", () => {
 
     expect(
       screen.getByText("Very Long Protocol Name That Should Be Truncated"),
-    ).toBeTruthy();
+    ).toHaveProp("numberOfLines", 1);
   });
 
   it("should truncate long symbol names with numberOfLines", () => {
     const pool = makePool({ symbol: "LONGTOKEN" });
     render(<PoolListItem pool={pool} onPress={onPress} />);
 
-    expect(screen.getByText("LONGTOKEN")).toBeTruthy();
+    expect(screen.getByText("LONGTOKEN")).toHaveProp("numberOfLines", 1);
   });
 
   it("should handle extremely long APY values", () => {
