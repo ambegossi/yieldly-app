@@ -1,14 +1,14 @@
 import { BottomSheet } from "@/components/bottom-sheet";
 import { Text } from "@/components/core/text";
 import GorhomBottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useImperativeHandle } from "react";
+import React, { useImperativeHandle } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 
 interface FilterBottomSheetProps {
   filterType: "network" | "protocol";
   options: string[];
-  selectedValue: string | null;
-  onSelect: (value: string | null) => void;
+  selectedValues: string[];
+  onToggle: (value: string) => void;
   onClose: () => void;
 }
 
@@ -21,7 +21,7 @@ export const FilterBottomSheet = React.forwardRef<
   FilterBottomSheetRef,
   FilterBottomSheetProps
 >(function FilterBottomSheet(
-  { filterType, options, selectedValue, onSelect, onClose },
+  { filterType, options, selectedValues, onToggle, onClose },
   ref,
 ) {
   const bottomSheetRef = React.useRef<GorhomBottomSheet>(null);
@@ -30,14 +30,6 @@ export const FilterBottomSheet = React.forwardRef<
     open: () => bottomSheetRef.current?.snapToIndex(0),
     close: () => bottomSheetRef.current?.close(),
   }));
-
-  const handleSelect = useCallback(
-    (value: string | null) => {
-      onSelect(value);
-      bottomSheetRef.current?.close();
-    },
-    [onSelect],
-  );
 
   const title = filterType === "network" ? "Select Network" : "Select Protocol";
 
@@ -52,25 +44,16 @@ export const FilterBottomSheet = React.forwardRef<
       </View>
 
       <ScrollView className="flex-1">
-        <Pressable
-          onPress={() => handleSelect(null)}
-          className="flex-row items-center justify-between px-4 py-3 active:bg-accent"
-          accessibilityRole="menuitem"
-        >
-          <Text className="text-base text-foreground">All</Text>
-          {selectedValue === null && <Text className="text-primary">✓</Text>}
-        </Pressable>
-
         {options.map((option) => (
           <Pressable
             key={option}
-            onPress={() => handleSelect(option)}
+            onPress={() => onToggle(option)}
             className="flex-row items-center justify-between px-4 py-3 active:bg-accent"
             accessibilityRole="menuitem"
           >
             <Text className="text-base text-foreground">{option}</Text>
 
-            {selectedValue === option && (
+            {selectedValues.includes(option) && (
               <Text className="text-primary">✓</Text>
             )}
           </Pressable>

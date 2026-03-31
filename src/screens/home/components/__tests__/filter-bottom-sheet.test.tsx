@@ -19,8 +19,8 @@ jest.mock("@gorhom/bottom-sheet", () => {
 describe("FilterBottomSheet", () => {
   const defaultProps = {
     options: ["Ethereum", "Polygon", "Arbitrum"],
-    selectedValue: null as string | null,
-    onSelect: jest.fn(),
+    selectedValues: [] as string[],
+    onToggle: jest.fn(),
     onClose: jest.fn(),
   };
 
@@ -40,12 +40,6 @@ describe("FilterBottomSheet", () => {
     expect(screen.getByText("Select Protocol")).toBeTruthy();
   });
 
-  it('should render "All" option', () => {
-    render(<FilterBottomSheet {...defaultProps} filterType="network" />);
-
-    expect(screen.getByText("All")).toBeTruthy();
-  });
-
   it("should render all provided options", () => {
     render(<FilterBottomSheet {...defaultProps} filterType="network" />);
 
@@ -54,48 +48,52 @@ describe("FilterBottomSheet", () => {
     expect(screen.getByText("Arbitrum")).toBeTruthy();
   });
 
-  it("should call onSelect with option value when option is pressed", () => {
-    const onSelect = jest.fn();
+  it("should not render All option", () => {
+    render(<FilterBottomSheet {...defaultProps} filterType="network" />);
+
+    expect(screen.queryByText("All")).toBeNull();
+  });
+
+  it("should call onToggle with option value when option is pressed", () => {
+    const onToggle = jest.fn();
     render(
       <FilterBottomSheet
         {...defaultProps}
         filterType="network"
-        onSelect={onSelect}
+        onToggle={onToggle}
       />,
     );
 
     fireEvent.press(screen.getByText("Ethereum"));
 
-    expect(onSelect).toHaveBeenCalledWith("Ethereum");
+    expect(onToggle).toHaveBeenCalledWith("Ethereum");
   });
 
-  it('should call onSelect with null when "All" is pressed', () => {
-    const onSelect = jest.fn();
+  it("should show checkmarks for all selected values", () => {
     render(
       <FilterBottomSheet
         {...defaultProps}
         filterType="network"
-        selectedValue="Ethereum"
-        onSelect={onSelect}
+        selectedValues={["Ethereum", "Polygon"]}
       />,
     );
 
-    fireEvent.press(screen.getByText("All"));
-
-    expect(onSelect).toHaveBeenCalledWith(null);
-  });
-
-  it("should show checkmark for selected value", () => {
-    render(
-      <FilterBottomSheet
-        {...defaultProps}
-        filterType="network"
-        selectedValue="Ethereum"
-      />,
-    );
-
-    // The checkmark should appear next to Ethereum (and not next to "All")
     const allCheckmarks = screen.getAllByText("✓");
-    expect(allCheckmarks).toHaveLength(1);
+    expect(allCheckmarks).toHaveLength(2);
+  });
+
+  it("should not auto-close when option is selected", () => {
+    const onToggle = jest.fn();
+    render(
+      <FilterBottomSheet
+        {...defaultProps}
+        filterType="network"
+        onToggle={onToggle}
+      />,
+    );
+
+    fireEvent.press(screen.getByText("Ethereum"));
+
+    expect(screen.getByTestId("bottom-sheet")).toBeTruthy();
   });
 });
