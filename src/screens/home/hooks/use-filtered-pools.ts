@@ -1,9 +1,9 @@
 import { Pool } from "@/domain/pool/pool";
 import { useCallback, useMemo, useState } from "react";
 
-export interface FilterState {
-  network: string | null;
-  protocol: string | null;
+export interface ActiveFilter {
+  type: "network" | "protocol";
+  value: string;
 }
 
 export interface FilterOptions {
@@ -12,8 +12,8 @@ export interface FilterOptions {
 }
 
 export function useFilteredPools(pools: Pool[]) {
-  const [networkFilter, setNetworkFilter] = useState<string | null>(null);
-  const [protocolFilter, setProtocolFilter] = useState<string | null>(null);
+  const [networkFilters, setNetworkFilters] = useState<string[]>([]);
+  const [protocolFilters, setProtocolFilters] = useState<string[]>([]);
 
   const sortedPools = useMemo(() => {
     return [...pools].sort((a, b) => b.apy - a.apy);
@@ -21,14 +21,14 @@ export function useFilteredPools(pools: Pool[]) {
 
   const filteredPools = useMemo(() => {
     let result = sortedPools;
-    if (networkFilter) {
-      result = result.filter((p) => p.chain === networkFilter);
+    if (networkFilters.length > 0) {
+      result = result.filter((p) => networkFilters.includes(p.chain));
     }
-    if (protocolFilter) {
-      result = result.filter((p) => p.project === protocolFilter);
+    if (protocolFilters.length > 0) {
+      result = result.filter((p) => protocolFilters.includes(p.project));
     }
     return result;
-  }, [sortedPools, networkFilter, protocolFilter]);
+  }, [sortedPools, networkFilters, protocolFilters]);
 
   const filterOptions = useMemo(
     () => ({
@@ -38,21 +38,43 @@ export function useFilteredPools(pools: Pool[]) {
     [pools],
   );
 
-  const clearFilters = useCallback(() => {
-    setNetworkFilter(null);
-    setProtocolFilter(null);
+  const toggleNetworkFilter = useCallback((value: string) => {
+    setNetworkFilters((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+    );
   }, []);
 
-  const hasActiveFilters = networkFilter !== null || protocolFilter !== null;
+  const toggleProtocolFilter = useCallback((value: string) => {
+    setProtocolFilters((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+    );
+  }, []);
+
+  const clearFilters = useCallback(() => {
+    setNetworkFilters([]);
+    setProtocolFilters([]);
+  }, []);
+
+  const hasActiveFilters =
+    networkFilters.length > 0 || protocolFilters.length > 0;
+
+  const allActiveFilters = useMemo<ActiveFilter[]>(
+    () => [
+      ...networkFilters.map((value) => ({ type: "network" as const, value })),
+      ...protocolFilters.map((value) => ({ type: "protocol" as const, value })),
+    ],
+    [networkFilters, protocolFilters],
+  );
 
   return {
     filteredPools,
     filterOptions,
-    networkFilter,
-    protocolFilter,
-    setNetworkFilter,
-    setProtocolFilter,
+    networkFilters,
+    protocolFilters,
+    toggleNetworkFilter,
+    toggleProtocolFilter,
     clearFilters,
     hasActiveFilters,
+    allActiveFilters,
   };
 }

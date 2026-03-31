@@ -33,13 +33,13 @@ describe("useFilteredPools", () => {
     unmount();
   });
 
-  it("should filter by network correctly", () => {
+  it("should filter by single network correctly", () => {
     const pools = createMockPools(8);
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
     act(() => {
-      result.current.setNetworkFilter("ethereum");
+      result.current.toggleNetworkFilter("ethereum");
     });
 
     expect(
@@ -50,13 +50,54 @@ describe("useFilteredPools", () => {
     unmount();
   });
 
-  it("should filter by protocol correctly", () => {
+  it("should filter by multiple networks with OR logic", () => {
     const pools = createMockPools(8);
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
     act(() => {
-      result.current.setProtocolFilter("Aave");
+      result.current.toggleNetworkFilter("ethereum");
+      result.current.toggleNetworkFilter("polygon");
+    });
+
+    expect(
+      result.current.filteredPools.every(
+        (p) => p.chain === "ethereum" || p.chain === "polygon",
+      ),
+    ).toBe(true);
+    expect(result.current.networkFilters).toEqual(["ethereum", "polygon"]);
+
+    unmount();
+  });
+
+  it("should toggle network filter off when selected again", () => {
+    const pools = createMockPools(8);
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleNetworkFilter("ethereum");
+    });
+
+    expect(result.current.networkFilters).toEqual(["ethereum"]);
+
+    act(() => {
+      result.current.toggleNetworkFilter("ethereum");
+    });
+
+    expect(result.current.networkFilters).toEqual([]);
+    expect(result.current.filteredPools).toHaveLength(8);
+
+    unmount();
+  });
+
+  it("should filter by single protocol correctly", () => {
+    const pools = createMockPools(8);
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleProtocolFilter("Aave");
     });
 
     expect(
@@ -67,53 +108,66 @@ describe("useFilteredPools", () => {
     unmount();
   });
 
+  it("should filter by multiple protocols with OR logic", () => {
+    const pools = createMockPools(8);
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleProtocolFilter("Aave");
+      result.current.toggleProtocolFilter("Compound");
+    });
+
+    expect(
+      result.current.filteredPools.every(
+        (p) => p.project === "Aave" || p.project === "Compound",
+      ),
+    ).toBe(true);
+    expect(result.current.protocolFilters).toEqual(["Aave", "Compound"]);
+
+    unmount();
+  });
+
   it("should combine network and protocol filters with AND logic", () => {
     const pools: Pool[] = [
-      {
-        id: "1",
-        chain: "ethereum",
-        project: "Aave",
-        symbol: "USDC",
-        apy: 5.0,
-        url: "https://example.com/1",
-      },
-      {
-        id: "2",
-        chain: "ethereum",
-        project: "Compound",
-        symbol: "ETH",
-        apy: 3.0,
-        url: "https://example.com/2",
-      },
-      {
-        id: "3",
-        chain: "polygon",
-        project: "Aave",
-        symbol: "DAI",
-        apy: 7.0,
-        url: "https://example.com/3",
-      },
-      {
-        id: "4",
-        chain: "polygon",
-        project: "Compound",
-        symbol: "USDT",
-        apy: 4.0,
-        url: "https://example.com/4",
-      },
+      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
+      { id: "2", chain: "ethereum", project: "Compound", symbol: "ETH", apy: 3.0, url: "https://example.com/2" },
+      { id: "3", chain: "polygon", project: "Aave", symbol: "DAI", apy: 7.0, url: "https://example.com/3" },
+      { id: "4", chain: "polygon", project: "Compound", symbol: "USDT", apy: 4.0, url: "https://example.com/4" },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
     act(() => {
-      result.current.setNetworkFilter("ethereum");
-      result.current.setProtocolFilter("Aave");
+      result.current.toggleNetworkFilter("ethereum");
+      result.current.toggleProtocolFilter("Aave");
     });
 
     expect(result.current.filteredPools).toHaveLength(1);
     expect(result.current.filteredPools[0].id).toBe("1");
-    expect(result.current.filteredPools[0].chain).toBe("ethereum");
-    expect(result.current.filteredPools[0].project).toBe("Aave");
+
+    unmount();
+  });
+
+  it("should combine multiple networks AND multiple protocols", () => {
+    const pools: Pool[] = [
+      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
+      { id: "2", chain: "ethereum", project: "Compound", symbol: "ETH", apy: 3.0, url: "https://example.com/2" },
+      { id: "3", chain: "polygon", project: "Aave", symbol: "DAI", apy: 7.0, url: "https://example.com/3" },
+      { id: "4", chain: "polygon", project: "Compound", symbol: "USDT", apy: 4.0, url: "https://example.com/4" },
+      { id: "5", chain: "arbitrum", project: "Yearn", symbol: "USDC", apy: 6.0, url: "https://example.com/5" },
+    ];
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleNetworkFilter("ethereum");
+      result.current.toggleNetworkFilter("polygon");
+      result.current.toggleProtocolFilter("Aave");
+    });
+
+    expect(result.current.filteredPools).toHaveLength(2);
+    expect(result.current.filteredPools.map((p) => p.id).sort()).toEqual(["1", "3"]);
 
     unmount();
   });
@@ -124,8 +178,9 @@ describe("useFilteredPools", () => {
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
     act(() => {
-      result.current.setNetworkFilter("ethereum");
-      result.current.setProtocolFilter("Aave");
+      result.current.toggleNetworkFilter("ethereum");
+      result.current.toggleNetworkFilter("polygon");
+      result.current.toggleProtocolFilter("Aave");
     });
 
     const filteredCount = result.current.filteredPools.length;
@@ -136,8 +191,8 @@ describe("useFilteredPools", () => {
     });
 
     expect(result.current.filteredPools).toHaveLength(8);
-    expect(result.current.networkFilter).toBeNull();
-    expect(result.current.protocolFilter).toBeNull();
+    expect(result.current.networkFilters).toEqual([]);
+    expect(result.current.protocolFilters).toEqual([]);
     expect(result.current.hasActiveFilters).toBe(false);
 
     unmount();
@@ -145,47 +200,15 @@ describe("useFilteredPools", () => {
 
   it("should return correct filter options with unique sorted networks and protocols", () => {
     const pools: Pool[] = [
-      {
-        id: "1",
-        chain: "polygon",
-        project: "Yearn",
-        symbol: "USDC",
-        apy: 5.0,
-        url: "https://example.com/1",
-      },
-      {
-        id: "2",
-        chain: "ethereum",
-        project: "Aave",
-        symbol: "ETH",
-        apy: 3.0,
-        url: "https://example.com/2",
-      },
-      {
-        id: "3",
-        chain: "ethereum",
-        project: "Yearn",
-        symbol: "DAI",
-        apy: 7.0,
-        url: "https://example.com/3",
-      },
-      {
-        id: "4",
-        chain: "arbitrum",
-        project: "Aave",
-        symbol: "USDT",
-        apy: 4.0,
-        url: "https://example.com/4",
-      },
+      { id: "1", chain: "polygon", project: "Yearn", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
+      { id: "2", chain: "ethereum", project: "Aave", symbol: "ETH", apy: 3.0, url: "https://example.com/2" },
+      { id: "3", chain: "ethereum", project: "Yearn", symbol: "DAI", apy: 7.0, url: "https://example.com/3" },
+      { id: "4", chain: "arbitrum", project: "Aave", symbol: "USDT", apy: 4.0, url: "https://example.com/4" },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
-    expect(result.current.filterOptions.networks).toEqual([
-      "arbitrum",
-      "ethereum",
-      "polygon",
-    ]);
+    expect(result.current.filterOptions.networks).toEqual(["arbitrum", "ethereum", "polygon"]);
     expect(result.current.filterOptions.protocols).toEqual(["Aave", "Yearn"]);
 
     unmount();
@@ -199,22 +222,42 @@ describe("useFilteredPools", () => {
     expect(result.current.hasActiveFilters).toBe(false);
 
     act(() => {
-      result.current.setNetworkFilter("ethereum");
+      result.current.toggleNetworkFilter("ethereum");
     });
 
     expect(result.current.hasActiveFilters).toBe(true);
 
     act(() => {
-      result.current.setNetworkFilter(null);
+      result.current.toggleNetworkFilter("ethereum");
     });
 
     expect(result.current.hasActiveFilters).toBe(false);
 
     act(() => {
-      result.current.setProtocolFilter("Aave");
+      result.current.toggleProtocolFilter("Aave");
     });
 
     expect(result.current.hasActiveFilters).toBe(true);
+
+    unmount();
+  });
+
+  it("should return allActiveFilters with type and value", () => {
+    const pools = createMockPools(8);
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleNetworkFilter("ethereum");
+      result.current.toggleNetworkFilter("polygon");
+      result.current.toggleProtocolFilter("Aave");
+    });
+
+    expect(result.current.allActiveFilters).toEqual([
+      { type: "network", value: "ethereum" },
+      { type: "network", value: "polygon" },
+      { type: "protocol", value: "Aave" },
+    ]);
 
     unmount();
   });
@@ -232,30 +275,9 @@ describe("useFilteredPools", () => {
 
   it("should sort pools with 0% APY at the bottom", () => {
     const pools: Pool[] = [
-      {
-        id: "1",
-        chain: "ethereum",
-        project: "Aave",
-        symbol: "USDC",
-        apy: 0,
-        url: "https://example.com/1",
-      },
-      {
-        id: "2",
-        chain: "polygon",
-        project: "Compound",
-        symbol: "USDT",
-        apy: 5.0,
-        url: "https://example.com/2",
-      },
-      {
-        id: "3",
-        chain: "ethereum",
-        project: "Spark",
-        symbol: "DAI",
-        apy: 3.0,
-        url: "https://example.com/3",
-      },
+      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 0, url: "https://example.com/1" },
+      { id: "2", chain: "polygon", project: "Compound", symbol: "USDT", apy: 5.0, url: "https://example.com/2" },
+      { id: "3", chain: "ethereum", project: "Spark", symbol: "DAI", apy: 3.0, url: "https://example.com/3" },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
@@ -268,38 +290,10 @@ describe("useFilteredPools", () => {
 
   it("should sort negative APY pools below positive and zero", () => {
     const pools: Pool[] = [
-      {
-        id: "1",
-        chain: "ethereum",
-        project: "Aave",
-        symbol: "USDC",
-        apy: -2.5,
-        url: "https://example.com/1",
-      },
-      {
-        id: "2",
-        chain: "polygon",
-        project: "Compound",
-        symbol: "USDT",
-        apy: 5.0,
-        url: "https://example.com/2",
-      },
-      {
-        id: "3",
-        chain: "ethereum",
-        project: "Spark",
-        symbol: "DAI",
-        apy: 0,
-        url: "https://example.com/3",
-      },
-      {
-        id: "4",
-        chain: "arbitrum",
-        project: "Yearn",
-        symbol: "USDC",
-        apy: -0.5,
-        url: "https://example.com/4",
-      },
+      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: -2.5, url: "https://example.com/1" },
+      { id: "2", chain: "polygon", project: "Compound", symbol: "USDT", apy: 5.0, url: "https://example.com/2" },
+      { id: "3", chain: "ethereum", project: "Spark", symbol: "DAI", apy: 0, url: "https://example.com/3" },
+      { id: "4", chain: "arbitrum", project: "Yearn", symbol: "USDC", apy: -0.5, url: "https://example.com/4" },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
@@ -312,20 +306,13 @@ describe("useFilteredPools", () => {
 
   it("should return empty filtered results when filter matches nothing", () => {
     const pools: Pool[] = [
-      {
-        id: "1",
-        chain: "ethereum",
-        project: "Aave",
-        symbol: "USDC",
-        apy: 5.0,
-        url: "https://example.com/1",
-      },
+      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
     act(() => {
-      result.current.setNetworkFilter("nonexistent-network");
+      result.current.toggleNetworkFilter("nonexistent-network");
     });
 
     expect(result.current.filteredPools).toHaveLength(0);
