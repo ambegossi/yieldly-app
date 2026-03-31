@@ -30,13 +30,22 @@ export function useFilteredPools(pools: Pool[]) {
     return result;
   }, [sortedPools, networkFilters, protocolFilters]);
 
-  const filterOptions = useMemo(
-    () => ({
-      networks: [...new Set(pools.map((p) => p.chain))].sort(),
-      protocols: [...new Set(pools.map((p) => p.project))].sort(),
-    }),
-    [pools],
-  );
+  const filterOptions = useMemo(() => {
+    const poolsForNetworks =
+      protocolFilters.length > 0
+        ? pools.filter((p) => protocolFilters.includes(p.project))
+        : pools;
+
+    const poolsForProtocols =
+      networkFilters.length > 0
+        ? pools.filter((p) => networkFilters.includes(p.chain))
+        : pools;
+
+    return {
+      networks: [...new Set(poolsForNetworks.map((p) => p.chain))].sort(),
+      protocols: [...new Set(poolsForProtocols.map((p) => p.project))].sort(),
+    };
+  }, [pools, networkFilters, protocolFilters]);
 
   const toggleNetworkFilter = useCallback((value: string) => {
     setNetworkFilters((prev) =>

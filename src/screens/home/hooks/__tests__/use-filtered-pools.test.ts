@@ -312,6 +312,98 @@ describe("useFilteredPools", () => {
     unmount();
   });
 
+  it("should cascade protocol options based on selected networks", () => {
+    const pools: Pool[] = [
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 5.0,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "ethereum",
+        project: "Compound",
+        symbol: "ETH",
+        apy: 3.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "polygon",
+        project: "Aave",
+        symbol: "DAI",
+        apy: 7.0,
+        url: "https://example.com/3",
+      },
+      {
+        id: "4",
+        chain: "arbitrum",
+        project: "Yearn",
+        symbol: "USDT",
+        apy: 4.0,
+        url: "https://example.com/4",
+      },
+    ];
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleNetworkFilter("ethereum");
+    });
+
+    expect(result.current.filterOptions.protocols).toEqual([
+      "Aave",
+      "Compound",
+    ]);
+
+    unmount();
+  });
+
+  it("should cascade network options based on selected protocols", () => {
+    const pools: Pool[] = [
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 5.0,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "polygon",
+        project: "Aave",
+        symbol: "DAI",
+        apy: 7.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "arbitrum",
+        project: "Yearn",
+        symbol: "USDT",
+        apy: 4.0,
+        url: "https://example.com/3",
+      },
+    ];
+
+    const { result, unmount } = renderHook(() => useFilteredPools(pools));
+
+    act(() => {
+      result.current.toggleProtocolFilter("Aave");
+    });
+
+    expect(result.current.filterOptions.networks).toEqual([
+      "ethereum",
+      "polygon",
+    ]);
+
+    unmount();
+  });
+
   it("should reflect filter state in hasActiveFilters", () => {
     const pools = createMockPools(4);
 
