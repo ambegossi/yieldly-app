@@ -33,7 +33,7 @@ export const FilterButton = React.forwardRef<View, FilterButtonProps>(
 
             {isActive && (
               <View className="h-5 w-5 items-center justify-center rounded-full bg-green-500">
-                <Text className="text-xs font-bold text-white group-hover:text-white">
+                <Text className="text-xs font-bold text-white group-hover:text-white group-active:text-white">
                   {activeCount}
                 </Text>
               </View>
