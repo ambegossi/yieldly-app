@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.0 → 1.0.1
+Version change: 1.2.0 → 1.2.1
 Modified principles:
-  - III. User Experience Consistency: Added react-native-reusables requirement
+  - User Experience Consistency: Added JSX blank lines rule (sibling components must be separated by a blank line; exception: src/components/core/)
 Added sections: None
 Removed sections: None
 Templates requiring updates:
@@ -22,17 +22,25 @@ Follow-up TODOs: None
 All code MUST follow Clean Architecture with strict layer separation:
 
 - **Domain Layer** (`src/domain/`): Pure business logic, entities, repository interfaces,
-  and use cases. MUST NOT import from infrastructure or presentation layers.
+  and use cases in `use-cases/` directories. MUST NOT import from infrastructure or presentation layers.
 - **Infrastructure Layer** (`src/infra/`): Concrete implementations of domain interfaces.
   MUST NOT contain business logic.
-- **Presentation Layer** (`src/app/`): UI components and routing. MUST access domain
-  through infrastructure's dependency injection via `useRepository()` hook.
+- **Presentation Layer**:
+  - `src/app/`: Routes and route layouts only (Expo Router file-based routing).
+  - `src/screens/`: Screen components in kebab-case folders with `index.tsx` entry point.
+  - Screen-specific components MUST live in `src/screens/[screen-name]/components/`.
+  - MUST access domain through infrastructure's dependency injection via `useRepository()` hook.
 
 Non-negotiable rules:
+
 - TypeScript strict mode MUST remain enabled; `any` type is prohibited except in
   type guards with explicit runtime validation.
 - Path alias `@/*` MUST be used for all imports from `src/`.
 - New features MUST define domain interfaces before infrastructure implementations.
+- Components MUST be created using function declarations with named exports.
+- Hooks MUST be created using function declarations with named exports and use
+  camelCase naming pattern.
+- File and directory names MUST use kebab-case convention (e.g., `use-pool-find-all.ts`, `http-client.ts`, `use-cases/`).
 - ESLint and Prettier MUST pass with zero warnings before merge.
 
 **Rationale**: Layer separation ensures testability, maintainability, and prevents
@@ -49,11 +57,13 @@ All production code MUST have corresponding tests following these standards:
 - Coverage MUST NOT decrease; new code MUST maintain or improve coverage percentage.
 
 Test categories required:
+
 - **Unit tests**: All domain use cases and pure utility functions.
 - **Hook tests**: All custom React hooks with loading, success, and error scenarios.
 - **Component tests**: Interactive components with user event simulation.
 
 Non-negotiable rules:
+
 - `jest.clearAllMocks()` MUST be called in `afterEach`.
 - `waitFor` MUST be used for all async state assertions.
 - Mock repositories MUST use factory functions with `jest.fn()`.
@@ -71,16 +81,19 @@ consistency:
 - Theme colors MUST use CSS variables defined in `global.css` (e.g., `--primary`,
   `--background`).
 - Dark mode MUST be supported via the `darkMode: "class"` configuration.
-- UI components in `src/components/ui/` MUST be created using react-native-reusables
-  patterns and primitives.
+- Core UI components (Button, Text, TextInput, etc.) in `src/components/core/` MUST be
+  created using react-native-reusables patterns and primitives.
+- Composite components that use core components MUST reside in `src/components/`.
 - The `cn()` utility from `src/lib/utils.ts` MUST be used for className merging.
 
 Non-negotiable rules:
+
 - Hardcoded colors are prohibited; use theme variables exclusively.
 - New components MUST support both light and dark modes.
 - Touch targets MUST be minimum 44x44 points for accessibility.
 - Loading states MUST be shown for all async operations.
 - Error states MUST be user-friendly with actionable guidance.
+- Sibling JSX components MUST be separated by a blank line; exception: `src/components/core/` files.
 
 **Rationale**: Design system consistency reduces cognitive load for users and
 development overhead for the team.
@@ -98,6 +111,7 @@ The application MUST meet these performance targets on supported devices:
 - **Image loading**: Images MUST be lazy-loaded with appropriate placeholders.
 
 Non-negotiable rules:
+
 - `useCallback` and `useMemo` MUST be used for expensive computations passed as props.
 - Inline object/array creation in render is prohibited for components receiving
   those as props.
@@ -111,46 +125,66 @@ performance directly impacts user retention and app store ratings.
 ## Technology Constraints
 
 **Runtime Environment**:
+
 - Expo SDK 54 with new architecture enabled
 - React 19.1.0 with React Compiler
 - React Native with Hermes engine
 
 **Package Management**:
+
 - Bun MUST be used as the package manager
 - Dependencies MUST be added via `bun add`
 - Lock file (`bun.lock`) MUST be committed
 
 **Routing**:
+
 - Expo Router v6 with typed routes MUST be used
 - All routes MUST reside in `src/app/` directory
 
 **Data Fetching**:
+
 - React Query (`@tanstack/react-query`) MUST be used for server state
 - `useAppQuery` wrapper MUST be used for consistent patterns
 
 ## Development Workflow
 
 **Before Implementation**:
+
 1. Read existing code in the affected area before proposing changes.
 2. Verify Clean Architecture compliance of the proposed design.
 3. Identify affected test files.
+4. Use `perplexity` MCP tools to research best practices and technical uncertainties.
 
 **During Implementation**:
+
 1. Run `bun run lint` frequently to catch issues early.
 2. Write/update tests alongside implementation.
 3. Use conventional commits for all commits.
+4. For mobile-facing features or when mobile validations is needed, use `ios-simulator` MCP tools:
+   - Capture screenshots to compare with design specs.
+   - Inspect UI elements and accessibility information.
+   - Test user interactions (tap, swipe, type).
+   - Record interaction flows for review.
+5. For web-facing features or when browser validation is needed, use the `agent-browser` skill (`/agent-browser`):
+   - Automate browser interactions (navigate, click, type, screenshot).
+   - Verify forms, navigation flows, and API integrations in the browser.
+   - Capture screenshots to compare with design specs.
 
 **Before Merge**:
+
 1. All tests MUST pass (`bun test`).
-2. Lint MUST pass with zero warnings (`bun run lint`).
-3. No `TODO` comments without linked issue numbers.
-4. Coverage MUST NOT decrease.
+2. TypeScript types MUST pass with zero errors (`bun run types`).
+3. Lint MUST pass with zero warnings (`bun run lint`).
+4. No `TODO` comments without linked issue numbers.
+5. Coverage MUST NOT decrease.
+6. UI MUST be validated with ios-simulator screenshots matching design specifications.
 
 ## Governance
 
 This constitution supersedes all other practices when conflicts arise.
 
 **Amendment Process**:
+
 1. Propose amendment with rationale in a pull request.
 2. Amendment MUST include migration plan for existing code if applicable.
 3. Team review required; breaking changes require explicit approval.
@@ -160,8 +194,23 @@ This constitution supersedes all other practices when conflicts arise.
    - PATCH: Clarifications and typo fixes
 
 **Compliance**:
+
+This constitution supersedes all other practices when conflicts arise.
+
+**Amendment Process**:
+
+1. Propose amendment with rationale in a pull request.
+2. Amendment MUST include migration plan for existing code if applicable.
+3. Team review required; breaking changes require explicit approval.
+4. Version increment follows semantic versioning:
+   - MAJOR: Principle removal or redefinition
+   - MINOR: New principle or expanded guidance
+   - PATCH: Clarifications and typo fixes
+
+**Compliance**:
+
 - All pull requests MUST verify compliance with these principles.
 - Code reviews MUST flag constitution violations.
 - Complexity exceptions MUST be documented with justification.
 
-**Version**: 1.0.1 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-01-24
+**Version**: 1.2.1 | **Ratified**: 2026-01-24 | **Last Amended**: 2026-02-24

@@ -18,6 +18,7 @@ Yieldly is a React Native mobile application built with Expo SDK 54, using file-
 ### Code quality
 
 - `bun run lint` - Run ESLint (configured with Expo config + Prettier)
+- `bun run types` - Check TypeScript types without emitting files
 
 ### Package management
 
@@ -33,12 +34,12 @@ The codebase follows Clean Architecture with three main layers:
    - Contains pure business logic and entities
    - Defines repository interfaces (e.g., `PoolRepo`)
    - Organizes features by domain (e.g., `pool/`)
-   - Use cases are located in feature-specific `useCases/` directories
+   - Use cases are located in feature-specific `use-cases/` directories
 
 2. **Infrastructure Layer** (`src/infra/`)
    - Implements domain interfaces with concrete implementations
-   - `repositories/RepositoryProvider.tsx` - React Context for dependency injection
-   - `useCases/useAppQuery.ts` - Wrapper around React Query for consistent data fetching
+   - `repositories/repository-provider.tsx` - React Context for dependency injection
+   - `use-cases/use-app-query.ts` - Wrapper around React Query for consistent data fetching
 
 3. **Presentation Layer** (`src/app/`)
    - File-based routing using expo-router
@@ -48,13 +49,72 @@ The codebase follows Clean Architecture with three main layers:
 
 Repositories are injected via React Context:
 
-- Domain defines interfaces in `src/domain/Repositories.ts`
+- Domain defines interfaces in `src/domain/repositories.ts`
 - Infrastructure provides `RepositoryProvider` and `useRepository()` hook
 - Concrete implementations are passed to `RepositoryProvider` at the root level
 
 ### Path Aliases
 
 TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
+
+### File and Directory Naming Conventions
+
+All files and directories MUST use kebab-case naming:
+
+**Files:**
+
+- Component files: `button.tsx`, `pool-card.tsx`, `home-screen.tsx`
+- Hook files: `use-pool-find-all.ts`, `use-app-query.ts`, `use-auth.ts`
+- Class/Service files: `http-client.ts`, `pool-adapter.ts`, `http-pool-repo.ts`
+- Entity/Interface files: `pool.ts`, `pool-repo.ts`, `repositories.ts`
+- DTO files: `pool-dto.ts`, `user-dto.ts`
+- Test files: `use-pool-find-all.test.tsx`, `pool-adapter.test.ts`
+
+**Directories:**
+
+- Feature directories: `pool/`, `user/`, `auth/`
+- Utility directories: `use-cases/`, `http-repository/`, `core/`
+
+**Code-level naming remains unchanged:**
+
+- Components: PascalCase (`export function Button() {}`)
+- Hooks: camelCase (`export function usePoolFindAll() {}`)
+- Classes: PascalCase (`export class HttpClient {}`)
+- Interfaces: PascalCase (`export interface Pool {}`)
+
+**Rationale:** Consistent kebab-case file naming improves cross-platform compatibility,
+reduces case-sensitivity issues in version control, and creates visual distinction
+between file names (kebab-case) and code exports (PascalCase/camelCase).
+
+### File Structure & Naming Conventions
+
+**Routes and Screens:**
+
+- `src/app/` directory contains routes and route layouts (Expo Router file-based routing)
+- `src/screens/` directory contains screen components
+- Each screen is a folder with a kebab-case name (e.g., `home/`, `pool-details/`)
+- Each screen folder contains an `index.tsx` file as the main entry point
+- Screen-specific components live in a `components/` folder inside the screen folder
+  - Example: `src/screens/home/components/pool-card.tsx`
+
+**Component Conventions:**
+
+- Components MUST be created using function declarations with named exports
+- Example: `export function Button() { ... }`
+- Core components (Button, Text, TextInput, etc.) live in `src/components/core/`
+- Composite/shared components live in `src/components/`
+- Screen-specific components live in `src/screens/[screenName]/components/`
+
+**JSX Formatting:**
+
+- Sibling JSX components MUST be separated by a blank line.
+- Exception: files in `src/components/core/` (react-native-reusables primitives).
+
+**Hook Conventions:**
+
+- Hooks MUST be created using function declarations with named exports
+- Hooks MUST use camelCase naming pattern (e.g., `usePoolData`, `useAuth`)
+- Example: `export function usePoolData() { ... }`
 
 ## Styling System
 
@@ -67,7 +127,8 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 
 ### UI Components
 
-- Located in `src/components/ui/`
+- Core components (Button, Text, TextInput, etc.) are located in `src/components/core/`
+- Other composite components are located in `src/components/`
 - Built with react-native-reusables patterns
 - Uses `cn()` utility from `src/lib/utils.ts` for className merging
 - Theme utilities in `src/lib/theme.ts`
@@ -97,9 +158,9 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 ### Adding New Features
 
 1. Define domain entities and repository interfaces in `src/domain/[feature]/`
-2. Create use cases in `src/domain/[feature]/useCases/`
+2. Create use cases in `src/domain/[feature]/use-cases/`
 3. Implement repository in infrastructure layer
-4. Register repository in `src/domain/Repositories.ts` interface
+4. Register repository in `src/domain/repositories.ts` interface
 5. Provide implementation via `RepositoryProvider` in root layout
 6. Use `useRepository()` hook to access repositories in components
 
@@ -107,12 +168,18 @@ TypeScript path alias `@/*` maps to `./src/*` (configured in tsconfig.json).
 
 Use `useAppQuery` wrapper for consistent React Query integration:
 
+````typescript
+const { data, isLoading, error } = useAppQuery({
+  queryKey: ["key"],
+  fetchData: () => repository.method(),
+Use `useAppQuery` wrapper for consistent React Query integration:
+
 ```typescript
 const { data, isLoading, error } = useAppQuery({
   queryKey: ['key'],
   fetchData: () => repository.method()
 });
-```
+````
 
 ## Important Notes
 
@@ -128,7 +195,7 @@ const { data, isLoading, error } = useAppQuery({
 - Tests are co-located with source code in `__tests__/` directories
 - Test files use `.test.ts` extension (or `.test.tsx` if the test contains JSX)
 - Follow the pattern: `src/[layer]/[feature]/__tests__/[filename].test.{ts,tsx}`
-- Example: `src/domain/pool/useCases/__tests__/usePoolFindAll.test.tsx`
+- Example: `src/domain/pool/use-cases/__tests__/use-pool-find-all.test.tsx`
 
 ### Testing Framework
 
@@ -169,6 +236,51 @@ Cover success scenarios, loading states, error handling, edge cases, call verifi
 - Use descriptive test names and Arrange-Act-Assert pattern
 - Verify hooks don't refetch on component re-renders
 
+## MCP Tools
+
+### iOS Simulator Integration
+
+Use the `ios-simulator` MCP tools for mobile-based validation when needed:
+
+- **Visual Validation**: Use `mcp__ios-simulator__screenshot` to capture the current state and compare with design specs
+- **UI Inspection**: Use `mcp__ios-simulator__ui_describe_all` to verify accessibility elements and layout structure
+- **Interactive Testing**: Use `mcp__ios-simulator__ui_tap`, `mcp__ios-simulator__ui_swipe`, and `mcp__ios-simulator__ui_type` to simulate user interactions
+- **Recording**: Use `mcp__ios-simulator__record_video` to capture interaction flows for review
+
+Always validate that the implementation matches the design specifications before considering a feature complete.
+
+### Agent Browser CLI
+
+Use the `agent-browser` skill for browser-based validation when needed:
+
+- **Web Validation**: Use `/agent-browser` to interact with the web version of the app or external services
+- **Form & Interaction Testing**: Automate form submissions, button clicks, and navigation flows
+- **Screenshot Capture**: Take screenshots of web implementations to compare with design specs
+- **Data Extraction**: Scrape and verify data rendered on web pages
+- **End-to-End Testing**: Automate complete user journeys in the browser
+
+Use this skill when validating web-facing features, testing API integrations via browser, or when the iOS simulator alone is insufficient.
+
+### Perplexity Research
+
+Use the `perplexity` MCP tools for research when needed:
+
+- **Quick Questions**: Use `mcp__perplexity__perplexity_ask` for conversational queries about React Native, Expo, or libraries
+- **Deep Research**: Use `mcp__perplexity__perplexity_research` for comprehensive research with citations on complex topics
+- **Technical Reasoning**: Use `mcp__perplexity__perplexity_reason` for well-reasoned responses on architectural decisions
+- **Web Search**: Use `mcp__perplexity__perplexity_search` to find up-to-date documentation, best practices, or solutions
+
+Use these tools proactively to stay current with best practices and resolve technical uncertainties.
+
 ## Commits
 
 - Use conventional commits specification to write commit messages
+
+## Active Technologies
+
+- TypeScript 5.9.2 with strict mode enabled + Expo SDK 54, React 19.1.0, React Query v5, FlashList, @gorhom/bottom-sheet, NativeWind v4 (001-home-screen)
+- React Query cache for data persistence (no database needed for MVP) (001-home-screen)
+
+## Recent Changes
+
+- 001-home-screen: Added TypeScript 5.9.2 with strict mode enabled + Expo SDK 54, React 19.1.0, React Query v5, FlashList, @gorhom/bottom-sheet, NativeWind v4

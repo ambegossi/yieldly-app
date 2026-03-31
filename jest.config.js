@@ -31,20 +31,20 @@ module.exports = {
     "!src/lib/theme.ts",
 
     // Exclude pure type/interface files in domain layer
-    "!src/domain/**/Pool.ts",
-    "!src/domain/**/PoolRepo.ts",
-    "!src/domain/Repositories.ts",
+    "!src/domain/**/pool.ts",
+    "!src/domain/**/pool-repo.ts",
+    "!src/domain/repositories.ts",
 
     // Exclude DTOs (pure types)
-    "!src/infra/repositories/HttpRepository/**/PoolDTO.ts",
+    "!src/infra/repositories/http-repository/**/pool-dto.ts",
 
     // Exclude HTTP client interfaces (no implementation)
-    "!src/infra/http/HttpClient.ts",
+    "!src/infra/http/http-client.ts",
 
     // Exclude HTTP client instances (configuration only)
     "!src/infra/http/clients/*.ts",
   ],
   transformIgnorePatterns: [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",
+    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",
   ],
 };
