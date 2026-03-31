@@ -130,10 +130,38 @@ describe("useFilteredPools", () => {
 
   it("should combine network and protocol filters with AND logic", () => {
     const pools: Pool[] = [
-      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
-      { id: "2", chain: "ethereum", project: "Compound", symbol: "ETH", apy: 3.0, url: "https://example.com/2" },
-      { id: "3", chain: "polygon", project: "Aave", symbol: "DAI", apy: 7.0, url: "https://example.com/3" },
-      { id: "4", chain: "polygon", project: "Compound", symbol: "USDT", apy: 4.0, url: "https://example.com/4" },
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 5.0,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "ethereum",
+        project: "Compound",
+        symbol: "ETH",
+        apy: 3.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "polygon",
+        project: "Aave",
+        symbol: "DAI",
+        apy: 7.0,
+        url: "https://example.com/3",
+      },
+      {
+        id: "4",
+        chain: "polygon",
+        project: "Compound",
+        symbol: "USDT",
+        apy: 4.0,
+        url: "https://example.com/4",
+      },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
@@ -151,11 +179,46 @@ describe("useFilteredPools", () => {
 
   it("should combine multiple networks AND multiple protocols", () => {
     const pools: Pool[] = [
-      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
-      { id: "2", chain: "ethereum", project: "Compound", symbol: "ETH", apy: 3.0, url: "https://example.com/2" },
-      { id: "3", chain: "polygon", project: "Aave", symbol: "DAI", apy: 7.0, url: "https://example.com/3" },
-      { id: "4", chain: "polygon", project: "Compound", symbol: "USDT", apy: 4.0, url: "https://example.com/4" },
-      { id: "5", chain: "arbitrum", project: "Yearn", symbol: "USDC", apy: 6.0, url: "https://example.com/5" },
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 5.0,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "ethereum",
+        project: "Compound",
+        symbol: "ETH",
+        apy: 3.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "polygon",
+        project: "Aave",
+        symbol: "DAI",
+        apy: 7.0,
+        url: "https://example.com/3",
+      },
+      {
+        id: "4",
+        chain: "polygon",
+        project: "Compound",
+        symbol: "USDT",
+        apy: 4.0,
+        url: "https://example.com/4",
+      },
+      {
+        id: "5",
+        chain: "arbitrum",
+        project: "Yearn",
+        symbol: "USDC",
+        apy: 6.0,
+        url: "https://example.com/5",
+      },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
@@ -167,7 +230,10 @@ describe("useFilteredPools", () => {
     });
 
     expect(result.current.filteredPools).toHaveLength(2);
-    expect(result.current.filteredPools.map((p) => p.id).sort()).toEqual(["1", "3"]);
+    expect(result.current.filteredPools.map((p) => p.id).sort()).toEqual([
+      "1",
+      "3",
+    ]);
 
     unmount();
   });
@@ -200,15 +266,47 @@ describe("useFilteredPools", () => {
 
   it("should return correct filter options with unique sorted networks and protocols", () => {
     const pools: Pool[] = [
-      { id: "1", chain: "polygon", project: "Yearn", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
-      { id: "2", chain: "ethereum", project: "Aave", symbol: "ETH", apy: 3.0, url: "https://example.com/2" },
-      { id: "3", chain: "ethereum", project: "Yearn", symbol: "DAI", apy: 7.0, url: "https://example.com/3" },
-      { id: "4", chain: "arbitrum", project: "Aave", symbol: "USDT", apy: 4.0, url: "https://example.com/4" },
+      {
+        id: "1",
+        chain: "polygon",
+        project: "Yearn",
+        symbol: "USDC",
+        apy: 5.0,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "ETH",
+        apy: 3.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "ethereum",
+        project: "Yearn",
+        symbol: "DAI",
+        apy: 7.0,
+        url: "https://example.com/3",
+      },
+      {
+        id: "4",
+        chain: "arbitrum",
+        project: "Aave",
+        symbol: "USDT",
+        apy: 4.0,
+        url: "https://example.com/4",
+      },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
 
-    expect(result.current.filterOptions.networks).toEqual(["arbitrum", "ethereum", "polygon"]);
+    expect(result.current.filterOptions.networks).toEqual([
+      "arbitrum",
+      "ethereum",
+      "polygon",
+    ]);
     expect(result.current.filterOptions.protocols).toEqual(["Aave", "Yearn"]);
 
     unmount();
@@ -275,9 +373,30 @@ describe("useFilteredPools", () => {
 
   it("should sort pools with 0% APY at the bottom", () => {
     const pools: Pool[] = [
-      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 0, url: "https://example.com/1" },
-      { id: "2", chain: "polygon", project: "Compound", symbol: "USDT", apy: 5.0, url: "https://example.com/2" },
-      { id: "3", chain: "ethereum", project: "Spark", symbol: "DAI", apy: 3.0, url: "https://example.com/3" },
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 0,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "polygon",
+        project: "Compound",
+        symbol: "USDT",
+        apy: 5.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "ethereum",
+        project: "Spark",
+        symbol: "DAI",
+        apy: 3.0,
+        url: "https://example.com/3",
+      },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
@@ -290,10 +409,38 @@ describe("useFilteredPools", () => {
 
   it("should sort negative APY pools below positive and zero", () => {
     const pools: Pool[] = [
-      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: -2.5, url: "https://example.com/1" },
-      { id: "2", chain: "polygon", project: "Compound", symbol: "USDT", apy: 5.0, url: "https://example.com/2" },
-      { id: "3", chain: "ethereum", project: "Spark", symbol: "DAI", apy: 0, url: "https://example.com/3" },
-      { id: "4", chain: "arbitrum", project: "Yearn", symbol: "USDC", apy: -0.5, url: "https://example.com/4" },
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: -2.5,
+        url: "https://example.com/1",
+      },
+      {
+        id: "2",
+        chain: "polygon",
+        project: "Compound",
+        symbol: "USDT",
+        apy: 5.0,
+        url: "https://example.com/2",
+      },
+      {
+        id: "3",
+        chain: "ethereum",
+        project: "Spark",
+        symbol: "DAI",
+        apy: 0,
+        url: "https://example.com/3",
+      },
+      {
+        id: "4",
+        chain: "arbitrum",
+        project: "Yearn",
+        symbol: "USDC",
+        apy: -0.5,
+        url: "https://example.com/4",
+      },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));
@@ -306,7 +453,14 @@ describe("useFilteredPools", () => {
 
   it("should return empty filtered results when filter matches nothing", () => {
     const pools: Pool[] = [
-      { id: "1", chain: "ethereum", project: "Aave", symbol: "USDC", apy: 5.0, url: "https://example.com/1" },
+      {
+        id: "1",
+        chain: "ethereum",
+        project: "Aave",
+        symbol: "USDC",
+        apy: 5.0,
+        url: "https://example.com/1",
+      },
     ];
 
     const { result, unmount } = renderHook(() => useFilteredPools(pools));

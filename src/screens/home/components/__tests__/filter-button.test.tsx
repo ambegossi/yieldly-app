@@ -46,9 +46,7 @@ describe("FilterButton", () => {
 
   it("should call onPress when pressed", () => {
     const onPress = jest.fn();
-    render(
-      <FilterButton label="Network" activeCount={0} onPress={onPress} />,
-    );
+    render(<FilterButton label="Network" activeCount={0} onPress={onPress} />);
 
     fireEvent.press(screen.getByRole("button"));
 
@@ -68,8 +66,6 @@ describe("FilterButton", () => {
       <FilterButton label="Network" activeCount={3} onPress={jest.fn()} />,
     );
 
-    expect(
-      screen.getByLabelText("Network filter, 3 selected"),
-    ).toBeTruthy();
+    expect(screen.getByLabelText("Network filter, 3 selected")).toBeTruthy();
   });
 });

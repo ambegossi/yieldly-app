@@ -1,6 +1,6 @@
 import { Text } from "@/components/core/text";
 import { Feather } from "@expo/vector-icons";
-import { Pressable, View } from "react-native";
+import { Pressable } from "react-native";
 
 interface FilterChipProps {
   label: string;
@@ -13,7 +13,7 @@ export function FilterChip({ label, onRemove }: FilterChipProps) {
       onPress={onRemove}
       accessibilityLabel={`Remove ${label} filter`}
       accessibilityRole="button"
-      className="flex-row items-center gap-1 rounded-md border border-border bg-background px-2.5 py-1 active:bg-accent"
+      className="flex-row items-center gap-1 rounded-full bg-muted px-2.5 py-1 active:bg-accent"
     >
       <Text className="text-sm text-foreground">{label}</Text>
 
