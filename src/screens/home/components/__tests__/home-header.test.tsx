@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react-native";
-import { HomeHeader } from "../home-header";
+import { Header as HomeHeader } from "../header";
 
 describe("HomeHeader", () => {
   it("should render title", () => {

@@ -5,6 +5,7 @@ import { Pool } from "@/domain/pool/pool";
 import { usePoolFindAllSuspense } from "@/domain/pool/use-cases/use-pool-find-all-suspense";
 import { useDeviceLayout } from "@/hooks/use-device-layout";
 import { FlashList } from "@shopify/flash-list";
+import { Feather } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useRef } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { EmptyState } from "./components/empty-state";
@@ -13,6 +14,7 @@ import {
   FilterBottomSheetRef,
 } from "./components/filter-bottom-sheet";
 import { FilterButton } from "./components/filter-button";
+import { FilterChip } from "./components/filter-chip";
 import { FilterDropdown } from "./components/filter-dropdown";
 import { Header as HomeHeader } from "./components/header";
 import { PaginationControls } from "./components/pagination-controls";
@@ -28,12 +30,13 @@ export default function Home() {
   const {
     filteredPools,
     filterOptions,
-    networkFilter,
-    protocolFilter,
-    setNetworkFilter,
-    setProtocolFilter,
+    networkFilters,
+    protocolFilters,
+    toggleNetworkFilter,
+    toggleProtocolFilter,
     clearFilters,
     hasActiveFilters,
+    allActiveFilters,
   } = useFilteredPools(pools);
 
   const {
@@ -59,7 +62,7 @@ export default function Home() {
   useEffect(() => {
     resetInfinite();
     goToPage(1);
-  }, [networkFilter, protocolFilter, resetInfinite, goToPage]);
+  }, [networkFilters, protocolFilters, resetInfinite, goToPage]);
 
   const handleNetworkFilterPress = useCallback(() => {
     if (isMobile) {
@@ -80,19 +83,19 @@ export default function Home() {
       <View className="flex-1 px-4 pt-6 md:px-6 lg:px-8">
         <HomeHeader />
 
-        {/* Filters */}
-        <View className="mb-4 flex-row flex-wrap gap-2">
+        {/* Filter buttons */}
+        <View className="mb-2 flex-row flex-wrap gap-2">
           {isMobile ? (
             <>
               <FilterButton
                 label="Network"
-                activeCount={networkFilter !== null ? 1 : 0}
+                activeCount={networkFilters.length}
                 onPress={handleNetworkFilterPress}
               />
 
               <FilterButton
                 label="Protocol"
-                activeCount={protocolFilter !== null ? 1 : 0}
+                activeCount={protocolFilters.length}
                 onPress={handleProtocolFilterPress}
               />
             </>
@@ -101,15 +104,15 @@ export default function Home() {
               <FilterDropdown
                 label="Network"
                 options={filterOptions.networks}
-                selectedValue={networkFilter}
-                onSelect={setNetworkFilter}
+                selectedValues={networkFilters}
+                onToggle={toggleNetworkFilter}
               />
 
               <FilterDropdown
                 label="Protocol"
                 options={filterOptions.protocols}
-                selectedValue={protocolFilter}
-                onSelect={setProtocolFilter}
+                selectedValues={protocolFilters}
+                onToggle={toggleProtocolFilter}
               />
             </>
           )}
@@ -121,10 +124,31 @@ export default function Home() {
               onPress={clearFilters}
               accessibilityLabel="Clear all filters"
             >
-              <Text>Clear all</Text>
+              <View className="flex-row items-center gap-1">
+                <Feather name="x" size={14} />
+
+                <Text>Clear all</Text>
+              </View>
             </Button>
           )}
         </View>
+
+        {/* Filter chips */}
+        {hasActiveFilters && (
+          <View className="mb-4 flex-row flex-wrap gap-2">
+            {allActiveFilters.map((filter) => (
+              <FilterChip
+                key={`${filter.type}-${filter.value}`}
+                label={filter.value}
+                onRemove={() =>
+                  filter.type === "network"
+                    ? toggleNetworkFilter(filter.value)
+                    : toggleProtocolFilter(filter.value)
+                }
+              />
+            ))}
+          </View>
+        )}
 
         {/* List */}
         <FlashList
@@ -165,8 +189,8 @@ export default function Home() {
             ref={networkSheetRef}
             filterType="network"
             options={filterOptions.networks}
-            selectedValue={networkFilter}
-            onSelect={setNetworkFilter}
+            selectedValues={networkFilters}
+            onToggle={toggleNetworkFilter}
             onClose={() => {}}
           />
 
@@ -174,8 +198,8 @@ export default function Home() {
             ref={protocolSheetRef}
             filterType="protocol"
             options={filterOptions.protocols}
-            selectedValue={protocolFilter}
-            onSelect={setProtocolFilter}
+            selectedValues={protocolFilters}
+            onToggle={toggleProtocolFilter}
             onClose={() => {}}
           />
         </View>
