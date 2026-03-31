@@ -11,29 +11,34 @@ jest.mock("@expo/vector-icons", () => {
 });
 
 describe("FilterButton", () => {
-  it("should render label text when no active filter", () => {
+  it("should render label text when no active filters", () => {
     render(
-      <FilterButton label="Network" activeFilter={null} onPress={jest.fn()} />,
+      <FilterButton label="Network" activeCount={0} onPress={jest.fn()} />,
     );
 
     expect(screen.getByText("Network")).toBeTruthy();
   });
 
-  it("should render label with active filter value when set", () => {
+  it("should render count badge when filters are active", () => {
     render(
-      <FilterButton
-        label="Network"
-        activeFilter="Ethereum"
-        onPress={jest.fn()}
-      />,
+      <FilterButton label="Network" activeCount={4} onPress={jest.fn()} />,
     );
 
-    expect(screen.getByText("Network: Ethereum")).toBeTruthy();
+    expect(screen.getByText("Network")).toBeTruthy();
+    expect(screen.getByText("4")).toBeTruthy();
+  });
+
+  it("should not render count badge when activeCount is 0", () => {
+    render(
+      <FilterButton label="Network" activeCount={0} onPress={jest.fn()} />,
+    );
+
+    expect(screen.queryByText("0")).toBeNull();
   });
 
   it("should render filter icon", () => {
     render(
-      <FilterButton label="Network" activeFilter={null} onPress={jest.fn()} />,
+      <FilterButton label="Network" activeCount={0} onPress={jest.fn()} />,
     );
 
     expect(screen.getByTestId("filter-icon")).toBeTruthy();
@@ -42,7 +47,7 @@ describe("FilterButton", () => {
   it("should call onPress when pressed", () => {
     const onPress = jest.fn();
     render(
-      <FilterButton label="Network" activeFilter={null} onPress={onPress} />,
+      <FilterButton label="Network" activeCount={0} onPress={onPress} />,
     );
 
     fireEvent.press(screen.getByRole("button"));
@@ -52,7 +57,7 @@ describe("FilterButton", () => {
 
   it("should have correct accessibility label when inactive", () => {
     render(
-      <FilterButton label="Network" activeFilter={null} onPress={jest.fn()} />,
+      <FilterButton label="Network" activeCount={0} onPress={jest.fn()} />,
     );
 
     expect(screen.getByLabelText("Network filter")).toBeTruthy();
@@ -60,15 +65,11 @@ describe("FilterButton", () => {
 
   it("should have correct accessibility label when active", () => {
     render(
-      <FilterButton
-        label="Network"
-        activeFilter="Ethereum"
-        onPress={jest.fn()}
-      />,
+      <FilterButton label="Network" activeCount={3} onPress={jest.fn()} />,
     );
 
     expect(
-      screen.getByLabelText("Network filter, Ethereum selected"),
+      screen.getByLabelText("Network filter, 3 selected"),
     ).toBeTruthy();
   });
 });

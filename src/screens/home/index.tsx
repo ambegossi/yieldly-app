@@ -86,13 +86,13 @@ export default function Home() {
             <>
               <FilterButton
                 label="Network"
-                activeFilter={networkFilter}
+                activeCount={networkFilter !== null ? 1 : 0}
                 onPress={handleNetworkFilterPress}
               />
 
               <FilterButton
                 label="Protocol"
-                activeFilter={protocolFilter}
+                activeCount={protocolFilter !== null ? 1 : 0}
                 onPress={handleProtocolFilterPress}
               />
             </>

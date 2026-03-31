@@ -51,7 +51,7 @@ export function FilterDropdown({
   return (
     <DropdownMenu onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
-        <FilterButton label={label} activeFilter={selectedValue} />
+        <FilterButton label={label} activeCount={selectedValue !== null ? 1 : 0} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
