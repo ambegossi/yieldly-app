@@ -95,8 +95,8 @@ jest.mock("@/components/core/dropdown-menu", () => {
 describe("FilterDropdown", () => {
   const defaultProps = {
     options: ["Ethereum", "Polygon", "Arbitrum"],
-    selectedValue: null as string | null,
-    onSelect: jest.fn(),
+    selectedValues: [] as string[],
+    onToggle: jest.fn(),
   };
 
   beforeEach(() => {
@@ -119,26 +119,31 @@ describe("FilterDropdown", () => {
     expect(screen.getByText("Arbitrum")).toBeTruthy();
   });
 
-  it("should render all options when opened", () => {
-    render(<FilterDropdown {...defaultProps} label="Network" />);
-
-    fireEvent.press(screen.getByRole("button"));
-
-    expect(screen.getByText("Ethereum")).toBeTruthy();
-    expect(screen.getByText("Polygon")).toBeTruthy();
-    expect(screen.getByText("Arbitrum")).toBeTruthy();
-  });
-
-  it("should call onSelect with value when option is pressed", () => {
-    const onSelect = jest.fn();
+  it("should call onToggle with value when option is pressed", () => {
+    const onToggle = jest.fn();
     render(
-      <FilterDropdown {...defaultProps} label="Network" onSelect={onSelect} />,
+      <FilterDropdown {...defaultProps} label="Network" onToggle={onToggle} />,
     );
 
     fireEvent.press(screen.getByRole("button"));
     fireEvent.press(screen.getByText("Ethereum"));
 
-    expect(onSelect).toHaveBeenCalledWith("Ethereum");
+    expect(onToggle).toHaveBeenCalledWith("Ethereum");
+  });
+
+  it("should show checkmarks for selected values", () => {
+    render(
+      <FilterDropdown
+        {...defaultProps}
+        label="Network"
+        selectedValues={["Ethereum", "Polygon"]}
+      />,
+    );
+
+    fireEvent.press(screen.getByRole("button"));
+
+    const checkmarks = screen.getAllByText("✓");
+    expect(checkmarks).toHaveLength(2);
   });
 
   it("should filter options when typing in search", () => {
@@ -167,20 +172,15 @@ describe("FilterDropdown", () => {
     expect(screen.getByText("No results")).toBeTruthy();
   });
 
-  it("should call onSelect with null when selected option is pressed again", () => {
-    const onSelect = jest.fn();
+  it("should pass activeCount to FilterButton", () => {
     render(
       <FilterDropdown
         {...defaultProps}
         label="Network"
-        selectedValue="Ethereum"
-        onSelect={onSelect}
+        selectedValues={["Ethereum", "Polygon"]}
       />,
     );
 
-    fireEvent.press(screen.getByRole("button"));
-    fireEvent.press(screen.getByText("Ethereum"));
-
-    expect(onSelect).toHaveBeenCalledWith(null);
+    expect(screen.getByText("2")).toBeTruthy();
   });
 });

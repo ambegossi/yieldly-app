@@ -12,15 +12,15 @@ import { FilterButton } from "./filter-button";
 interface FilterDropdownProps {
   label: "Network" | "Protocol";
   options: string[];
-  selectedValue: string | null;
-  onSelect: (value: string | null) => void;
+  selectedValues: string[];
+  onToggle: (value: string) => void;
 }
 
 export function FilterDropdown({
   label,
   options,
-  selectedValue,
-  onSelect,
+  selectedValues,
+  onToggle,
 }: FilterDropdownProps) {
   const [search, setSearch] = useState("");
   const inputRef = useRef<TextInput>(null);
@@ -41,17 +41,10 @@ export function FilterDropdown({
     }
   }, []);
 
-  const handleSelect = useCallback(
-    (option: string) => {
-      onSelect(selectedValue === option ? null : option);
-    },
-    [onSelect, selectedValue],
-  );
-
   return (
     <DropdownMenu onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
-        <FilterButton label={label} activeCount={selectedValue !== null ? 1 : 0} />
+        <FilterButton label={label} activeCount={selectedValues.length} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
@@ -76,9 +69,8 @@ export function FilterDropdown({
             <DropdownMenuCheckboxItem
               key={option}
               className="hover:bg-brand focus:bg-brand active:bg-transparent"
-              checked={selectedValue === option}
-              onCheckedChange={() => handleSelect(option)}
-              closeOnPress
+              checked={selectedValues.includes(option)}
+              onCheckedChange={() => onToggle(option)}
             >
               <Text className="group-hover:text-white group-focus:text-white">
                 {option}
