@@ -1,7 +1,7 @@
 import { BottomSheet } from "@/components/bottom-sheet";
 import { Text } from "@/components/core/text";
 import GorhomBottomSheet from "@gorhom/bottom-sheet";
-import React, { useImperativeHandle } from "react";
+import React, { useCallback, useImperativeHandle } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 
 interface FilterBottomSheetProps {
@@ -31,6 +31,14 @@ export const FilterBottomSheet = React.forwardRef<
     close: () => bottomSheetRef.current?.close(),
   }));
 
+  const handleToggle = useCallback(
+    (value: string) => {
+      onToggle(value);
+      bottomSheetRef.current?.close();
+    },
+    [onToggle],
+  );
+
   const title = filterType === "network" ? "Select Network" : "Select Protocol";
 
   return (
@@ -47,7 +55,7 @@ export const FilterBottomSheet = React.forwardRef<
         {options.map((option) => (
           <Pressable
             key={option}
-            onPress={() => onToggle(option)}
+            onPress={() => handleToggle(option)}
             className="flex-row items-center justify-between px-4 py-3 active:bg-accent"
             accessibilityRole="menuitem"
           >
