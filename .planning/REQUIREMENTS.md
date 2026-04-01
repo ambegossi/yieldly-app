@@ -74,31 +74,31 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DISP-01 | — | Pending |
-| DISP-02 | — | Pending |
-| DISP-03 | — | Pending |
-| DISP-04 | — | Pending |
-| DISP-05 | — | Pending |
-| CHRT-01 | — | Pending |
-| CHRT-02 | — | Pending |
-| CHRT-03 | — | Pending |
-| CHRT-04 | — | Pending |
-| ACTN-01 | — | Pending |
-| ACTN-02 | — | Pending |
-| NAVG-01 | — | Pending |
-| NAVG-02 | — | Pending |
-| NAVG-03 | — | Pending |
-| INFR-01 | — | Pending |
-| INFR-02 | — | Pending |
-| INFR-03 | — | Pending |
-| INFR-04 | — | Pending |
-| INFR-05 | — | Pending |
+| DISP-01 | Phase 2 | Pending |
+| DISP-02 | Phase 2 | Pending |
+| DISP-03 | Phase 2 | Pending |
+| DISP-04 | Phase 2 | Pending |
+| DISP-05 | Phase 2 | Pending |
+| CHRT-01 | Phase 3 | Pending |
+| CHRT-02 | Phase 3 | Pending |
+| CHRT-03 | Phase 3 | Pending |
+| CHRT-04 | Phase 3 | Pending |
+| ACTN-01 | Phase 2 | Pending |
+| ACTN-02 | Phase 2 | Pending |
+| NAVG-01 | Phase 2 | Pending |
+| NAVG-02 | Phase 2 | Pending |
+| NAVG-03 | Phase 2 | Pending |
+| INFR-01 | Phase 1 | Pending |
+| INFR-02 | Phase 1 | Pending |
+| INFR-03 | Phase 1 | Pending |
+| INFR-04 | Phase 1 | Pending |
+| INFR-05 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-03-31 after initial definition*
+*Last updated: 2026-03-31 after roadmap creation*
