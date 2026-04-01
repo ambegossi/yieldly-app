@@ -1,8 +1,15 @@
+import { ApyDataPoint } from "@/domain/pool/apy-data-point";
 import { Pool } from "@/domain/pool/pool";
 import { PoolRepo } from "@/domain/pool/pool-repo";
 import { HttpClient } from "@/infra/http/http-client";
-import { defiLlamaPoolDTOToPool } from "./pool-adapter";
-import { DefiLlamaGetPoolsResponseDTO } from "./pool-dto";
+import {
+  defiLlamaChartDTOToApyHistory,
+  defiLlamaPoolDTOToPool,
+} from "./pool-adapter";
+import {
+  DefiLlamaGetChartResponseDTO,
+  DefiLlamaGetPoolsResponseDTO,
+} from "./pool-dto";
 
 export class HttpPoolRepo implements PoolRepo {
   constructor(private httpClient: HttpClient) {}
@@ -12,5 +19,14 @@ export class HttpPoolRepo implements PoolRepo {
       await this.httpClient.get<DefiLlamaGetPoolsResponseDTO>("/pools");
 
     return response.data.data.map(defiLlamaPoolDTOToPool);
+  }
+
+  async findApyHistory(poolId: string): Promise<ApyDataPoint[]> {
+    const response =
+      await this.httpClient.get<DefiLlamaGetChartResponseDTO>(
+        `/chart/${poolId}`,
+      );
+
+    return defiLlamaChartDTOToApyHistory(response.data.data);
   }
 }
