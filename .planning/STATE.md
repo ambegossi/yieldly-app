@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 01-infrastructure-01-PLAN.md
-last_updated: "2026-04-01T23:47:42.066Z"
+status: verifying
+stopped_at: Completed 01-infrastructure-02-PLAN.md
+last_updated: "2026-04-01T23:53:36.284Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 
 Phase: 01 (infrastructure) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-04-01
 
 Progress: [░░░░░░░░░░] 0%
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-infrastructure P01 | 3 | 3 tasks | 9 files |
+| Phase 01-infrastructure P02 | 4 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - Push navigation (not modal) — user selected
 - [Phase 01-infrastructure]: cutoff = new Date() inside function body ensures fresh date on each call, enabling jest.useFakeTimers() in tests
 - [Phase 01-infrastructure]: Type predicate used for null guard in defiLlamaChartDTOToApyHistory to satisfy TypeScript strict null checks
+- [Phase 01-infrastructure]: useAppQuery (not useAppSuspenseQuery) for chart hook — chart errors show as UI state, not crash
+- [Phase 01-infrastructure]: afterEach jest.useRealTimers() in repo tests prevents timer leakage between test suites
 
 ### Pending Todos
 
@@ -79,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T23:47:42.064Z
-Stopped at: Completed 01-infrastructure-01-PLAN.md
+Last session: 2026-04-01T23:53:36.281Z
+Stopped at: Completed 01-infrastructure-02-PLAN.md
 Resume file: None

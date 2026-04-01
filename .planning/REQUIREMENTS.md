@@ -36,10 +36,10 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 ### Infrastructure
 
 - [x] **INFR-01**: `findApyHistory(poolId)` method added to PoolRepo interface
-- [ ] **INFR-02**: DefiLlama chart API integrated (`GET /chart/{pool}`)
+- [x] **INFR-02**: DefiLlama chart API integrated (`GET /chart/{pool}`)
 - [x] **INFR-03**: API response filtered to last 30 days in adapter layer
-- [ ] **INFR-04**: Loading state shown while chart data fetches
-- [ ] **INFR-05**: Error state shown if chart API call fails
+- [x] **INFR-04**: Loading state shown while chart data fetches
+- [x] **INFR-05**: Error state shown if chart API call fails
 
 ## v2 Requirements
 
@@ -89,10 +89,10 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 | NAVG-02 | Phase 2 | Pending |
 | NAVG-03 | Phase 2 | Pending |
 | INFR-01 | Phase 1 | Complete |
-| INFR-02 | Phase 1 | Pending |
+| INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 1 | Complete |
-| INFR-04 | Phase 1 | Pending |
-| INFR-05 | Phase 1 | Pending |
+| INFR-04 | Phase 1 | Complete |
+| INFR-05 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 19 total

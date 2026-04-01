@@ -12,7 +12,7 @@ Starting from the existing home screen (pool list with filtering), this mileston
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Infrastructure** - Extend domain and wire DefiLlama chart API
+- [x] **Phase 1: Infrastructure** - Extend domain and wire DefiLlama chart API (completed 2026-04-01)
 - [ ] **Phase 2: Screen & Navigation** - Build details screen and wire home → details navigation
 - [ ] **Phase 3: Chart** - Integrate Victory Native 30-day APY line chart
 
@@ -28,10 +28,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The returned data contains only the last 30 days of APY points (adapter filters excess history)
   4. A loading indicator is visible while the chart data request is in flight
   5. An error message is visible if the chart API call fails
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [x] 01-01-PLAN.md — Domain contracts, chart DTO types, adapter with 30-day filter
-- [ ] 01-02-PLAN.md — HttpPoolRepo.findApyHistory implementation and usePoolApyHistory hook
+- [x] 01-02-PLAN.md — HttpPoolRepo.findApyHistory implementation and usePoolApyHistory hook
 
 ### Phase 2: Screen & Navigation
 **Goal**: Users can navigate from the home screen to a pool's details and see all static pool info and the CTA button
@@ -65,6 +65,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure | 1/2 | In Progress|  |
+| 1. Infrastructure | 2/2 | Complete   | 2026-04-01 |
 | 2. Screen & Navigation | 0/TBD | Not started | - |
 | 3. Chart | 0/TBD | Not started | - |
