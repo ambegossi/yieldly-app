@@ -25,8 +25,8 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 - [ ] "Back to all coins" navigation header
 - [ ] Token symbol icon (reused from home screen)
 - [ ] Responsive layout: mobile (stacked) vs desktop (wider card, side-by-side APY/project info)
-- [ ] New `findApyHistory(poolId)` repository method for chart data
-- [ ] DefiLlama chart API integration (`GET https://yields.llama.fi/chart/{pool}`)
+- ✓ New `findApyHistory(poolId)` repository method for chart data — Validated in Phase 1: Infrastructure
+- ✓ DefiLlama chart API integration (`GET https://yields.llama.fi/chart/{pool}`) — Validated in Phase 1: Infrastructure
 - [ ] Loading and error states for chart data
 
 ### Out of Scope
@@ -59,8 +59,8 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Victory Native for charts | User preference, Skia-based, good animation support | — Pending |
-| Separate `findApyHistory` method | Keeps pool list lightweight, chart data fetched on demand | — Pending |
-| DefiLlama Yields API | Real API available at yields.llama.fi/chart/{pool}, no mock needed | — Pending |
+| Separate `findApyHistory` method | Keeps pool list lightweight, chart data fetched on demand | ✓ Phase 1 |
+| DefiLlama Yields API | Real API available at yields.llama.fi/chart/{pool}, no mock needed | ✓ Phase 1 |
 | Ignore token full name | User directed to skip this design element | — Pending |
 | Push navigation (not modal/sheet) | Standard navigation pattern, user selected | — Pending |
 
@@ -82,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-31 after initialization*
+*Last updated: 2026-04-01 after Phase 1 completion*
