@@ -28,9 +28,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The returned data contains only the last 30 days of APY points (adapter filters excess history)
   4. A loading indicator is visible while the chart data request is in flight
   5. An error message is visible if the chart API call fails
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 Plans:
-- [ ] 01-01-PLAN.md — Domain contracts, chart DTO types, adapter with 30-day filter
+- [x] 01-01-PLAN.md — Domain contracts, chart DTO types, adapter with 30-day filter
 - [ ] 01-02-PLAN.md — HttpPoolRepo.findApyHistory implementation and usePoolApyHistory hook
 
 ### Phase 2: Screen & Navigation
@@ -65,6 +65,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure | 0/2 | Planned | - |
+| 1. Infrastructure | 1/2 | In Progress|  |
 | 2. Screen & Navigation | 0/TBD | Not started | - |
 | 3. Chart | 0/TBD | Not started | - |

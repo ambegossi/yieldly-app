@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planned
-stopped_at: Phase 1 planned — ready to execute
-last_updated: "2026-04-01T23:45:00.000Z"
-last_activity: 2026-04-01 — Phase 1 planned (2 plans, 2 waves)
+status: executing
+stopped_at: Completed 01-infrastructure-01-PLAN.md
+last_updated: "2026-04-01T23:47:42.066Z"
+last_activity: 2026-04-01
 progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-31)
 
 **Core value:** Users can quickly evaluate a pool's yield performance over time and decide whether to invest, then open the pool's platform directly
-**Current focus:** Phase 1 — Infrastructure
+**Current focus:** Phase 01 — infrastructure
 
 ## Current Position
 
-Phase: 1 of 3 (Infrastructure)
-Plan: 0 of 2 in current phase
-Status: Planned — ready to execute
-Last activity: 2026-04-01 — Phase 1 planned (2 plans, 2 waves)
+Phase: 01 (infrastructure) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-01
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 01-infrastructure P01 | 3 | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,8 @@ Recent decisions affecting current work:
 - DefiLlama Yields API used for real APY history — no mock data needed
 - `findApyHistory` as a separate repo method — keeps pool list lightweight
 - Push navigation (not modal) — user selected
+- [Phase 01-infrastructure]: cutoff = new Date() inside function body ensures fresh date on each call, enabling jest.useFakeTimers() in tests
+- [Phase 01-infrastructure]: Type predicate used for null guard in defiLlamaChartDTOToApyHistory to satisfy TypeScript strict null checks
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T23:45:00.000Z
-Stopped at: Phase 1 planned — ready to execute
-Resume file: .planning/phases/01-infrastructure/01-01-PLAN.md
+Last session: 2026-04-01T23:47:42.064Z
+Stopped at: Completed 01-infrastructure-01-PLAN.md
+Resume file: None
