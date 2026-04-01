@@ -10,6 +10,7 @@ import { usePoolFindAllSuspense } from "../use-pool-find-all-suspense";
 const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
   return {
     findAll: jest.fn(),
+    findApyHistory: jest.fn(),
     ...overrides,
   };
 };

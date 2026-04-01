@@ -104,6 +104,7 @@ const createMockPools = (): Pool[] => [
 function createTestSetup(pools: Pool[] = createMockPools()) {
   const mockPoolRepo = {
     findAll: jest.fn().mockResolvedValue(pools),
+    findApyHistory: jest.fn(),
   };
 
   const queryClient = new QueryClient({
@@ -323,6 +324,7 @@ describe("HomeScreen Integration", () => {
     const pools = createMockPools();
     const mockPoolRepo = {
       findAll: jest.fn().mockResolvedValue(pools),
+      findApyHistory: jest.fn(),
     };
 
     const queryClient = new QueryClient({

@@ -9,6 +9,7 @@ import { usePoolFindAll } from "../use-pool-find-all";
 const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
   return {
     findAll: jest.fn(),
+    findApyHistory: jest.fn(),
     ...overrides,
   };
 };
