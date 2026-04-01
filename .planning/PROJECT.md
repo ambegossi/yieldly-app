@@ -26,7 +26,8 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 - [ ] Token symbol icon (reused from home screen)
 - [ ] Responsive layout: mobile (stacked) vs desktop (wider card, side-by-side APY/project info)
 - [ ] New `findApyHistory(poolId)` repository method for chart data
-- [ ] Mock APY history data (no real API yet)
+- [ ] DefiLlama chart API integration (`GET https://yields.llama.fi/chart/{pool}`)
+- [ ] Loading and error states for chart data
 
 ### Out of Scope
 
@@ -59,7 +60,7 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 |----------|-----------|---------|
 | Victory Native for charts | User preference, Skia-based, good animation support | — Pending |
 | Separate `findApyHistory` method | Keeps pool list lightweight, chart data fetched on demand | — Pending |
-| Mock APY data | No real API endpoint yet, design for easy swap later | — Pending |
+| DefiLlama Yields API | Real API available at yields.llama.fi/chart/{pool}, no mock needed | — Pending |
 | Ignore token full name | User directed to skip this design element | — Pending |
 | Push navigation (not modal/sheet) | Standard navigation pattern, user selected | — Pending |
 
