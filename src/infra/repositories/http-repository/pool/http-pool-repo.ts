@@ -22,10 +22,9 @@ export class HttpPoolRepo implements PoolRepo {
   }
 
   async findApyHistory(poolId: string): Promise<ApyDataPoint[]> {
-    const response =
-      await this.httpClient.get<DefiLlamaGetChartResponseDTO>(
-        `/chart/${poolId}`,
-      );
+    const response = await this.httpClient.get<DefiLlamaGetChartResponseDTO>(
+      `/chart/${poolId}`,
+    );
 
     return defiLlamaChartDTOToApyHistory(response.data.data);
   }

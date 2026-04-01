@@ -6,6 +6,10 @@ import {
 } from "../pool-dto";
 
 describe("HttpPoolRepo", () => {
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe("findAll", () => {
     it("should fetch pools and map them to domain entities", async () => {
       // Arrange
@@ -136,7 +140,9 @@ describe("HttpPoolRepo", () => {
       jest.useFakeTimers();
       jest.setSystemTime(fakeNow);
 
-      const recentTimestamp = new Date("2024-02-10T00:00:00.000Z").toISOString();
+      const recentTimestamp = new Date(
+        "2024-02-10T00:00:00.000Z",
+      ).toISOString();
 
       const mockHttpClient: HttpClient = {
         get: jest.fn().mockResolvedValue({
