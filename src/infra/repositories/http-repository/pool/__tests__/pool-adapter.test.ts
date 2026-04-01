@@ -101,7 +101,10 @@ describe("defiLlamaChartDTOToApyHistory", () => {
 
     // Assert
     expect(result).toHaveLength(1);
-    expect(result[0]).toEqual({ timestamp: "2024-01-15T00:00:00.000Z", apy: 5.0 });
+    expect(result[0]).toEqual({
+      timestamp: "2024-01-15T00:00:00.000Z",
+      apy: 5.0,
+    });
   });
 
   it("should exclude data points older than 30 days", () => {
