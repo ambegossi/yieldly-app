@@ -18,13 +18,13 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 
 ### Active
 
-- [ ] Pool details screen with current APY, project name, chain badge
+- ✓ Pool details screen with current APY, project name, chain badge — Validated in Phase 2: Screen & Navigation
 - [ ] 30-day historical APY line chart (Victory Native)
-- [ ] "Open [Project]" CTA button linking to pool URL
-- [ ] Navigation from home screen pool tap → details screen (push)
-- [ ] "Back to all coins" navigation header
-- [ ] Token symbol icon (reused from home screen)
-- [ ] Responsive layout: mobile (stacked) vs desktop (wider card, side-by-side APY/project info)
+- ✓ "Open [Project]" CTA button linking to pool URL — Validated in Phase 2: Screen & Navigation
+- ✓ Navigation from home screen pool tap → details screen (push) — Validated in Phase 2: Screen & Navigation
+- ✓ "Back to all coins" navigation header — Validated in Phase 2: Screen & Navigation
+- ✓ Token symbol icon (reused from home screen) — Validated in Phase 2: Screen & Navigation
+- ✓ Responsive layout: mobile (stacked) vs desktop (wider card, side-by-side APY/project info) — Validated in Phase 2: Screen & Navigation
 - ✓ New `findApyHistory(poolId)` repository method for chart data — Validated in Phase 1: Infrastructure
 - ✓ DefiLlama chart API integration (`GET https://yields.llama.fi/chart/{pool}`) — Validated in Phase 1: Infrastructure
 - [ ] Loading and error states for chart data
@@ -41,7 +41,7 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 
 - Existing home screen has pool list with FlashList, filters, dual pagination
 - Pool entity: `{ id, chain, project, symbol, apy, url }`
-- Current pool tap triggers `Alert.alert()` placeholder — needs to navigate to details
+- Pool tap navigates to details screen via Expo Router push (Phase 2 complete)
 - App uses Expo Router v6 file-based routing, NativeWind v4 for styling
 - React Query v5 with Suspense integration for data fetching
 - Design mockups provided showing mobile and desktop layouts
