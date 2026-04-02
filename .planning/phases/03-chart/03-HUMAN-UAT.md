@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-chart
 source: [03-VERIFICATION.md]
 started: 2026-04-01T23:50:00Z
@@ -46,7 +46,13 @@ blocked: 2
   reason: "User reported: RNSkiaModule could not be found — Victory Native requires native Skia module not registered in binary. Also missing default export on pool-details.tsx route."
   severity: blocker
   test: 1
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "Skia native module never built into iOS dev client binary. When @shopify/react-native-skia and victory-native were added to package.json, only JS deps were installed. The iOS binary was never rebuilt (pod install + expo run:ios), so RNSkiaModule is absent at runtime. The 'missing default export' warning is a cascade — the route module fails to evaluate because apy-chart.tsx crashes on import."
+  artifacts:
+    - path: "src/screens/pool-details/components/apy-chart.tsx"
+      issue: "Imports victory-native (line 2) and @shopify/react-native-skia useFont (line 3) — both require native Skia module"
+    - path: "ios/Podfile.lock"
+      issue: "Zero references to Skia — pods never installed"
+  missing:
+    - "Run pod install in ios/ directory to link Skia native module"
+    - "Rebuild iOS dev client with npx expo run:ios"
+  debug_session: ".planning/debug/skia-crash-pool-details.md"
