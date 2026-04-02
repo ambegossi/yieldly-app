@@ -1,7 +1,10 @@
 /** @type {import('jest').Config} */
 module.exports = {
   preset: "jest-expo",
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: [
+    "<rootDir>/jest.setup.js",
+    "@shopify/react-native-skia/jestSetup.js",
+  ],
   testMatch: [
     "<rootDir>/src/**/__tests__/**/*.{ts,tsx}",
     "<rootDir>/src/**/*.{spec,test}.{ts,tsx}",
@@ -45,6 +48,6 @@ module.exports = {
     "!src/infra/http/clients/*.ts",
   ],
   transformIgnorePatterns: [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",
+    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop|@shopify/react-native-skia|victory-native)",
   ],
 };
