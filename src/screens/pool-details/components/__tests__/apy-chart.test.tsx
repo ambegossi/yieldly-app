@@ -2,15 +2,28 @@ import { render, screen, fireEvent } from "@testing-library/react-native";
 
 import { type ApyDataPoint } from "@/domain/pool/apy-data-point";
 
-const mockCartesianChart = jest.fn(({ children }) =>
-  children({ points: { apy: [] } }),
-);
-const mockLine = jest.fn(() => null);
+const mockCartesianChartCalls: unknown[][] = [];
 
-jest.mock("victory-native", () => ({
-  CartesianChart: mockCartesianChart,
-  Line: mockLine,
-}));
+jest.mock("victory-native", () => {
+  function MockCartesianChart(
+    props: Record<string, unknown> & {
+      children: (arg: { points: { apy: never[] } }) => unknown;
+    },
+  ) {
+    const { children, ...rest } = props;
+    mockCartesianChartCalls.push([rest]);
+    children({ points: { apy: [] } });
+    return null;
+  }
+  MockCartesianChart.displayName = "CartesianChart";
+
+  function MockLine() {
+    return null;
+  }
+  MockLine.displayName = "Line";
+
+  return { CartesianChart: MockCartesianChart, Line: MockLine };
+});
 
 jest.mock("@shopify/react-native-skia", () => ({
   useFont: jest.fn(() => "mock-font"),
@@ -26,7 +39,13 @@ jest.mock("@/hooks/use-device-layout", () => ({
   }),
 }));
 
-import { ApyChart, formatDateLabel, formatApyLabel, toChartData } from "../apy-chart";
+// eslint-disable-next-line import/first
+import {
+  ApyChart,
+  formatDateLabel,
+  formatApyLabel,
+  toChartData,
+} from "../apy-chart";
 
 const CAPTION = "APY history over the last 30 days";
 
@@ -120,9 +139,7 @@ describe("ApyChart", () => {
 
   describe("Empty state", () => {
     it('renders "No data available" text', () => {
-      const { unmount } = render(
-        <ApyChart {...defaultProps} data={[]} />,
-      );
+      const { unmount } = render(<ApyChart {...defaultProps} data={[]} />);
 
       expect(screen.getByText("No data available")).toBeTruthy();
 
@@ -130,9 +147,7 @@ describe("ApyChart", () => {
     });
 
     it("does not render a retry button", () => {
-      const { unmount } = render(
-        <ApyChart {...defaultProps} data={[]} />,
-      );
+      const { unmount } = render(<ApyChart {...defaultProps} data={[]} />);
 
       expect(screen.queryByText("Try again")).toBeNull();
 
@@ -140,9 +155,7 @@ describe("ApyChart", () => {
     });
 
     it("renders caption in empty state", () => {
-      const { unmount } = render(
-        <ApyChart {...defaultProps} data={[]} />,
-      );
+      const { unmount } = render(<ApyChart {...defaultProps} data={[]} />);
 
       expect(screen.getByText(CAPTION)).toBeTruthy();
 
@@ -152,10 +165,14 @@ describe("ApyChart", () => {
 
   describe("Success state", () => {
     it("renders CartesianChart with data", () => {
+      mockCartesianChartCalls.length = 0;
       const { unmount } = render(<ApyChart {...defaultProps} />);
 
-      expect(mockCartesianChart).toHaveBeenCalled();
-      const chartProps = mockCartesianChart.mock.calls[0][0];
+      expect(mockCartesianChartCalls.length).toBeGreaterThan(0);
+      const chartProps = mockCartesianChartCalls[0][0] as Record<
+        string,
+        unknown
+      >;
       expect(chartProps.data).toHaveLength(3);
       expect(chartProps.xKey).toBe("x");
       expect(chartProps.yKeys).toEqual(["apy"]);
@@ -174,7 +191,7 @@ describe("ApyChart", () => {
 
   describe("formatDateLabel", () => {
     it('formats timestamp to "Mar 2" format', () => {
-      const ts = new Date("2024-03-02").getTime();
+      const ts = new Date("2024-03-02T12:00:00").getTime();
       expect(formatDateLabel(ts)).toBe("Mar 2");
     });
   });

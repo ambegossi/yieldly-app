@@ -11,6 +11,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.(ttf|otf|woff|woff2)$": "<rootDir>/jest.font-mock.js",
   },
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
