@@ -66,6 +66,10 @@ jest.mock("react-native/Libraries/Utilities/useWindowDimensions", () => ({
   default: jest.fn(() => ({ width: 375, height: 812 })),
 }));
 
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(() => ({ push: jest.fn() })),
+}));
+
 const createMockPools = (): Pool[] => [
   {
     id: "1",
