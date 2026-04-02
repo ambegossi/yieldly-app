@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-chart
 source: [03-VERIFICATION.md]
 started: 2026-04-01T23:50:00Z
@@ -43,7 +43,10 @@ blocked: 0
   reason: "User reported: date and percentage labels are not being displayed on mobile"
   severity: major
   test: 1
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "CartesianChart has no padding prop. Victory Native renders axis labels in outset position (outside chart bounds). With zero padding, chart bounds fill the entire container, so X-axis labels render below the container and Y-axis labels render left of x=0 — both get clipped by the parent View."
+  artifacts:
+    - path: "src/screens/pool-details/components/apy-chart.tsx"
+      issue: "Line 107: CartesianChart missing padding prop — labels drawn outside visible area"
+  missing:
+    - "Add padding prop to CartesianChart: { left: 45, bottom: 20, top: 5, right: 5 } to reserve space for axis labels"
+  debug_session: ".planning/debug/apy-chart-missing-axis-labels.md"
