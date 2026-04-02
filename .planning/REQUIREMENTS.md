@@ -17,10 +17,10 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 
 ### Chart
 
-- [ ] **CHRT-01**: User sees a 30-day historical APY line chart (green line)
+- [x] **CHRT-01**: User sees a 30-day historical APY line chart (green line)
 - [ ] **CHRT-02**: Chart displays Y-axis with percentage labels
 - [ ] **CHRT-03**: Chart displays X-axis with date labels
-- [ ] **CHRT-04**: Chart shows caption "APY history over the last 30 days"
+- [x] **CHRT-04**: Chart shows caption "APY history over the last 30 days"
 
 ### Actions
 
@@ -79,10 +79,10 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 | DISP-03 | Phase 2 | Complete |
 | DISP-04 | Phase 2 | Complete |
 | DISP-05 | Phase 2 | Complete |
-| CHRT-01 | Phase 3 | Pending |
+| CHRT-01 | Phase 3 | Complete |
 | CHRT-02 | Phase 3 | Pending |
 | CHRT-03 | Phase 3 | Pending |
-| CHRT-04 | Phase 3 | Pending |
+| CHRT-04 | Phase 3 | Complete |
 | ACTN-01 | Phase 2 | Complete |
 | ACTN-02 | Phase 2 | Complete |
 | NAVG-01 | Phase 2 | Complete |
