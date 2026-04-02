@@ -43,8 +43,10 @@ Plans:
   3. The details screen shows the pool's current APY in large green text, project name, chain badge with green dot, and token symbol icon
   4. The layout is stacked (single column) on mobile and shows APY/project info side-by-side on desktop (>=768dp)
   5. Tapping "Open [Project]" opens the pool's URL in the device's external browser
-**Plans**: TBD
-**UI hint**: yes
+**Plans:** 2 plans
+Plans:
+- [ ] 02-01-PLAN.md — Pool details screen components, route file, and formatAPY extraction
+- [ ] 02-02-PLAN.md — Home screen navigation wiring and comprehensive test coverage
 
 ### Phase 3: Chart
 **Goal**: Users see a 30-day APY line chart with labeled axes on the details screen
@@ -66,5 +68,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Infrastructure | 2/2 | Complete   | 2026-04-01 |
-| 2. Screen & Navigation | 0/TBD | Not started | - |
+| 2. Screen & Navigation | 0/2 | Not started | - |
 | 3. Chart | 0/TBD | Not started | - |
