@@ -6,8 +6,9 @@ import { usePoolFindAllSuspense } from "@/domain/pool/use-cases/use-pool-find-al
 import { useDeviceLayout } from "@/hooks/use-device-layout";
 import { FlashList } from "@shopify/flash-list";
 import { Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useRef } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { EmptyState } from "./components/empty-state";
 import {
   FilterBottomSheet,
@@ -26,6 +27,7 @@ import { useNumberedPagination } from "./hooks/use-numbered-pagination";
 export default function Home() {
   const { data: pools } = usePoolFindAllSuspense();
   const { isMobile } = useDeviceLayout();
+  const router = useRouter();
 
   const {
     filteredPools,
@@ -54,9 +56,22 @@ export default function Home() {
 
   const itemsToDisplay = isMobile ? displayedItems : pageItems;
 
-  const handlePoolPress = useCallback((pool: Pool) => {
-    Alert.alert("Details coming soon", `${pool.symbol} on ${pool.project}`);
-  }, []);
+  const handlePoolPress = useCallback(
+    (pool: Pool) => {
+      router.push({
+        pathname: "/pool-details",
+        params: {
+          id: pool.id,
+          chain: pool.chain,
+          project: pool.project,
+          symbol: pool.symbol,
+          apy: String(pool.apy),
+          url: pool.url,
+        },
+      });
+    },
+    [router],
+  );
 
   // Reset pagination when filters change
   useEffect(() => {

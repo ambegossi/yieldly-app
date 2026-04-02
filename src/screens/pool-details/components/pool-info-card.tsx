@@ -17,7 +17,12 @@ export function PoolInfoCard({ apy, project, chain }: PoolInfoCardProps) {
 
   return (
     <View className="mx-4 mt-2 rounded-2xl border border-border bg-card p-4 shadow-sm shadow-black/5">
-      <View className={cn("gap-4", isMobile ? "flex-col" : "flex-row justify-between")}>
+      <View
+        className={cn(
+          "gap-4",
+          isMobile ? "flex-col" : "flex-row justify-between",
+        )}
+      >
         {/* APY Block */}
         <View>
           <Text className="text-sm text-muted-foreground">Current APY</Text>
