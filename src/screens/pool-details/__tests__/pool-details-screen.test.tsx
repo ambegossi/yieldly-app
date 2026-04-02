@@ -91,9 +91,7 @@ describe("PoolDetailsScreen", () => {
       <PoolDetailsScreen pool={testPool} onBack={onBack} />,
     );
 
-    fireEvent.press(
-      screen.getByLabelText("Open Aave in external browser"),
-    );
+    fireEvent.press(screen.getByLabelText("Open Aave in external browser"));
 
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith(
       "https://aave.com",
@@ -135,9 +133,7 @@ describe("PoolDetailsScreen", () => {
       <PoolDetailsScreen pool={testPool} onBack={onBack} />,
     );
 
-    expect(
-      screen.getByLabelText("Open Aave in external browser"),
-    ).toBeTruthy();
+    expect(screen.getByLabelText("Open Aave in external browser")).toBeTruthy();
 
     unmount();
   });

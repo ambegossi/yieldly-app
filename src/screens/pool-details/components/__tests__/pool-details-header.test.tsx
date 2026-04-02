@@ -39,9 +39,7 @@ describe("PoolDetailsHeader", () => {
 
     const { unmount } = render(<PoolDetailsHeader onBack={onBack} />);
 
-    expect(
-      screen.getByLabelText("Navigate back to pool list"),
-    ).toBeTruthy();
+    expect(screen.getByLabelText("Navigate back to pool list")).toBeTruthy();
 
     unmount();
   });
