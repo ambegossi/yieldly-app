@@ -40,6 +40,7 @@ export default function PoolDetailsScreen({
           apy={pool.apy}
           project={pool.project}
           chain={pool.chain}
+          poolId={pool.id}
         />
 
         {/* CTA Button — Zone 5 */}

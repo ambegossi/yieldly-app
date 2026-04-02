@@ -1,19 +1,28 @@
 import { Badge } from "@/components/core/badge";
 import { Text } from "@/components/core/text";
+import { usePoolApyHistory } from "@/domain/pool/use-cases/use-pool-apy-history";
 import { useDeviceLayout } from "@/hooks/use-device-layout";
 import { formatAPY } from "@/lib/format-apy";
 import { cn } from "@/lib/utils";
 import { View } from "react-native";
+import { ApyChart } from "./apy-chart";
 
 interface PoolInfoCardProps {
   apy: number;
   project: string;
   chain: string;
+  poolId: string;
 }
 
-export function PoolInfoCard({ apy, project, chain }: PoolInfoCardProps) {
+export function PoolInfoCard({
+  apy,
+  project,
+  chain,
+  poolId,
+}: PoolInfoCardProps) {
   const { isMobile } = useDeviceLayout();
   const formattedAPY = formatAPY(apy);
+  const { data, isPending, error, refetch } = usePoolApyHistory(poolId);
 
   return (
     <View className="mx-4 mt-2 rounded-2xl border border-border bg-card p-4 shadow-sm shadow-black/5">
@@ -45,6 +54,15 @@ export function PoolInfoCard({ apy, project, chain }: PoolInfoCardProps) {
             <Text>{chain}</Text>
           </Badge>
         </View>
+      </View>
+
+      <View className="mt-6">
+        <ApyChart
+          data={data ?? []}
+          isPending={isPending}
+          error={error}
+          onRetry={refetch}
+        />
       </View>
     </View>
   );
