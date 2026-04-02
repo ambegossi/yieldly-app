@@ -26,6 +26,19 @@ jest.mock("expo-image", () => ({
   Image: jest.fn(() => null),
 }));
 
+jest.mock("@/domain/pool/use-cases/use-pool-apy-history", () => ({
+  usePoolApyHistory: jest.fn().mockReturnValue({
+    data: [],
+    isPending: false,
+    error: null,
+    refetch: jest.fn(),
+  }),
+}));
+
+jest.mock("../components/apy-chart", () => ({
+  ApyChart: jest.fn(() => null),
+}));
+
 jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
