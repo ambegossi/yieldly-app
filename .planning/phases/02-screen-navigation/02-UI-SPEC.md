@@ -56,17 +56,21 @@ Source: CONTEXT.md D-01, reference screenshots, `src/screens/home/components/poo
 
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
-| Body | 16px (text-base) | 400 (regular) | 1.5 |
-| Label / small | 14px (text-sm) | 500 (medium) | 1.25 |
-| Heading (project name, section label) | 18px (text-lg) | 600 (semibold) | 1.3 |
+| Label / small | 14px (text-sm) | 400 (regular) | 1.25 |
+| Body / heading (project name) | 16px (text-base) | 400 body / 700 heading | 1.5 |
+| Token symbol | 28px (text-3xl) | 700 (bold) | 1.1 |
 | Display (APY value) | 36px (text-4xl) | 700 (bold) | 1.1 |
 
 Notes:
 - "Current APY" label above the APY value: 14px, weight 400, color `muted-foreground` — source: reference screenshots
 - APY value (`5.67%`): 36px, weight 700, color `brand` (#00AD69) — source: DISP-01, reference screenshots
-- Token symbol in identity block: 28px (text-3xl), weight 700 — source: reference screenshots showing "USDT" large bold
+- Token symbol in identity block: 28px, weight 700, color `foreground` — source: reference screenshots showing "USDT" large bold
+- Project name in card: 16px, weight 700, color `foreground` — heading distinction via weight only (not a separate size)
 - "Back to all coins" nav link: 14px, weight 400, color `foreground` — source: reference screenshots
-- Token symbol inside icon box: fits within 56x56px box, 14px max, weight 600 — same pattern as PoolListItem
+- Token symbol inside icon box: fits within 56x56px box, 14px max, weight 700 — same pattern as PoolListItem
+- CTA button text ("Open {project}"): 16px, weight 700, color white
+
+Weights in use: **400** (all body and label text) and **700** (APY value, token symbol, project name heading, CTA button). No intermediate weights (500 medium and 600 semibold are not used).
 
 Source: reference screenshots, `src/screens/home/components/pool-list-item.tsx`, `src/components/core/text.tsx`.
 
@@ -99,6 +103,8 @@ Source: CONTEXT.md (green palette), `tailwind.config.js`, `global.css`, `src/scr
 
 Three visual zones from top to bottom (source: CONTEXT.md D-01, reference screenshots):
 
+**Primary focal point:** APY value (largest text on screen, accent color `brand` — draws the eye first when the card is visible).
+
 ### Zone 1 — App Header
 - Reuse existing `Header` component unchanged.
 - Height: 64px + safe area inset top.
@@ -113,9 +119,9 @@ Three visual zones from top to bottom (source: CONTEXT.md D-01, reference screen
 
 ### Zone 3 — Token Identity Block
 - Horizontal row: icon box on left, symbol text on right.
-- Icon box: 56x56px, `rounded-2xl`, `bg-brand/10`, `border border-brand/20`. Contains symbol text (14px max, weight 600, color `brand`).
+- Icon box: 56x56px, `rounded-2xl`, `bg-brand/10`, `border border-brand/20`. Contains symbol text (14px max, weight 700, color `brand`).
 - Symbol text next to box: 28px, weight 700, color `foreground`.
-- Token full name (e.g., "Tether"): rendered below the symbol at 14px, weight 400, color `muted-foreground`. NOTE: CONTEXT.md D-10 states the token full name is out of scope — the symbol field only. The reference screenshots show "Tether" as a subtitle but D-10 explicitly excludes it. **Omit the subtitle.** Only `pool.symbol` displays.
+- Token full name is OUT OF SCOPE per CONTEXT.md D-10. Only `pool.symbol` displays.
 - Padding: `px-4 py-4` around the row.
 
 ### Zone 4 — Details Card
@@ -130,7 +136,7 @@ Three visual zones from top to bottom (source: CONTEXT.md D-01, reference screen
 - Value: `{apy}%` formatted, 36px, weight 700, color `brand`. Use `formatAPY()` logic from PoolListItem.
 
 **Project/chain block:**
-- Project name: 18px, weight 600, color `foreground`.
+- Project name: 16px, weight 700, color `foreground`.
 - Chain badge: reuse `Badge` component (variant `subtle`). Contains green dot (• `text-brand`) + chain name text. Same pattern as PoolListItem.
 - Mobile: project name then chain badge stacked vertically with 4px gap.
 - Desktop: project name then chain badge stacked vertically, right-aligned within their column.
@@ -144,7 +150,7 @@ Three visual zones from top to bottom (source: CONTEXT.md D-01, reference screen
 - Desktop: left-aligned, compact width (not full-width). Use `self-start` in the row.
 - Button: use `Button` component with custom `bg-brand` className override (default variant uses `bg-primary` which is near-black — must override).
 - Button content: "Open {project}" text + external link icon (`ExternalLink` from lucide-react-native, 16x16, color white) to the right of text.
-- Text: 16px, weight 600, color white.
+- Text: 16px, weight 700, color white.
 - Action: `Linking.openURL(pool.url)` or `expo-web-browser` `openBrowserAsync`.
 - Source: CONTEXT.md D-08, D-09, ACTN-01, ACTN-02, reference screenshots.
 
