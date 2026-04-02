@@ -29,7 +29,7 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 
 ### Navigation
 
-- [ ] **NAVG-01**: User can tap a pool on the home screen to navigate to its details (push)
+- [x] **NAVG-01**: User can tap a pool on the home screen to navigate to its details (push)
 - [x] **NAVG-02**: User sees "Back to all coins" header with back arrow
 - [x] **NAVG-03**: User can navigate back to the home screen
 
@@ -85,7 +85,7 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 | CHRT-04 | Phase 3 | Pending |
 | ACTN-01 | Phase 2 | Complete |
 | ACTN-02 | Phase 2 | Complete |
-| NAVG-01 | Phase 2 | Pending |
+| NAVG-01 | Phase 2 | Complete |
 | NAVG-02 | Phase 2 | Complete |
 | NAVG-03 | Phase 2 | Complete |
 | INFR-01 | Phase 1 | Complete |
