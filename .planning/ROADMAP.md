@@ -59,7 +59,7 @@ Plans:
   4. The caption "APY history over the last 30 days" appears below the chart
 **Plans:** 2 plans
 Plans:
-- [ ] 03-01-PLAN.md — Install Victory Native + Skia, configure Jest, build ApyChart component
+- [x] 03-01-PLAN.md — Install Victory Native + Skia, configure Jest, build ApyChart component
 - [ ] 03-02-PLAN.md — Wire ApyChart into PoolInfoCard and update tests
 **UI hint**: yes
 
@@ -72,4 +72,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Infrastructure | 2/2 | Complete   | 2026-04-01 |
 | 2. Screen & Navigation | 0/2 | Not started | - |
-| 3. Chart | 0/2 | Not started | - |
+| 3. Chart | 1/2 | In progress | - |
