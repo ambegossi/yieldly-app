@@ -19,7 +19,7 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 ### Active
 
 - ✓ Pool details screen with current APY, project name, chain badge — Validated in Phase 2: Screen & Navigation
-- [ ] 30-day historical APY line chart (Victory Native)
+- ✓ 30-day historical APY line chart (Victory Native) — Validated in Phase 3: Chart
 - ✓ "Open [Project]" CTA button linking to pool URL — Validated in Phase 2: Screen & Navigation
 - ✓ Navigation from home screen pool tap → details screen (push) — Validated in Phase 2: Screen & Navigation
 - ✓ "Back to all coins" navigation header — Validated in Phase 2: Screen & Navigation
@@ -27,7 +27,7 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 - ✓ Responsive layout: mobile (stacked) vs desktop (wider card, side-by-side APY/project info) — Validated in Phase 2: Screen & Navigation
 - ✓ New `findApyHistory(poolId)` repository method for chart data — Validated in Phase 1: Infrastructure
 - ✓ DefiLlama chart API integration (`GET https://yields.llama.fi/chart/{pool}`) — Validated in Phase 1: Infrastructure
-- [ ] Loading and error states for chart data
+- ✓ Loading and error states for chart data — Validated in Phase 3: Chart
 
 ### Out of Scope
 
@@ -58,7 +58,7 @@ Users can quickly evaluate a pool's yield performance over time and decide wheth
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Victory Native for charts | User preference, Skia-based, good animation support | — Pending |
+| Victory Native for charts | User preference, Skia-based, good animation support | ✓ Phase 3 |
 | Separate `findApyHistory` method | Keeps pool list lightweight, chart data fetched on demand | ✓ Phase 1 |
 | DefiLlama Yields API | Real API available at yields.llama.fi/chart/{pool}, no mock needed | ✓ Phase 1 |
 | Ignore token full name | User directed to skip this design element | — Pending |
@@ -82,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-01 after Phase 1 completion*
+*Last updated: 2026-04-02 after Phase 3 completion*
