@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 2 context gathered
-last_updated: "2026-04-02T00:11:09.596Z"
-last_activity: 2026-04-01
+status: executing
+stopped_at: Completed 02-screen-navigation 02-01-PLAN.md
+last_updated: "2026-04-02T00:41:14.549Z"
+last_activity: 2026-04-02
 progress:
   total_phases: 3
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 4
+  completed_plans: 3
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-31)
 
 **Core value:** Users can quickly evaluate a pool's yield performance over time and decide whether to invest, then open the pool's platform directly
-**Current focus:** Phase 01 — infrastructure
+**Current focus:** Phase 02 — screen-navigation
 
 ## Current Position
 
-Phase: 2
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-04-01
+Phase: 02 (screen-navigation) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-02
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 *Updated after each plan completion*
 | Phase 01-infrastructure P01 | 3 | 3 tasks | 9 files |
 | Phase 01-infrastructure P02 | 4 | 2 tasks | 4 files |
+| Phase 02-screen-navigation P01 | 3 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,9 @@ Recent decisions affecting current work:
 - [Phase 01-infrastructure]: Type predicate used for null guard in defiLlamaChartDTOToApyHistory to satisfy TypeScript strict null checks
 - [Phase 01-infrastructure]: useAppQuery (not useAppSuspenseQuery) for chart hook — chart errors show as UI state, not crash
 - [Phase 01-infrastructure]: afterEach jest.useRealTimers() in repo tests prevents timer leakage between test suites
+- [Phase 02-screen-navigation]: formatAPY extracted to src/lib/format-apy.ts — shared by PoolListItem and PoolInfoCard
+- [Phase 02-screen-navigation]: Pool params serialized as flat strings in URL — apy deserialized with parseFloat() in route
+- [Phase 02-screen-navigation]: onBack callback prop pattern keeps PoolDetailsScreen router-agnostic and testable
 
 ### Pending Todos
 
@@ -82,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-02T00:11:09.592Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-screen-navigation/02-CONTEXT.md
+Last session: 2026-04-02T00:41:14.547Z
+Stopped at: Completed 02-screen-navigation 02-01-PLAN.md
+Resume file: None

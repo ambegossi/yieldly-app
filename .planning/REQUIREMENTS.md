@@ -9,11 +9,11 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 
 ### Display
 
-- [ ] **DISP-01**: User sees current APY displayed prominently in large green text
-- [ ] **DISP-02**: User sees the project name (e.g., "Aave") on the details card
-- [ ] **DISP-03**: User sees the chain displayed as a badge with green dot (e.g., "Optimism")
-- [ ] **DISP-04**: User sees the token symbol icon (reused from home screen)
-- [ ] **DISP-05**: Layout is responsive — stacked on mobile, side-by-side APY/project on desktop
+- [x] **DISP-01**: User sees current APY displayed prominently in large green text
+- [x] **DISP-02**: User sees the project name (e.g., "Aave") on the details card
+- [x] **DISP-03**: User sees the chain displayed as a badge with green dot (e.g., "Optimism")
+- [x] **DISP-04**: User sees the token symbol icon (reused from home screen)
+- [x] **DISP-05**: Layout is responsive — stacked on mobile, side-by-side APY/project on desktop
 
 ### Chart
 
@@ -24,14 +24,14 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 
 ### Actions
 
-- [ ] **ACTN-01**: User can tap "Open [Project]" button to open pool URL in external browser
-- [ ] **ACTN-02**: Button is full-width green on mobile, left-aligned on desktop
+- [x] **ACTN-01**: User can tap "Open [Project]" button to open pool URL in external browser
+- [x] **ACTN-02**: Button is full-width green on mobile, left-aligned on desktop
 
 ### Navigation
 
 - [ ] **NAVG-01**: User can tap a pool on the home screen to navigate to its details (push)
-- [ ] **NAVG-02**: User sees "Back to all coins" header with back arrow
-- [ ] **NAVG-03**: User can navigate back to the home screen
+- [x] **NAVG-02**: User sees "Back to all coins" header with back arrow
+- [x] **NAVG-03**: User can navigate back to the home screen
 
 ### Infrastructure
 
@@ -74,20 +74,20 @@ Requirements for the pool details screen. Each maps to roadmap phases.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DISP-01 | Phase 2 | Pending |
-| DISP-02 | Phase 2 | Pending |
-| DISP-03 | Phase 2 | Pending |
-| DISP-04 | Phase 2 | Pending |
-| DISP-05 | Phase 2 | Pending |
+| DISP-01 | Phase 2 | Complete |
+| DISP-02 | Phase 2 | Complete |
+| DISP-03 | Phase 2 | Complete |
+| DISP-04 | Phase 2 | Complete |
+| DISP-05 | Phase 2 | Complete |
 | CHRT-01 | Phase 3 | Pending |
 | CHRT-02 | Phase 3 | Pending |
 | CHRT-03 | Phase 3 | Pending |
 | CHRT-04 | Phase 3 | Pending |
-| ACTN-01 | Phase 2 | Pending |
-| ACTN-02 | Phase 2 | Pending |
+| ACTN-01 | Phase 2 | Complete |
+| ACTN-02 | Phase 2 | Complete |
 | NAVG-01 | Phase 2 | Pending |
-| NAVG-02 | Phase 2 | Pending |
-| NAVG-03 | Phase 2 | Pending |
+| NAVG-02 | Phase 2 | Complete |
+| NAVG-03 | Phase 2 | Complete |
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 1 | Complete |

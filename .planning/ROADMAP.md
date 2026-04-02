@@ -45,7 +45,7 @@ Plans:
   5. Tapping "Open [Project]" opens the pool's URL in the device's external browser
 **Plans:** 2 plans
 Plans:
-- [ ] 02-01-PLAN.md — Pool details screen components, route file, and formatAPY extraction
+- [x] 02-01-PLAN.md — Pool details screen components, route file, and formatAPY extraction
 - [ ] 02-02-PLAN.md — Home screen navigation wiring and comprehensive test coverage
 
 ### Phase 3: Chart
