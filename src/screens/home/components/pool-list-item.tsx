@@ -1,6 +1,7 @@
 import { Badge } from "@/components/core/badge";
 import { Text } from "@/components/core/text";
 import { Pool } from "@/domain/pool/pool";
+import { formatAPY } from "@/lib/format-apy";
 import { Feather } from "@expo/vector-icons";
 import React, { useCallback } from "react";
 import { Pressable, View } from "react-native";
@@ -8,21 +9,6 @@ import { Pressable, View } from "react-native";
 interface PoolListItemProps {
   pool: Pool;
   onPress: (pool: Pool) => void;
-}
-
-function formatAPY(apy: number): string {
-  const abs = Math.abs(apy);
-  const sign = apy < 0 ? "-" : "";
-
-  if (abs >= 10000) {
-    return `${sign}${(abs / 1000).toFixed(1)}K%`;
-  }
-
-  if (abs >= 1000) {
-    return `${sign}${Math.round(abs).toLocaleString("en-US")}%`;
-  }
-
-  return `${apy.toFixed(2)}%`;
 }
 
 export const PoolListItem = React.memo(
