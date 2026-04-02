@@ -1,57 +1,48 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-status: verifying
-stopped_at: Completed 03-02 chart integration
-last_updated: "2026-04-02T02:35:23.463Z"
+milestone_name: Pool Details Screen
+status: complete
+stopped_at: v1.0 milestone complete
+last_updated: "2026-04-02T12:00:00.000Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 3
   completed_phases: 3
   total_plans: 6
   completed_plans: 6
-  percent: 83
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-31)
+See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Users can quickly evaluate a pool's yield performance over time and decide whether to invest, then open the pool's platform directly
-**Current focus:** Phase 03 — chart
+**Current focus:** v1.0 complete — planning next milestone
 
 ## Current Position
 
-Phase: 03
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: All complete
+Plan: N/A
+Status: v1.0 milestone shipped
 Last activity: 2026-04-02
 
-Progress: [████████░░] 83%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 6
+- Timeline: 2 days (2026-04-01 → 2026-04-02)
 
 **By Phase:**
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: —
-- Trend: —
-
-*Updated after each plan completion*
+| Phase | Plans | Tasks | Files |
+|-------|-------|-------|-------|
 | Phase 01-infrastructure P01 | 3 | 3 tasks | 9 files |
 | Phase 01-infrastructure P02 | 4 | 2 tasks | 4 files |
 | Phase 02-screen-navigation P01 | 3 | 3 tasks | 7 files |
@@ -63,38 +54,18 @@ Progress: [████████░░] 83%
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- Victory Native (Skia) selected for charts — requires Expo Dev Client, Expo Go will not work
-- DefiLlama Yields API used for real APY history — no mock data needed
-- `findApyHistory` as a separate repo method — keeps pool list lightweight
-- Push navigation (not modal) — user selected
-- [Phase 01-infrastructure]: cutoff = new Date() inside function body ensures fresh date on each call, enabling jest.useFakeTimers() in tests
-- [Phase 01-infrastructure]: Type predicate used for null guard in defiLlamaChartDTOToApyHistory to satisfy TypeScript strict null checks
-- [Phase 01-infrastructure]: useAppQuery (not useAppSuspenseQuery) for chart hook — chart errors show as UI state, not crash
-- [Phase 01-infrastructure]: afterEach jest.useRealTimers() in repo tests prevents timer leakage between test suites
-- [Phase 02-screen-navigation]: formatAPY extracted to src/lib/format-apy.ts — shared by PoolListItem and PoolInfoCard
-- [Phase 02-screen-navigation]: Pool params serialized as flat strings in URL — apy deserialized with parseFloat() in route
-- [Phase 02-screen-navigation]: onBack callback prop pattern keeps PoolDetailsScreen router-agnostic and testable
-- [Phase 02-screen-navigation]: expo-router mock required in home integration tests after adding useRouter to home screen
-- [Phase 02-screen-navigation]: Pool fields serialized as flat string params in router.push — apy uses String(pool.apy), router in useCallback deps
-- [Phase 03-chart]: Victory Native mocks need displayName property to avoid NativeWind css-interop errors in Jest
-- [Phase 03-chart]: TTF font files require jest.font-mock.js moduleNameMapper for Jest resolution
-- [Phase 03-chart]: ChartDataPoint needs index signature for Victory Native Record<string, unknown> compatibility
-- [Phase 03]: ApyChart mocked in PoolInfoCard tests to isolate from Victory Native rendering
+Full decision log in PROJECT.md Key Decisions table.
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- Expo Dev Client required after adding `@shopify/react-native-skia` — Expo Go will break (Phase 3)
-- Victory Native Jest mocking needed before tests can run against chart components (Phase 3)
+None — milestone complete.
 
 ## Session Continuity
 
-Last session: 2026-04-02T02:30:49.611Z
-Stopped at: Completed 03-02 chart integration
+Last session: 2026-04-02
+Stopped at: v1.0 milestone complete
 Resume file: None
