@@ -180,6 +180,7 @@ export function ApyChart({ data, isPending, error, onRetry }: ApyChartProps) {
     if (isPending) {
       return (
         <View
+          key="skeleton"
           style={{ height: chartHeight }}
           className="animate-pulse rounded-lg bg-muted"
           accessibilityRole="progressbar"
@@ -191,6 +192,7 @@ export function ApyChart({ data, isPending, error, onRetry }: ApyChartProps) {
     if (error) {
       return (
         <View
+          key="error"
           style={{ height: chartHeight }}
           className="items-center justify-center"
           accessibilityRole="alert"
@@ -214,6 +216,7 @@ export function ApyChart({ data, isPending, error, onRetry }: ApyChartProps) {
     if (data.length === 0) {
       return (
         <View
+          key="empty"
           style={{ height: chartHeight }}
           className="items-center justify-center"
           accessibilityLabel="No data available"
@@ -226,13 +229,13 @@ export function ApyChart({ data, isPending, error, onRetry }: ApyChartProps) {
     }
 
     if (containerWidth === 0) {
-      return <View style={{ height: chartHeight }} />;
+      return <View key="chart-measuring" style={{ height: chartHeight }} />;
     }
 
     const chartData = toChartData(data);
 
     return (
-      <View style={{ height: chartHeight }}>
+      <View key="chart" style={{ height: chartHeight }}>
         <SvgLineChart
           data={chartData}
           width={containerWidth}
