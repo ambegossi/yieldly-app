@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 
-import { type ApyDataPoint } from "@/domain/pool/apy-data-point";
+import { type ApyDataPoint } from "@/domain/pool/pool";
 
 const mockCartesianChartCalls: unknown[][] = [];
 
@@ -42,8 +42,8 @@ jest.mock("@/hooks/use-device-layout", () => ({
 // eslint-disable-next-line import/first
 import {
   ApyChart,
-  formatDateLabel,
   formatApyLabel,
+  formatDateLabel,
   toChartData,
 } from "../apy-chart";
 

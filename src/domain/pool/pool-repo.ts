@@ -1,5 +1,4 @@
-import { ApyDataPoint } from "./apy-data-point";
-import { Pool } from "./pool";
+import { ApyDataPoint, Pool } from "./pool";
 
 export interface PoolRepo {
   findAll: () => Promise<Pool[]>;

@@ -48,6 +48,7 @@ module.exports = {
     // Exclude HTTP client instances (configuration only)
     "!src/infra/http/clients/*.ts",
   ],
+  modulePathIgnorePatterns: ["<rootDir>/.claude/worktrees/"],
   transformIgnorePatterns: [
     "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop|@shopify/react-native-skia|victory-native)",
   ],

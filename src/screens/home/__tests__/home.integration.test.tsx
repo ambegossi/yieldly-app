@@ -135,8 +135,11 @@ function createTestSetup(pools: Pool[] = createMockPools()) {
 }
 
 // Dynamic import to avoid hoisting issues with mocks
-const getHomeScreenContent = () =>
-  require("../index").default as React.ComponentType;
+let HomeScreen: React.ComponentType;
+
+beforeAll(() => {
+  HomeScreen = require("../index").default as React.ComponentType;
+});
 
 describe("HomeScreen Integration", () => {
   afterEach(() => {
@@ -145,7 +148,6 @@ describe("HomeScreen Integration", () => {
 
   it("should show loading state initially then render pools", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -164,7 +166,6 @@ describe("HomeScreen Integration", () => {
 
   it("should display pools sorted by APY descending", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -183,7 +184,6 @@ describe("HomeScreen Integration", () => {
 
   it("should render header with Yieldly branding", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -197,7 +197,6 @@ describe("HomeScreen Integration", () => {
 
   it("should render filter buttons for mobile layout", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -213,7 +212,6 @@ describe("HomeScreen Integration", () => {
 
   it("should show empty state when no pools available", async () => {
     const { Wrapper, queryClient } = createTestSetup([]);
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -227,7 +225,6 @@ describe("HomeScreen Integration", () => {
 
   it("should display pool item details correctly", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -263,7 +260,6 @@ describe("HomeScreen Integration", () => {
     ];
 
     const { Wrapper, queryClient } = createTestSetup(poolsWithZeroApy);
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -307,7 +303,6 @@ describe("HomeScreen Integration", () => {
     ];
 
     const { Wrapper, queryClient } = createTestSetup(poolsWithNegativeApy);
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -351,7 +346,6 @@ describe("HomeScreen Integration", () => {
       );
     }
 
-    const HomeScreen = getHomeScreenContent();
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
     // Wait for initial data to load

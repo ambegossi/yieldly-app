@@ -1,7 +1,8 @@
-import { defiLlamaPoolDTOToPool } from "../pool-adapter";
-import { DefiLlamaPoolDTO } from "../pool-dto";
-import { defiLlamaChartDTOToApyHistory } from "../pool-adapter";
-import { DefiLlamaApyDataPointDTO } from "../pool-dto";
+import {
+  defiLlamaPoolDTOToPool,
+  defiLlamaChartDTOToApyHistory,
+} from "../pool-adapter";
+import { DefiLlamaPoolDTO, DefiLlamaApyDataPointDTO } from "../pool-dto";
 
 describe("PoolAdapter", () => {
   describe("defiLlamaPoolDTOToPool", () => {

@@ -6,3 +6,8 @@ export interface Pool {
   apy: number;
   url: string;
 }
+
+export interface ApyDataPoint {
+  timestamp: string;
+  apy: number;
+}

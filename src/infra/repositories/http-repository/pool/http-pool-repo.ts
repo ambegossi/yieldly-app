@@ -1,5 +1,4 @@
-import { ApyDataPoint } from "@/domain/pool/apy-data-point";
-import { Pool } from "@/domain/pool/pool";
+import { ApyDataPoint, Pool } from "@/domain/pool/pool";
 import { PoolRepo } from "@/domain/pool/pool-repo";
 import { HttpClient } from "@/infra/http/http-client";
 import {

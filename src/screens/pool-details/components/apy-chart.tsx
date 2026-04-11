@@ -1,11 +1,11 @@
+import { useFont } from "@shopify/react-native-skia";
 import { View } from "react-native";
 import { CartesianChart, Line } from "victory-native";
-import { useFont } from "@shopify/react-native-skia";
 
-import { type ApyDataPoint } from "@/domain/pool/apy-data-point";
-import { useDeviceLayout } from "@/hooks/use-device-layout";
-import { Text } from "@/components/core/text";
 import { Button } from "@/components/core/button";
+import { Text } from "@/components/core/text";
+import { ApyDataPoint } from "@/domain/pool/pool";
+import { useDeviceLayout } from "@/hooks/use-device-layout";
 
 export interface ChartDataPoint {
   x: number;
