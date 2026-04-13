@@ -36,7 +36,7 @@ export function formatApyLabel(value: number): string {
   return `${value}%`;
 }
 
-const CHART_PADDING = { top: 12, right: 16, bottom: 28, left: 48 };
+const CHART_PADDING = { top: 12, right: 16, bottom: 28, left: 64 };
 const LABEL_COLOR = "hsl(0 0% 45.1%)";
 const LINE_COLOR = "#00AD69";
 const GRID_COLOR = "hsl(0 0% 90%)";
@@ -123,35 +123,47 @@ function SvgLineChart({ data, width, height, xTickCount }: SvgLineChartProps) {
       ))}
 
       {/* Y-axis labels */}
-      {yTicks.map((tick) => (
-        <text
-          key={`y-${tick}`}
-          x={plotLeft - 8}
-          y={scaleY(tick)}
-          textAnchor="end"
-          dominantBaseline="middle"
-          fill={LABEL_COLOR}
-          fontSize={12}
-          fontFamily="Inter, system-ui, sans-serif"
-        >
-          {formatApyLabel(tick)}
-        </text>
-      ))}
+      {yTicks.map((tick, i) => {
+        const isFirst = i === 0;
+        const isLast = i === yTicks.length - 1;
+        const baseline = isLast ? "hanging" : isFirst ? "auto" : "middle";
+
+        return (
+          <text
+            key={`y-${tick}`}
+            x={plotLeft - 8}
+            y={scaleY(tick)}
+            textAnchor="end"
+            dominantBaseline={baseline}
+            fill={LABEL_COLOR}
+            fontSize={12}
+            fontFamily="Inter, system-ui, sans-serif"
+          >
+            {formatApyLabel(tick)}
+          </text>
+        );
+      })}
 
       {/* X-axis labels */}
-      {xTicks.map((tick, i) => (
-        <text
-          key={`x-${i}`}
-          x={scaleX(tick)}
-          y={plotBottom + 18}
-          textAnchor="middle"
-          fill={LABEL_COLOR}
-          fontSize={12}
-          fontFamily="Inter, system-ui, sans-serif"
-        >
-          {formatDateLabel(tick)}
-        </text>
-      ))}
+      {xTicks.map((tick, i) => {
+        const isFirst = i === 0;
+        const isLast = i === xTicks.length - 1;
+        const anchor = isFirst ? "start" : isLast ? "end" : "middle";
+
+        return (
+          <text
+            key={`x-${i}`}
+            x={scaleX(tick)}
+            y={plotBottom + 18}
+            textAnchor={anchor}
+            fill={LABEL_COLOR}
+            fontSize={12}
+            fontFamily="Inter, system-ui, sans-serif"
+          >
+            {formatDateLabel(tick)}
+          </text>
+        );
+      })}
 
       {/* Data line */}
       <polyline
