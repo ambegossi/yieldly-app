@@ -24,8 +24,10 @@ export default function PoolDetailsScreen({
   const { isMobile } = useDeviceLayout();
 
   const handleOpenPool = useCallback(async () => {
-    await WebBrowser.openBrowserAsync(pool.url);
-  }, [pool.url]);
+    await WebBrowser.openBrowserAsync(
+      `https://defillama.com/yields/pool/${pool.id}`,
+    );
+  }, [pool.id]);
 
   return (
     <View className="flex-1 bg-background">

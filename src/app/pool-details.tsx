@@ -10,7 +10,6 @@ export default function PoolDetailsRoute() {
     project: string;
     symbol: string;
     apy: string;
-    url: string;
   }>();
   const router = useRouter();
 
@@ -20,7 +19,6 @@ export default function PoolDetailsRoute() {
     project: params.project ?? "",
     symbol: params.symbol ?? "",
     apy: parseFloat(params.apy ?? "0"),
-    url: params.url ?? "",
   };
 
   return (

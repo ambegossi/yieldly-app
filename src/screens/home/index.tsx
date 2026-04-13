@@ -66,7 +66,6 @@ export default function Home() {
           project: pool.project,
           symbol: pool.symbol,
           apy: String(pool.apy),
-          url: pool.url,
         },
       });
     },

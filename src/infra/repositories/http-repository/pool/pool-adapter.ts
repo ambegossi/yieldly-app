@@ -8,7 +8,6 @@ export function defiLlamaPoolDTOToPool(dto: DefiLlamaPoolDTO): Pool {
     project: dto.project,
     symbol: dto.symbol,
     apy: dto.apy,
-    url: dto.url,
   };
 }
 

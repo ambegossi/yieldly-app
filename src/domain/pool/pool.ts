@@ -4,7 +4,6 @@ export interface Pool {
   project: string;
   symbol: string;
   apy: number;
-  url: string;
 }
 
 export interface ApyDataPoint {
