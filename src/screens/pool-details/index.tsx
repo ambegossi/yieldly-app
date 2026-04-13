@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import * as WebBrowser from "expo-web-browser";
 import { ExternalLink } from "lucide-react-native";
 import { useCallback } from "react";
-import { ScrollView, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { PoolDetailsHeader } from "./components/pool-details-header";
 import { PoolIdentityBlock } from "./components/pool-identity-block";
 import { PoolInfoCard } from "./components/pool-info-card";
@@ -24,9 +24,14 @@ export default function PoolDetailsScreen({
   const { isMobile } = useDeviceLayout();
 
   const handleOpenPool = useCallback(async () => {
-    await WebBrowser.openBrowserAsync(
-      `https://defillama.com/yields/pool/${pool.id}`,
-    );
+    const url = `https://defillama.com/yields/pool/${pool.id}`;
+
+    if (Platform.OS === "web") {
+      window.open(url, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    await WebBrowser.openBrowserAsync(url);
   }, [pool.id]);
 
   return (
