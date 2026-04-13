@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 Phase: All complete
 Plan: N/A
 Status: v1.0 milestone shipped
-Last activity: 2026-04-13 - Completed quick task 260413-she: Remove url field from Pool entity and DTO; wire Open pool button to DeFiLlama pool URL
+Last activity: 2026-04-13 - Completed quick task 260413-sqf: Open Pool button opens new tab on web via window.open
 
 Progress: [██████████] 100%
 
@@ -69,6 +69,7 @@ None — milestone complete.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260413-she | Remove url field from Pool entity and DTO; wire Open pool button to DeFiLlama pool URL | 2026-04-13 | 1046ca2 | [260413-she-remove-url-field-from-pool-entity-and-dt](./quick/260413-she-remove-url-field-from-pool-entity-and-dt/) |
+| 260413-sqf | Open Pool button opens new tab on web via window.open | 2026-04-13 | 982f773 | [260413-sqf-open-pool-button-opens-new-tab-on-web-in](./quick/260413-sqf-open-pool-button-opens-new-tab-on-web-in/) |
 
 ## Session Continuity
 
