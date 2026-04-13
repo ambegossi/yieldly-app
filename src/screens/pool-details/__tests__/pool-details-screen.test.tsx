@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import React from "react";
 import * as WebBrowser from "expo-web-browser";
+import { Platform } from "react-native";
 import PoolDetailsScreen from "../index";
 
 jest.mock("expo-web-browser", () => ({
@@ -43,6 +44,12 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 
+const mockWindowOpen = jest.fn();
+Object.defineProperty(window, "open", {
+  value: mockWindowOpen,
+  writable: true,
+});
+
 const testPool = {
   id: "abc-123",
   chain: "Optimism",
@@ -54,6 +61,7 @@ const testPool = {
 describe("PoolDetailsScreen", () => {
   afterEach(() => {
     jest.clearAllMocks();
+    mockWindowOpen.mockClear();
   });
 
   it("renders all key zones: header, symbol, APY, project, chain, CTA", () => {
@@ -96,7 +104,7 @@ describe("PoolDetailsScreen", () => {
     unmount();
   });
 
-  it("pressing CTA button calls openBrowserAsync with constructed DefiLlama url", async () => {
+  it("pressing CTA on native calls openBrowserAsync with DefiLlama url", async () => {
     const onBack = jest.fn();
 
     const { unmount } = render(
@@ -108,7 +116,31 @@ describe("PoolDetailsScreen", () => {
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith(
       "https://defillama.com/yields/pool/abc-123",
     );
+    expect(mockWindowOpen).not.toHaveBeenCalled();
 
+    unmount();
+  });
+
+  it("pressing CTA on web calls window.open with new tab params", () => {
+    const originalOS = Platform.OS;
+    Platform.OS = "web" as typeof Platform.OS;
+
+    const onBack = jest.fn();
+
+    const { unmount } = render(
+      <PoolDetailsScreen pool={testPool} onBack={onBack} />,
+    );
+
+    fireEvent.press(screen.getByLabelText("Open Aave in external browser"));
+
+    expect(mockWindowOpen).toHaveBeenCalledWith(
+      "https://defillama.com/yields/pool/abc-123",
+      "_blank",
+      "noopener,noreferrer",
+    );
+    expect(WebBrowser.openBrowserAsync).not.toHaveBeenCalled();
+
+    Platform.OS = originalOS;
     unmount();
   });
 
