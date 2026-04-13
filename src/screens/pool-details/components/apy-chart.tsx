@@ -1,11 +1,16 @@
-import { useFont } from "@shopify/react-native-skia";
-import { View } from "react-native";
+import { matchFont } from "@shopify/react-native-skia";
+import { Platform, View } from "react-native";
 import { CartesianChart, Line } from "victory-native";
 
 import { Button } from "@/components/core/button";
 import { Text } from "@/components/core/text";
 import { ApyDataPoint } from "@/domain/pool/pool";
 import { useDeviceLayout } from "@/hooks/use-device-layout";
+
+const AXIS_FONT_FAMILY = Platform.select({
+  ios: "Helvetica Neue",
+  default: "Roboto",
+});
 
 export interface ChartDataPoint {
   x: number;
@@ -28,6 +33,12 @@ export function formatDateLabel(timestamp: number): string {
 }
 
 export function formatApyLabel(value: number): string {
+  if (Math.abs(value) >= 1_000_000) {
+    return `${+(value / 1_000_000).toPrecision(3)}M%`;
+  }
+  if (Math.abs(value) >= 1_000) {
+    return `${+(value / 1_000).toPrecision(3)}K%`;
+  }
   return `${value}%`;
 }
 
@@ -35,8 +46,18 @@ function formatXLabel(label: unknown): string {
   return formatDateLabel(Number(label));
 }
 
+function formatYLabelCompact(value: number): string {
+  if (Math.abs(value) >= 1_000_000) {
+    return `${+(value / 1_000_000).toPrecision(3)}M`;
+  }
+  if (Math.abs(value) >= 1_000) {
+    return `${+(value / 1_000).toPrecision(3)}K`;
+  }
+  return `${value}%`;
+}
+
 function formatYLabel(label: unknown): string {
-  return formatApyLabel(Number(label));
+  return formatYLabelCompact(Number(label));
 }
 
 interface ApyChartProps {
@@ -49,7 +70,7 @@ interface ApyChartProps {
 export function ApyChart({ data, isPending, error, onRetry }: ApyChartProps) {
   const { isMobile } = useDeviceLayout();
   const chartHeight = isMobile ? 200 : 250;
-  const font = useFont(require("@/assets/fonts/inter-medium.ttf"), 12);
+  const font = matchFont({ fontFamily: AXIS_FONT_FAMILY, fontSize: 10 });
 
   function renderContent() {
     if (isPending) {
@@ -111,17 +132,19 @@ export function ApyChart({ data, isPending, error, onRetry }: ApyChartProps) {
           data={chartData}
           xKey={"x" as never}
           yKeys={["apy" as never]}
+          padding={{ bottom: 16 }}
           xAxis={{
             font,
             tickCount: isMobile ? 3 : 6,
             formatXLabel: formatXLabel,
-            labelColor: "hsl(0 0% 45.1%)",
+            labelColor: "#737373",
           }}
           yAxis={[
             {
               font,
               formatYLabel: formatYLabel,
-              labelColor: "hsl(0 0% 45.1%)",
+              labelColor: "#737373",
+              labelOffset: 0,
             },
           ]}
         >

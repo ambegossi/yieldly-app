@@ -26,7 +26,11 @@ jest.mock("victory-native", () => {
 });
 
 jest.mock("@shopify/react-native-skia", () => ({
-  useFont: jest.fn(() => "mock-font"),
+  matchFont: jest.fn(() => ({
+    getSize: () => 12,
+    getGlyphIDs: (text: string) => Array.from({ length: text.length }, () => 1),
+    getGlyphWidths: (ids: number[]) => ids.map(() => 7),
+  })),
 }));
 
 jest.mock("@/hooks/use-device-layout", () => ({
@@ -203,6 +207,14 @@ describe("ApyChart", () => {
 
     it('formats fractional APY as "2.5%"', () => {
       expect(formatApyLabel(2.5)).toBe("2.5%");
+    });
+
+    it('formats thousands as "200K%"', () => {
+      expect(formatApyLabel(200_000)).toBe("200K%");
+    });
+
+    it('formats millions as "1.5M%"', () => {
+      expect(formatApyLabel(1_500_000)).toBe("1.5M%");
     });
   });
 
