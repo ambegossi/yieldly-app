@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: Pool Details Screen
 status: complete
 stopped_at: v1.0 milestone complete
-last_updated: "2026-04-02T12:00:00.000Z"
-last_activity: 2026-04-02
+last_updated: "2026-04-13T23:30:29.464Z"
+last_activity: 2026-04-13
 progress:
   total_phases: 3
   completed_phases: 3
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 Phase: All complete
 Plan: N/A
 Status: v1.0 milestone shipped
-Last activity: 2026-04-02
+Last activity: 2026-04-13 - Completed quick task 260413-she: Remove url field from Pool entity and DTO; wire Open pool button to DeFiLlama pool URL
 
 Progress: [██████████] 100%
 
@@ -63,6 +63,12 @@ None.
 ### Blockers/Concerns
 
 None — milestone complete.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260413-she | Remove url field from Pool entity and DTO; wire Open pool button to DeFiLlama pool URL | 2026-04-13 | 1046ca2 | [260413-she-remove-url-field-from-pool-entity-and-dt](./quick/260413-she-remove-url-field-from-pool-entity-and-dt/) |
 
 ## Session Continuity
 
