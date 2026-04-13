@@ -24,7 +24,6 @@ describe("HttpPoolRepo", () => {
                 project: "aave",
                 symbol: "USDC",
                 apy: 5.5,
-                url: "https://example.com/pool-1",
               },
               {
                 pool: "pool-2",
@@ -32,7 +31,6 @@ describe("HttpPoolRepo", () => {
                 project: "compound",
                 symbol: "DAI",
                 apy: 3.2,
-                url: "https://example.com/pool-2",
               },
             ],
           } as DefiLlamaGetPoolsResponseDTO,
@@ -56,7 +54,6 @@ describe("HttpPoolRepo", () => {
         project: "aave",
         symbol: "USDC",
         apy: 5.5,
-        url: "https://example.com/pool-1",
       });
       expect(result[1]).toEqual({
         id: "pool-2",
@@ -64,7 +61,6 @@ describe("HttpPoolRepo", () => {
         project: "compound",
         symbol: "DAI",
         apy: 3.2,
-        url: "https://example.com/pool-2",
       });
     });
 

@@ -9,7 +9,6 @@ function createMockPools(count: number): Pool[] {
     project: ["Aave", "Compound", "Yearn", "Uniswap"][i % 4],
     symbol: `TOKEN${i + 1}`,
     apy: (i + 1) * 1.5,
-    url: `https://example.com/pool/${i + 1}`,
   }));
 }
 

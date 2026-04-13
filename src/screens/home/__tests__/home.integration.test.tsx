@@ -77,7 +77,6 @@ const createMockPools = (): Pool[] => [
     project: "Aave",
     symbol: "USDC",
     apy: 5.25,
-    url: "https://aave.com",
   },
   {
     id: "2",
@@ -85,7 +84,6 @@ const createMockPools = (): Pool[] => [
     project: "Compound",
     symbol: "USDT",
     apy: 4.1,
-    url: "https://compound.finance",
   },
   {
     id: "3",
@@ -93,7 +91,6 @@ const createMockPools = (): Pool[] => [
     project: "Compound",
     symbol: "DAI",
     apy: 3.75,
-    url: "https://compound.finance",
   },
   {
     id: "4",
@@ -101,7 +98,6 @@ const createMockPools = (): Pool[] => [
     project: "Aave",
     symbol: "USDC",
     apy: 6.0,
-    url: "https://aave.com",
   },
 ];
 
@@ -247,7 +243,6 @@ describe("HomeScreen Integration", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.25,
-        url: "https://aave.com",
       },
       {
         id: "2",
@@ -255,7 +250,6 @@ describe("HomeScreen Integration", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 0,
-        url: "https://compound.finance",
       },
     ];
 
@@ -282,7 +276,6 @@ describe("HomeScreen Integration", () => {
         project: "Aave",
         symbol: "USDC",
         apy: -2.5,
-        url: "https://aave.com",
       },
       {
         id: "2",
@@ -290,7 +283,6 @@ describe("HomeScreen Integration", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 3.0,
-        url: "https://compound.finance",
       },
       {
         id: "3",
@@ -298,7 +290,6 @@ describe("HomeScreen Integration", () => {
         project: "Spark",
         symbol: "DAI",
         apy: 0,
-        url: "https://spark.fi",
       },
     ];
 

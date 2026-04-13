@@ -49,7 +49,6 @@ const testPool = {
   project: "Aave",
   symbol: "USDT",
   apy: 5.67,
-  url: "https://aave.com",
 };
 
 describe("PoolDetailsScreen", () => {
@@ -97,7 +96,7 @@ describe("PoolDetailsScreen", () => {
     unmount();
   });
 
-  it("pressing CTA button calls openBrowserAsync with pool url", async () => {
+  it("pressing CTA button calls openBrowserAsync with constructed DefiLlama url", async () => {
     const onBack = jest.fn();
 
     const { unmount } = render(
@@ -107,7 +106,7 @@ describe("PoolDetailsScreen", () => {
     fireEvent.press(screen.getByLabelText("Open Aave in external browser"));
 
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith(
-      "https://aave.com",
+      "https://defillama.com/yields/pool/abc-123",
     );
 
     unmount();

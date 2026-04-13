@@ -12,7 +12,6 @@ function createMockPools(count: number): Pool[] {
     project: projects[i % projects.length],
     symbol: `TOKEN${i + 1}`,
     apy: (i + 1) * 1.5,
-    url: `https://example.com/pool/${i + 1}`,
   }));
 }
 
@@ -136,7 +135,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.0,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -144,7 +142,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "ETH",
         apy: 3.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -152,7 +149,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "DAI",
         apy: 7.0,
-        url: "https://example.com/3",
       },
       {
         id: "4",
@@ -160,7 +156,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 4.0,
-        url: "https://example.com/4",
       },
     ];
 
@@ -185,7 +180,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.0,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -193,7 +187,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "ETH",
         apy: 3.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -201,7 +194,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "DAI",
         apy: 7.0,
-        url: "https://example.com/3",
       },
       {
         id: "4",
@@ -209,7 +201,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 4.0,
-        url: "https://example.com/4",
       },
       {
         id: "5",
@@ -217,7 +208,6 @@ describe("useFilteredPools", () => {
         project: "Yearn",
         symbol: "USDC",
         apy: 6.0,
-        url: "https://example.com/5",
       },
     ];
 
@@ -272,7 +262,6 @@ describe("useFilteredPools", () => {
         project: "Yearn",
         symbol: "USDC",
         apy: 5.0,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -280,7 +269,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "ETH",
         apy: 3.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -288,7 +276,6 @@ describe("useFilteredPools", () => {
         project: "Yearn",
         symbol: "DAI",
         apy: 7.0,
-        url: "https://example.com/3",
       },
       {
         id: "4",
@@ -296,7 +283,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDT",
         apy: 4.0,
-        url: "https://example.com/4",
       },
     ];
 
@@ -320,7 +306,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.0,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -328,7 +313,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "ETH",
         apy: 3.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -336,7 +320,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "DAI",
         apy: 7.0,
-        url: "https://example.com/3",
       },
       {
         id: "4",
@@ -344,7 +327,6 @@ describe("useFilteredPools", () => {
         project: "Yearn",
         symbol: "USDT",
         apy: 4.0,
-        url: "https://example.com/4",
       },
     ];
 
@@ -370,7 +352,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.0,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -378,7 +359,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "DAI",
         apy: 7.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -386,7 +366,6 @@ describe("useFilteredPools", () => {
         project: "Yearn",
         symbol: "USDT",
         apy: 4.0,
-        url: "https://example.com/3",
       },
     ];
 
@@ -471,7 +450,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 0,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -479,7 +457,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 5.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -487,7 +464,6 @@ describe("useFilteredPools", () => {
         project: "Spark",
         symbol: "DAI",
         apy: 3.0,
-        url: "https://example.com/3",
       },
     ];
 
@@ -507,7 +483,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: -2.5,
-        url: "https://example.com/1",
       },
       {
         id: "2",
@@ -515,7 +490,6 @@ describe("useFilteredPools", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 5.0,
-        url: "https://example.com/2",
       },
       {
         id: "3",
@@ -523,7 +497,6 @@ describe("useFilteredPools", () => {
         project: "Spark",
         symbol: "DAI",
         apy: 0,
-        url: "https://example.com/3",
       },
       {
         id: "4",
@@ -531,7 +504,6 @@ describe("useFilteredPools", () => {
         project: "Yearn",
         symbol: "USDC",
         apy: -0.5,
-        url: "https://example.com/4",
       },
     ];
 
@@ -551,7 +523,6 @@ describe("useFilteredPools", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.0,
-        url: "https://example.com/1",
       },
     ];
 

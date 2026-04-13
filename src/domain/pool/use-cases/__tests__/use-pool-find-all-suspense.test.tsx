@@ -58,7 +58,6 @@ describe("usePoolFindAllSuspense", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.2,
-        url: "https://aave.com/pool/1",
       },
       {
         id: "2",
@@ -66,7 +65,6 @@ describe("usePoolFindAllSuspense", () => {
         project: "Yearn",
         symbol: "DAI",
         apy: 8.7,
-        url: "https://yearn.finance/pool/2",
       },
     ];
 
@@ -146,7 +144,6 @@ describe("usePoolFindAllSuspense", () => {
         project: "Uniswap",
         symbol: "UNI",
         apy: 12.5,
-        url: "https://uniswap.org/pool/1",
       },
     ];
 

@@ -14,7 +14,6 @@ describe("PoolAdapter", () => {
         project: "aave",
         symbol: "USDC",
         apy: 5.5,
-        url: "https://example.com/pool",
       };
 
       // Act
@@ -27,7 +26,6 @@ describe("PoolAdapter", () => {
         project: "aave",
         symbol: "USDC",
         apy: 5.5,
-        url: "https://example.com/pool",
       });
     });
 
@@ -39,7 +37,6 @@ describe("PoolAdapter", () => {
         project: "compound",
         symbol: "DAI",
         apy: 3.2,
-        url: "https://example.com/pool-2",
       };
 
       // Act
@@ -57,7 +54,6 @@ describe("PoolAdapter", () => {
         project: "curve",
         symbol: "USDT",
         apy: 12.75,
-        url: "https://example.com/pool-3",
       };
 
       // Act
@@ -68,7 +64,6 @@ describe("PoolAdapter", () => {
       expect(result.project).toBe(dto.project);
       expect(result.symbol).toBe(dto.symbol);
       expect(result.apy).toBe(dto.apy);
-      expect(result.url).toBe(dto.url);
     });
   });
 });
