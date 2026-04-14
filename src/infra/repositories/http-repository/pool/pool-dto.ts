@@ -4,6 +4,7 @@ export interface DefiLlamaPoolDTO {
   project: string;
   symbol: string;
   apy: number;
+  stablecoin: boolean;
 }
 
 export interface DefiLlamaGetPoolsResponseDTO {
