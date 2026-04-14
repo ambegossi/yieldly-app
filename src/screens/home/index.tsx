@@ -7,7 +7,7 @@ import { useDeviceLayout } from "@/hooks/use-device-layout";
 import { Feather } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { useRouter } from "expo-router";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { EmptyState } from "./components/empty-state";
 import {
@@ -90,11 +90,9 @@ export default function Home() {
     }
   }, [isMobile]);
 
-  return (
-    <View className="flex-1 bg-background">
-      <Header />
-
-      <View className="mx-auto w-full max-w-7xl flex-1 px-4 pt-6 md:px-6 lg:px-8">
+  const listHeader = useMemo(
+    () => (
+      <View className="mx-auto w-full max-w-7xl px-4 pt-6 md:px-6 lg:px-8">
         <HomeHeader />
 
         {/* Filter buttons */}
@@ -163,31 +161,58 @@ export default function Home() {
             ))}
           </View>
         )}
+      </View>
+    ),
+    [
+      isMobile,
+      networkFilters,
+      protocolFilters,
+      filterOptions,
+      toggleNetworkFilter,
+      toggleProtocolFilter,
+      hasActiveFilters,
+      allActiveFilters,
+      clearFilters,
+      handleNetworkFilterPress,
+      handleProtocolFilterPress,
+    ],
+  );
 
-        {/* List */}
+  return (
+    <View className="flex-1 bg-background">
+      <Header />
+
+      <View className="flex-1">
         <FlashList
           data={itemsToDisplay}
           renderItem={({ item }) => (
-            <PoolListItem pool={item} onPress={handlePoolPress} />
+            <View className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
+              <PoolListItem pool={item} onPress={handlePoolPress} />
+            </View>
           )}
+          ListHeaderComponent={listHeader}
           ListEmptyComponent={
-            <EmptyState
-              message={
-                pools.length === 0
-                  ? "No stablecoin pools available"
-                  : "No stablecoins found for selected filters"
-              }
-              showClearFilters={hasActiveFilters}
-              onClearFilters={clearFilters}
-            />
+            <View className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
+              <EmptyState
+                message={
+                  pools.length === 0
+                    ? "No stablecoin pools available"
+                    : "No stablecoins found for selected filters"
+                }
+                showClearFilters={hasActiveFilters}
+                onClearFilters={clearFilters}
+              />
+            </View>
           }
           ListFooterComponent={
             !isMobile && totalPages > 1 ? (
-              <PaginationControls
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={goToPage}
-              />
+              <View className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8">
+                <PaginationControls
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={goToPage}
+                />
+              </View>
             ) : undefined
           }
           onEndReached={isMobile && hasMore ? loadMore : undefined}

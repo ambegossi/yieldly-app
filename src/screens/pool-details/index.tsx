@@ -39,34 +39,36 @@ export default function PoolDetailsScreen({
       <Header />
 
       <ScrollView className="flex-1">
-        <PoolDetailsHeader onBack={onBack} />
+        <View className="mx-auto w-full max-w-7xl">
+          <PoolDetailsHeader onBack={onBack} />
 
-        <PoolIdentityBlock symbol={pool.symbol} />
+          <PoolIdentityBlock symbol={pool.symbol} />
 
-        <PoolInfoCard
-          apy={pool.apy}
-          project={pool.project}
-          chain={pool.chain}
-          poolId={pool.id}
-        />
+          <PoolInfoCard
+            apy={pool.apy}
+            project={pool.project}
+            chain={pool.chain}
+            poolId={pool.id}
+          />
 
-        {/* CTA Button — Zone 5 */}
-        <View className={cn("mx-4 mt-6", !isMobile && "items-start")}>
-          <Button
-            className={cn(
-              "bg-brand shadow-sm shadow-black/5 hover:bg-brand/90 active:bg-brand/90",
-              isMobile && "w-full",
-            )}
-            onPress={handleOpenPool}
-            accessibilityRole="button"
-            accessibilityLabel={`Open ${pool.project} in external browser`}
-          >
-            <Text className="text-base font-medium text-white">
-              Open {pool.project}
-            </Text>
+          {/* CTA Button — Zone 5 */}
+          <View className={cn("mx-4 mt-6", !isMobile && "items-start")}>
+            <Button
+              className={cn(
+                "bg-brand shadow-sm shadow-black/5 hover:bg-brand/90 active:bg-brand/90",
+                isMobile && "w-full",
+              )}
+              onPress={handleOpenPool}
+              accessibilityRole="button"
+              accessibilityLabel={`Open ${pool.project} in external browser`}
+            >
+              <Text className="text-base font-medium text-white">
+                Open {pool.project}
+              </Text>
 
-            <ExternalLink size={16} color="white" />
-          </Button>
+              <ExternalLink size={16} color="white" />
+            </Button>
+          </View>
         </View>
       </ScrollView>
     </View>

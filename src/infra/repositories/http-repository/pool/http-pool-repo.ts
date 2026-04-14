@@ -26,7 +26,9 @@ export class HttpPoolRepo implements PoolRepo {
       await this.httpClient.get<DefiLlamaGetPoolsResponseDTO>("/pools");
 
     return response.data.data
-      .filter((dto) => dto.stablecoin === true && hasStablecoinSymbol(dto.symbol))
+      .filter(
+        (dto) => dto.stablecoin === true && hasStablecoinSymbol(dto.symbol),
+      )
       .map(defiLlamaPoolDTOToPool);
   }
 
