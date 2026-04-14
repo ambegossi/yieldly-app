@@ -18,7 +18,6 @@ function makePool(overrides: Partial<Pool> = {}): Pool {
     project: "Aave",
     symbol: "USDC",
     apy: 5.6789,
-    url: "https://aave.com",
     ...overrides,
   };
 }

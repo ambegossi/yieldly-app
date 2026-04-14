@@ -9,6 +9,7 @@ import { usePoolFindAll } from "../use-pool-find-all";
 const createMockPoolRepo = (overrides?: Partial<PoolRepo>): PoolRepo => {
   return {
     findAll: jest.fn(),
+    findApyHistory: jest.fn(),
     ...overrides,
   };
 };
@@ -54,7 +55,6 @@ describe("usePoolFindAll", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.2,
-        url: "https://aave.com/pool/1",
       },
       {
         id: "2",
@@ -62,7 +62,6 @@ describe("usePoolFindAll", () => {
         project: "Yearn",
         symbol: "DAI",
         apy: 8.7,
-        url: "https://yearn.finance/pool/2",
       },
     ];
 
@@ -94,7 +93,6 @@ describe("usePoolFindAll", () => {
         project: "Compound",
         symbol: "ETH",
         apy: 3.5,
-        url: "https://compound.finance/pool/1",
       },
     ];
 
@@ -226,7 +224,6 @@ describe("usePoolFindAll", () => {
         project: "Uniswap",
         symbol: "UNI",
         apy: 12.5,
-        url: "https://uniswap.org/pool/1",
       },
     ];
 

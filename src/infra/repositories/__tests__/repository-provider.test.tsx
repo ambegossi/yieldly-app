@@ -10,6 +10,7 @@ describe("RepositoryProvider", () => {
       const mockRepositories: Repositories = {
         poolRepo: {
           findAll: jest.fn(),
+          findApyHistory: jest.fn(),
         },
       };
 

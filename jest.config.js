@@ -1,13 +1,17 @@
 /** @type {import('jest').Config} */
 module.exports = {
   preset: "jest-expo",
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: [
+    "<rootDir>/jest.setup.js",
+    "@shopify/react-native-skia/jestSetup.js",
+  ],
   testMatch: [
     "<rootDir>/src/**/__tests__/**/*.{ts,tsx}",
     "<rootDir>/src/**/*.{spec,test}.{ts,tsx}",
   ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.(ttf|otf|woff|woff2)$": "<rootDir>/jest.font-mock.js",
   },
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
@@ -44,7 +48,8 @@ module.exports = {
     // Exclude HTTP client instances (configuration only)
     "!src/infra/http/clients/*.ts",
   ],
+  modulePathIgnorePatterns: ["<rootDir>/.claude/worktrees/"],
   transformIgnorePatterns: [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop)",
+    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|react-navigation|@react-navigation/.*|nativewind|react-native-css-interop|@shopify/react-native-skia|victory-native)",
   ],
 };

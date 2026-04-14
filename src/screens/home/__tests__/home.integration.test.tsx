@@ -66,6 +66,10 @@ jest.mock("react-native/Libraries/Utilities/useWindowDimensions", () => ({
   default: jest.fn(() => ({ width: 375, height: 812 })),
 }));
 
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(() => ({ push: jest.fn() })),
+}));
+
 const createMockPools = (): Pool[] => [
   {
     id: "1",
@@ -73,7 +77,6 @@ const createMockPools = (): Pool[] => [
     project: "Aave",
     symbol: "USDC",
     apy: 5.25,
-    url: "https://aave.com",
   },
   {
     id: "2",
@@ -81,7 +84,6 @@ const createMockPools = (): Pool[] => [
     project: "Compound",
     symbol: "USDT",
     apy: 4.1,
-    url: "https://compound.finance",
   },
   {
     id: "3",
@@ -89,7 +91,6 @@ const createMockPools = (): Pool[] => [
     project: "Compound",
     symbol: "DAI",
     apy: 3.75,
-    url: "https://compound.finance",
   },
   {
     id: "4",
@@ -97,13 +98,13 @@ const createMockPools = (): Pool[] => [
     project: "Aave",
     symbol: "USDC",
     apy: 6.0,
-    url: "https://aave.com",
   },
 ];
 
 function createTestSetup(pools: Pool[] = createMockPools()) {
   const mockPoolRepo = {
     findAll: jest.fn().mockResolvedValue(pools),
+    findApyHistory: jest.fn(),
   };
 
   const queryClient = new QueryClient({
@@ -130,8 +131,11 @@ function createTestSetup(pools: Pool[] = createMockPools()) {
 }
 
 // Dynamic import to avoid hoisting issues with mocks
-const getHomeScreenContent = () =>
-  require("../index").default as React.ComponentType;
+let HomeScreen: React.ComponentType;
+
+beforeAll(() => {
+  HomeScreen = require("../index").default as React.ComponentType;
+});
 
 describe("HomeScreen Integration", () => {
   afterEach(() => {
@@ -140,7 +144,6 @@ describe("HomeScreen Integration", () => {
 
   it("should show loading state initially then render pools", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -159,7 +162,6 @@ describe("HomeScreen Integration", () => {
 
   it("should display pools sorted by APY descending", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -178,7 +180,6 @@ describe("HomeScreen Integration", () => {
 
   it("should render header with Yieldly branding", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -192,7 +193,6 @@ describe("HomeScreen Integration", () => {
 
   it("should render filter buttons for mobile layout", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -208,7 +208,6 @@ describe("HomeScreen Integration", () => {
 
   it("should show empty state when no pools available", async () => {
     const { Wrapper, queryClient } = createTestSetup([]);
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -222,7 +221,6 @@ describe("HomeScreen Integration", () => {
 
   it("should display pool item details correctly", async () => {
     const { Wrapper, queryClient } = createTestSetup();
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -245,7 +243,6 @@ describe("HomeScreen Integration", () => {
         project: "Aave",
         symbol: "USDC",
         apy: 5.25,
-        url: "https://aave.com",
       },
       {
         id: "2",
@@ -253,12 +250,10 @@ describe("HomeScreen Integration", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 0,
-        url: "https://compound.finance",
       },
     ];
 
     const { Wrapper, queryClient } = createTestSetup(poolsWithZeroApy);
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -281,7 +276,6 @@ describe("HomeScreen Integration", () => {
         project: "Aave",
         symbol: "USDC",
         apy: -2.5,
-        url: "https://aave.com",
       },
       {
         id: "2",
@@ -289,7 +283,6 @@ describe("HomeScreen Integration", () => {
         project: "Compound",
         symbol: "USDT",
         apy: 3.0,
-        url: "https://compound.finance",
       },
       {
         id: "3",
@@ -297,12 +290,10 @@ describe("HomeScreen Integration", () => {
         project: "Spark",
         symbol: "DAI",
         apy: 0,
-        url: "https://spark.fi",
       },
     ];
 
     const { Wrapper, queryClient } = createTestSetup(poolsWithNegativeApy);
-    const HomeScreen = getHomeScreenContent();
 
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
@@ -323,6 +314,7 @@ describe("HomeScreen Integration", () => {
     const pools = createMockPools();
     const mockPoolRepo = {
       findAll: jest.fn().mockResolvedValue(pools),
+      findApyHistory: jest.fn(),
     };
 
     const queryClient = new QueryClient({
@@ -345,7 +337,6 @@ describe("HomeScreen Integration", () => {
       );
     }
 
-    const HomeScreen = getHomeScreenContent();
     const { unmount } = render(<HomeScreen />, { wrapper: Wrapper });
 
     // Wait for initial data to load
