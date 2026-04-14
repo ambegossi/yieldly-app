@@ -61,7 +61,7 @@ export default function PoolDetailsScreen({
             accessibilityRole="button"
             accessibilityLabel={`Open ${pool.project} in external browser`}
           >
-            <Text className="text-base font-bold text-white">
+            <Text className="text-base font-medium text-white">
               Open {pool.project}
             </Text>
 
