@@ -140,7 +140,7 @@ describe("HttpPoolRepo", () => {
       expect(result[0].symbol).toBe("USDC");
     });
 
-    it("should include pool with stablecoin=true and symbol USDC-WETH (contains USDC)", async () => {
+    it("should exclude pool with pair symbol USDC-WETH (pairs are excluded)", async () => {
       // Arrange
       const mockHttpClient: HttpClient = {
         get: jest.fn().mockResolvedValue({
@@ -169,8 +169,7 @@ describe("HttpPoolRepo", () => {
       const result = await repository.findAll();
 
       // Assert
-      expect(result).toHaveLength(1);
-      expect(result[0].symbol).toBe("USDC-WETH");
+      expect(result).toHaveLength(0);
     });
 
     it("should exclude pool with stablecoin=false even if symbol contains USDC", async () => {
@@ -237,7 +236,7 @@ describe("HttpPoolRepo", () => {
       expect(result).toHaveLength(0);
     });
 
-    it("should include pool with stablecoin=true and symbol USDT0-USDC.E (multi-stablecoin pair)", async () => {
+    it("should exclude pool with pair symbol USDT0-USDC.E (pairs are excluded)", async () => {
       // Arrange
       const mockHttpClient: HttpClient = {
         get: jest.fn().mockResolvedValue({
@@ -266,8 +265,7 @@ describe("HttpPoolRepo", () => {
       const result = await repository.findAll();
 
       // Assert
-      expect(result).toHaveLength(1);
-      expect(result[0].symbol).toBe("USDT0-USDC.E");
+      expect(result).toHaveLength(0);
     });
   });
 

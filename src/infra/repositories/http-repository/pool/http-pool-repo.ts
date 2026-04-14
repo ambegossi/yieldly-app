@@ -27,7 +27,10 @@ export class HttpPoolRepo implements PoolRepo {
 
     return response.data.data
       .filter(
-        (dto) => dto.stablecoin === true && hasStablecoinSymbol(dto.symbol),
+        (dto) =>
+          dto.stablecoin === true &&
+          !dto.symbol.includes("-") &&
+          hasStablecoinSymbol(dto.symbol),
       )
       .map(defiLlamaPoolDTOToPool);
   }
