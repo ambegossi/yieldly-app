@@ -25,7 +25,7 @@ export function PoolInfoCard({
   const { data, isPending, error, refetch } = usePoolApyHistory(poolId);
 
   return (
-    <View className="mx-4 mt-2 rounded-2xl border border-border bg-card p-4 shadow-sm shadow-black/5">
+    <View className="mx-4 mt-2 rounded-2xl bg-card p-4 shadow-md shadow-black/10">
       <View
         className={cn(
           "gap-4",
@@ -48,7 +48,7 @@ export function PoolInfoCard({
         <View className={cn("gap-1", !isMobile && "items-end")}>
           <Text className="text-base font-bold text-foreground">{project}</Text>
 
-          <Badge variant="subtle" className="self-start">
+          <Badge variant="subtle" className={isMobile ? "self-start" : "self-end"}>
             <Text className="text-brand dark:text-brand">{"\u2022 "}</Text>
 
             <Text>{chain}</Text>

@@ -60,10 +60,10 @@ export default function PoolDetailsScreen({
               )}
               onPress={handleOpenPool}
               accessibilityRole="button"
-              accessibilityLabel={`Open ${pool.project} in external browser`}
+              accessibilityLabel={`View pool on DefiLlama`}
             >
               <Text className="text-base font-medium text-white">
-                Open {pool.project}
+                View on DefiLlama
               </Text>
 
               <ExternalLink size={16} color="white" />
