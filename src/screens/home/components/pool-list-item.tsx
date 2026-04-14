@@ -22,14 +22,14 @@ export const PoolListItem = React.memo(
     return (
       <Pressable
         onPress={handlePress}
-        className="mb-3 flex-row items-center rounded-xl border border-border bg-card p-4 shadow-sm shadow-black/5 active:bg-accent"
+        className="mb-3 flex-row items-center rounded-xl border border-border bg-card p-4 shadow shadow-black/5 transition-shadow duration-200 hover:shadow-lg hover:shadow-black/10 md:mb-4 md:rounded-2xl md:p-5"
         accessibilityRole="button"
         accessibilityLabel={`${pool.symbol} on ${pool.project} via ${pool.chain}, ${formatAPY(pool.apy)} APY`}
       >
         {/* Symbol Icon */}
-        <View className="h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-brand/20 bg-brand/10 dark:border-brand/20 dark:bg-brand/10">
+        <View className="h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-brand/20 bg-brand/10 dark:border-brand/20 dark:bg-brand/10 md:h-14 md:w-14 md:rounded-2xl">
           <Text
-            className="text-base font-semibold text-brand dark:text-brand"
+            className="text-base font-semibold text-brand dark:text-brand md:text-lg"
             numberOfLines={1}
           >
             {pool.symbol}
@@ -37,9 +37,9 @@ export const PoolListItem = React.memo(
         </View>
 
         {/* Pool Info */}
-        <View className="ml-3 mr-3 flex-1">
+        <View className="ml-3 mr-3 flex-1 md:ml-4 md:mr-4">
           <Text
-            className="text-lg font-semibold text-foreground"
+            className="text-lg font-semibold text-foreground md:text-xl"
             numberOfLines={1}
           >
             {pool.project}
@@ -54,16 +54,18 @@ export const PoolListItem = React.memo(
         {/* APY */}
         <View className="items-end">
           <Text
-            className={`text-xl font-bold ${isNegative ? "text-red-500" : "text-brand"}`}
+            className={`text-xl font-bold md:text-2xl ${isNegative ? "text-red-500" : "text-brand"}`}
           >
             {formatAPY(pool.apy)}
           </Text>
 
-          <Text className="text-xs text-muted-foreground">Best APY</Text>
+          <Text className="text-xs text-muted-foreground md:text-sm">
+            Best APY
+          </Text>
         </View>
 
         {/* Chevron */}
-        <View className="ml-2">
+        <View className="ml-2 md:ml-3">
           <Feather name="chevron-right" size={20} color="#9ca3af" />
         </View>
       </Pressable>

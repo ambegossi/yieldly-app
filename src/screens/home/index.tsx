@@ -92,7 +92,7 @@ export default function Home() {
 
   const listHeader = useMemo(
     () => (
-      <View className="mx-auto w-full max-w-7xl px-4 pt-6 md:px-6 lg:px-8">
+      <View className="mx-auto w-full max-w-7xl px-4 pb-4 pt-6 md:px-6 lg:px-8">
         <HomeHeader />
 
         {/* Filter buttons */}
