@@ -94,7 +94,7 @@ export default function Home() {
     <View className="flex-1 bg-background">
       <Header />
 
-      <View className="flex-1 px-4 pt-6 md:px-6 lg:px-8">
+      <View className="mx-auto w-full max-w-7xl flex-1 px-4 pt-6 md:px-6 lg:px-8">
         <HomeHeader />
 
         {/* Filter buttons */}
@@ -181,19 +181,19 @@ export default function Home() {
               onClearFilters={clearFilters}
             />
           }
+          ListFooterComponent={
+            !isMobile && totalPages > 1 ? (
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={goToPage}
+              />
+            ) : undefined
+          }
           onEndReached={isMobile && hasMore ? loadMore : undefined}
           onEndReachedThreshold={0.5}
           keyExtractor={(item) => item.id}
         />
-
-        {/* Pagination controls for desktop/tablet */}
-        {!isMobile && totalPages > 1 && (
-          <PaginationControls
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={goToPage}
-          />
-        )}
       </View>
 
       {/* Mobile filter bottom sheets */}

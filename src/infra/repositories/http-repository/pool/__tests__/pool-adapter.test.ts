@@ -14,6 +14,7 @@ describe("PoolAdapter", () => {
         project: "aave",
         symbol: "USDC",
         apy: 5.5,
+        stablecoin: true,
       };
 
       // Act
@@ -37,6 +38,7 @@ describe("PoolAdapter", () => {
         project: "compound",
         symbol: "DAI",
         apy: 3.2,
+        stablecoin: true,
       };
 
       // Act
@@ -54,6 +56,7 @@ describe("PoolAdapter", () => {
         project: "curve",
         symbol: "USDT",
         apy: 12.75,
+        stablecoin: true,
       };
 
       // Act

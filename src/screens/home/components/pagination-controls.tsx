@@ -86,11 +86,16 @@ export function PaginationControls({
             key={page}
             variant={page === currentPage ? "default" : "outline"}
             size="sm"
+            className={
+              page === currentPage ? "bg-brand hover:bg-brand/90" : undefined
+            }
             onPress={() => onPageChange(page)}
             accessibilityLabel={`Go to page ${page}`}
             accessibilityState={{ selected: page === currentPage }}
           >
-            <Text>{String(page)}</Text>
+            <Text className={page === currentPage ? "text-white" : undefined}>
+              {String(page)}
+            </Text>
           </Button>
         ),
       )}
