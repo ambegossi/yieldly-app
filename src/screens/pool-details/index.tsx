@@ -54,7 +54,7 @@ export default function PoolDetailsScreen({
         <View className={cn("mx-4 mt-6", !isMobile && "items-start")}>
           <Button
             className={cn(
-              "bg-brand shadow-sm shadow-black/5 active:bg-brand/90",
+              "bg-brand shadow-sm shadow-black/5 hover:bg-brand/90 active:bg-brand/90",
               isMobile && "w-full",
             )}
             onPress={handleOpenPool}
