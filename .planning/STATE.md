@@ -5,7 +5,7 @@ milestone_name: Pool Details Screen
 status: complete
 stopped_at: v1.0 milestone complete
 last_updated: "2026-04-13T23:30:29.464Z"
-last_activity: 2026-04-13
+last_activity: 2026-04-14
 progress:
   total_phases: 3
   completed_phases: 3
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 Phase: All complete
 Plan: N/A
 Status: v1.0 milestone shipped
-Last activity: 2026-04-13 - Completed quick task 260413-sqf: Open Pool button opens new tab on web via window.open
+Last activity: 2026-04-14 - Completed quick task 260414-rpv: Web improvements: stablecoin filter, max-width, pagination position, active page button theme
 
 Progress: [██████████] 100%
 
