@@ -70,9 +70,10 @@ None — milestone complete.
 |---|-------------|------|--------|-----------|
 | 260413-she | Remove url field from Pool entity and DTO; wire Open pool button to DeFiLlama pool URL | 2026-04-13 | 1046ca2 | [260413-she-remove-url-field-from-pool-entity-and-dt](./quick/260413-she-remove-url-field-from-pool-entity-and-dt/) |
 | 260413-sqf | Open Pool button opens new tab on web via window.open | 2026-04-13 | 982f773 | [260413-sqf-open-pool-button-opens-new-tab-on-web-in](./quick/260413-sqf-open-pool-button-opens-new-tab-on-web-in/) |
+| 260414-r7e | Fix hover color on Open pool button (hover:bg-brand/90) | 2026-04-14 | ed57024 | [260414-r7e-fix-hover-color-on-open-pool-button-in-p](./quick/260414-r7e-fix-hover-color-on-open-pool-button-in-p/) |
 
 ## Session Continuity
 
-Last session: 2026-04-02
-Stopped at: v1.0 milestone complete
+Last session: 2026-04-14
+Stopped at: Completed quick task 260414-r7e: Fix hover color on Open pool button
 Resume file: None
