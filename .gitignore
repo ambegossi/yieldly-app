@@ -44,3 +44,6 @@ app-example
 
 # jest
 coverage/
+
+# git worktrees
+.worktrees/
