@@ -4,5 +4,18 @@
     "upgrading-expo@expo-plugins": true,
     "expo-deployment@expo-plugins": true,
     "superpowers@claude-plugins-official": true
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; [ -n \"$f\" ] && bunx prettier --write --ignore-unknown \"$f\" >/dev/null || true; }"
+          }
+        ]
+      }
+    ]
   }
 }
