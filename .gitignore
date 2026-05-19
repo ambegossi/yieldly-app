@@ -47,3 +47,6 @@ coverage/
 
 # git worktrees
 .worktrees/
+
+# spec-kit runtime cache
+.specify/extensions/.cache/
