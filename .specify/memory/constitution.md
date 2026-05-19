@@ -52,7 +52,8 @@ Dependency direction: **presentation → domain ← infrastructure**. The domain
 ### VII. Conventional Commits and Branching
 
 - Commit messages follow **Conventional Commits**: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `style:`, `test:`. Scoped form is allowed and preferred for feature work: `feat(favorites): add pin toggle`.
-- Feature branches use the **`feat/<slug>`** form (e.g. `feat/favorites`). Bug fixes use `fix/<slug>`. Spec-kit-generated specs may use the numbered form (`001-home-screen`) when paired with `specs/[###-feature-name]/`.
+- All branches use one of three prefixes paired with a kebab-case slug: **`feat/<slug>`** for features, **`fix/<slug>`** for bug fixes, **`chore/<slug>`** for refactors / dependency bumps / tooling / docs-only changes. Examples: `feat/favorites`, `fix/deep-link-fallback`, `chore/upgrade-expo-55`.
+- The numbered form (`002-pool-details`) is reserved for **spec-kit artifact directories under `specs/`** (where it provides natural ordering and matches `/speckit-specify` defaults). It is **not** a branch naming convention — a spec-kit feature whose artifacts live at `specs/002-pool-details/` is still developed on `feat/pool-details`.
 
 ## Technology Constraints
 
@@ -89,4 +90,4 @@ Additional expectations:
 - Spec-kit artifacts (`.specify/templates/`, generated specs and plans) must remain consistent with these principles. The `/speckit-brownfield-validate` command verifies that.
 - Complexity that violates these principles requires explicit justification in the `Complexity Tracking` section of the relevant plan.
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-18 | **Last Amended**: 2026-05-18
+**Version**: 1.1.0 | **Ratified**: 2026-05-18 | **Last Amended**: 2026-05-18
