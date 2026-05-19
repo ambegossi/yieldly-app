@@ -1,6 +1,5 @@
 ---
-
-description: "Task list template for feature implementation"
+description: "Task list template for feature implementation (Yieldly Clean Architecture)"
 ---
 
 # Tasks: [FEATURE NAME]
@@ -9,22 +8,33 @@ description: "Task list template for feature implementation"
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: The examples below include test tasks. Tests are OPTIONAL — only include them if explicitly requested in the feature specification. When included, they follow the Yieldly testing conventions (co-located `__tests__/`, Jest via `bun run test`).
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+**Organization**: Tasks are grouped first by **Clean Architecture layer** (Yieldly's Constitution Principle I: Domain → Infrastructure → Presentation), then by user story within the Presentation layer when the feature contains multiple user-facing flows.
 
-## Format: `[ID] [P?] [Story] Description`
+## Format: `[ID] [P?] [Layer/Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies)
-- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
-- Include exact file paths in descriptions
+- **[Layer]**: `D` = Domain, `I` = Infrastructure, `P` = Presentation
+- **[Story]**: For Presentation tasks, which user story this serves (e.g., US1, US2)
+- Include exact file paths from the feature's `plan.md` `Project Structure` section
 
-## Path Conventions
+## Path Conventions (Yieldly)
 
-- **Single project**: `src/`, `tests/` at repository root
-- **Web app**: `backend/src/`, `frontend/src/`
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
-- Paths shown below assume single project - adjust based on plan.md structure
+- **Domain**: `src/domain/[feature]/` (entity, repo interface, use-case hooks, co-located `__tests__/`)
+- **Infrastructure**: `src/infra/repositories/http-repository/[feature]/` (DTO, adapter, repo implementation, co-located `__tests__/`)
+- **Presentation**: `src/app/[route].tsx` (route), `src/screens/[feature]/` (screen + components + screen-local hooks)
+- **Shared**: `src/components/` (composite), `src/components/core/` (primitives), `src/hooks/`, `src/lib/`
+- All filenames are **kebab-case** (Constitution Principle II)
+
+## Commands (Yieldly)
+
+- Run tests: `bun run test` (NOT `bun test` — that invokes Bun's own runner and breaks the Jest preset)
+- Watch tests: `bun run test:watch`
+- Coverage: `bun run test:coverage`
+- Lint: `bun run lint`
+- Type check: `bun run types`
+- iOS dev: `bun run ios` · Android: `bun run android` · Web: `bun run web`
 
 <!--
   ============================================================================
@@ -32,181 +42,128 @@ description: "Task list template for feature implementation"
 
   The /speckit-tasks command MUST replace these with actual tasks based on:
   - User stories from spec.md (with their priorities P1, P2, P3...)
-  - Feature requirements from plan.md
+  - Feature requirements from plan.md (especially the Layer Impact section)
   - Entities from data-model.md
-  - Endpoints from contracts/
-
-  Tasks MUST be organized by user story so each story can be:
-  - Implemented independently
-  - Tested independently
-  - Delivered as an MVP increment
+  - Endpoints/contracts from contracts/
 
   DO NOT keep these sample tasks in the generated tasks.md file.
   ============================================================================
 -->
 
-## Phase 1: Setup (Shared Infrastructure)
+## Phase 1: Setup
 
-**Purpose**: Project initialization and basic structure
+**Purpose**: One-time prep work that does not yet touch any architecture layer
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
-
----
-
-## Phase 2: Foundational (Blocking Prerequisites)
-
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
-
-**⚠️ CRITICAL**: No user story work can begin until this phase is complete
-
-Examples of foundational tasks (adjust based on your project):
-
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
-
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+- [ ] T001 [P] Add or update any new dependencies in `package.json` (e.g. new icon set, chart library) and run `bun install`
+- [ ] T002 [P] If a new env var is needed, add it to `app.config.js` under `extra` and document in `.env.example`; expose it via `src/config/env.ts`
+- [ ] T003 Verify baseline `bun run lint && bun run types && bun run test` passes on the feature branch before making changes
 
 ---
 
-## Phase 3: User Story 1 - [Title] (Priority: P1) 🎯 MVP
+## Phase 2: Domain Layer
+
+**Purpose**: Define the pure business contract — entities, repository interface, and use-case hooks. **No framework imports.**
+
+**⚠️ Constitution Principle I**: Domain MUST NOT import from `src/infra/` or `src/app/`.
+
+- [ ] T010 [D] Create entity interface in `src/domain/[feature]/[feature].ts` (PascalCase type, kebab-case file)
+- [ ] T011 [D] Create repository interface in `src/domain/[feature]/[feature]-repo.ts` (e.g. `findAll`, `findById`, `findApyHistory`)
+- [ ] T012 [D] Extend the `Repositories` aggregate interface in `src/domain/repositories.ts` to include the new repo
+- [ ] T013 [P] [D] Create use-case hook in `src/domain/[feature]/use-cases/use-[feature]-find-all.ts` wrapping `useAppQuery`
+- [ ] T014 [P] [D] Create suspense use-case hook in `src/domain/[feature]/use-cases/use-[feature]-find-all-suspense.ts` wrapping `useAppSuspenseQuery`
+- [ ] T015 [P] [D] (Tests, if requested) Add hook tests in `src/domain/[feature]/use-cases/__tests__/use-[feature]-find-all.test.tsx` and `…-suspense.test.tsx` (cover success, loading, error; always `unmount()` at end)
+
+**Checkpoint**: Domain interfaces compile; `bun run types` passes. No infra implementation exists yet — that's intentional.
+
+---
+
+## Phase 3: Infrastructure Layer
+
+**Purpose**: Implement the domain interface with concrete HTTP + DTO + adapter code, and wire it into the DI container.
+
+- [ ] T020 [I] Define external API DTO in `src/infra/repositories/http-repository/[feature]/[feature]-dto.ts` (matches the API response shape, NOT the domain shape)
+- [ ] T021 [I] Implement adapter in `src/infra/repositories/http-repository/[feature]/[feature]-adapter.ts` — pure function `[source]DTOto[Feature](dto): [Feature]`
+- [ ] T022 [I] Implement repository class in `src/infra/repositories/http-repository/[feature]/http-[feature]-repo.ts` using the existing `HttpClient` abstraction
+- [ ] T023 [I] If a new data source is needed, add a client in `src/infra/http/clients/[source]-http-client.ts` (otherwise reuse `defi-llama-http-client.ts`)
+- [ ] T024 [I] Wire the concrete repo into `src/infra/repositories/http-repository/index.ts` (`HttpRepositories` object)
+- [ ] T025 [P] [I] (Tests, if requested) Add adapter tests in `src/infra/repositories/http-repository/[feature]/__tests__/[feature]-adapter.test.ts` covering happy path + edge cases (nulls, malformed values)
+- [ ] T026 [P] [I] (Tests, if requested) Add repo tests in `src/infra/repositories/http-repository/[feature]/__tests__/http-[feature]-repo.test.ts` mocking the HttpClient
+
+**Checkpoint**: `bun run test` passes for new adapter/repo tests; `bun run types` is green. The domain hook now resolves real data when used.
+
+---
+
+## Phase 4: Presentation Layer
+
+**Purpose**: Build the route, screen, components, and screen-local hooks that the user actually sees.
+
+**⚠️ Constitution reminders**:
+
+- Function declarations with named exports everywhere EXCEPT route files (`src/app/`) and screen entry points (`src/screens/[feature]/index.tsx`), which use default exports.
+- Sibling JSX elements separated by a blank line (except inside `src/components/core/`).
+- Style with NativeWind utility classes; use `cn()` for conditional merging; brand green is `green-*` / `brand`, NOT `--primary`.
+- Screens MUST be wrapped in `<ScreenWrapper>` in the route file (Suspense + ErrorBoundary).
+
+### Phase 4a: User Story 1 — [Title] (Priority: P1) 🎯 MVP
 
 **Goal**: [Brief description of what this story delivers]
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+- [ ] T030 [P1] Create screen entry in `src/screens/[feature]/index.tsx` (default export; consumes domain use-case via `useRepository()` + suspense hook)
+- [ ] T031 [P1] Create the route file in `src/app/[route].tsx` (default export; wraps the screen in `<ScreenWrapper>`)
+- [ ] T032 [P] [P1] Create screen-local components in `src/screens/[feature]/components/[component-name].tsx` (named exports, function declarations, `{ComponentName}Props` interface)
+- [ ] T033 [P] [P1] Create screen-local hooks in `src/screens/[feature]/hooks/use-[behavior].ts` if needed (filters, pagination, etc.)
+- [ ] T034 [P1] Wire navigation params via `useLocalSearchParams<{...}>()` if the route accepts parameters
+- [ ] T035 [P] [P1] (Tests, if requested) Add component tests in `src/screens/[feature]/components/__tests__/[component-name].test.tsx` (mock FlashList → FlatList, mock `expo-image` and `@gorhom/bottom-sheet` per existing patterns)
+- [ ] T036 [P] [P1] (Tests, if requested) Add integration test in `src/screens/[feature]/__tests__/[feature].integration.test.tsx` covering the happy-path render
 
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+**Checkpoint**: Route loads, screen renders real data, Suspense fallback shows during initial fetch, ErrorBoundary recovers from forced errors.
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+### Phase 4b: User Story 2 — [Title] (Priority: P2)
 
-### Implementation for User Story 1
-
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
-
-**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+[Repeat the pattern above for P2 / P3 user stories — only add tasks for stories actually listed in spec.md]
 
 ---
 
-## Phase 4: User Story 2 - [Title] (Priority: P2)
+## Phase 5: Polish & Cross-Cutting
 
-**Goal**: [Brief description of what this story delivers]
+**Purpose**: Quality work that spans the whole feature
 
-**Independent Test**: [How to verify this story works on its own]
-
-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
-
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
-
-### Implementation for User Story 2
-
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T023 [US2] Integrate with User Story 1 components (if needed)
-
-**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
-
----
-
-## Phase 5: User Story 3 - [Title] (Priority: P3)
-
-**Goal**: [Brief description of what this story delivers]
-
-**Independent Test**: [How to verify this story works on its own]
-
-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
-
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
-
-### Implementation for User Story 3
-
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
-
-**Checkpoint**: All user stories should now be independently functional
-
----
-
-[Add more user story phases as needed, following the same pattern]
-
----
-
-## Phase N: Polish & Cross-Cutting Concerns
-
-**Purpose**: Improvements that affect multiple user stories
-
-- [ ] TXXX [P] Documentation updates in docs/
-- [ ] TXXX Code cleanup and refactoring
-- [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
-- [ ] TXXX Security hardening
-- [ ] TXXX Run quickstart.md validation
+- [ ] T090 [P] Update `CLAUDE.md` "Recent Changes" section if the feature introduces a new convention worth pinning
+- [ ] T091 [P] Verify visual output on iOS Simulator via `mcp__ios-simulator__screenshot` and / or `agent-browser` for web
+- [ ] T092 Run `bun run lint && bun run types && bun run test` — all must pass before merge
+- [ ] T093 Run `bun run test:coverage` and confirm new domain/infra code is covered
+- [ ] T094 [P] Manual QA: dark mode, tablet/desktop breakpoint (≥768dp), error retry path, empty state
 
 ---
 
 ## Dependencies & Execution Order
 
-### Phase Dependencies
+### Layer Dependencies
 
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3+)**: All depend on Foundational phase completion
-  - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2 → P3)
-- **Polish (Final Phase)**: Depends on all desired user stories being complete
+- **Setup (Phase 1)**: No dependencies — start immediately
+- **Domain (Phase 2)**: Depends on Setup
+- **Infrastructure (Phase 3)**: Depends on Domain (interfaces must exist first)
+- **Presentation (Phase 4)**: Depends on Infrastructure being wired into the DI container
+- **Polish (Phase 5)**: Depends on Phase 4 functionally complete
 
-### User Story Dependencies
+This layered order is **not optional** — it is a direct consequence of the Clean Architecture dependency direction (Constitution Principle I): presentation depends on domain, infra implements domain, so domain must be defined before either can be built.
 
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - May integrate with US1 but should be independently testable
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - May integrate with US1/US2 but should be independently testable
+### Within Each Layer
 
-### Within Each User Story
-
-- Tests (if included) MUST be written and FAIL before implementation
-- Models before services
-- Services before endpoints
-- Core implementation before integration
-- Story complete before moving to next priority
+- Entity before repository interface before use-case hook (Domain)
+- DTO before adapter before repository implementation before DI wiring (Infrastructure)
+- Screen-local components and hooks can be parallelized; route file requires the screen entry to exist
+- Tests (if requested) for a file MUST be written and FAIL before the implementation of that file (TDD discipline — only when tests are explicitly requested in spec.md)
 
 ### Parallel Opportunities
 
-- All Setup tasks marked [P] can run in parallel
-- All Foundational tasks marked [P] can run in parallel (within Phase 2)
-- Once Foundational phase completes, all user stories can start in parallel (if team capacity allows)
-- All tests for a user story marked [P] can run in parallel
-- Models within a story marked [P] can run in parallel
-- Different user stories can be worked on in parallel by different team members
-
----
-
-## Parallel Example: User Story 1
-
-```bash
-# Launch all tests for User Story 1 together (if tests requested):
-Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
-Task: "Integration test for [user journey] in tests/integration/test_[name].py"
-
-# Launch all models for User Story 1 together:
-Task: "Create [Entity1] model in src/models/[entity1].py"
-Task: "Create [Entity2] model in src/models/[entity2].py"
-```
+- All Phase 1 [P] tasks can run in parallel
+- Within Phase 2: T013 / T014 / T015 (use-case hooks + their tests) can run in parallel after T012
+- Within Phase 3: T025 / T026 (adapter + repo tests) can run in parallel
+- Within Phase 4a: T032 / T033 (screen components + screen-local hooks) can run in parallel after T030
+- Different user stories in Phase 4 can be worked on in parallel by different developers once Phase 3 is complete
 
 ---
 
@@ -214,39 +171,25 @@ Task: "Create [Entity2] model in src/models/[entity2].py"
 
 ### MVP First (User Story 1 Only)
 
-1. Complete Phase 1: Setup
-2. Complete Phase 2: Foundational (CRITICAL - blocks all stories)
-3. Complete Phase 3: User Story 1
-4. **STOP and VALIDATE**: Test User Story 1 independently
-5. Deploy/demo if ready
+1. Phase 1 (Setup) → Phase 2 (Domain) → Phase 3 (Infrastructure) → Phase 4a (US1)
+2. **STOP and VALIDATE**: Verify US1 end-to-end against the acceptance scenarios in spec.md
+3. Deploy / demo if ready
 
 ### Incremental Delivery
 
-1. Complete Setup + Foundational → Foundation ready
-2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
-3. Add User Story 2 → Test independently → Deploy/Demo
-4. Add User Story 3 → Test independently → Deploy/Demo
-5. Each story adds value without breaking previous stories
-
-### Parallel Team Strategy
-
-With multiple developers:
-
-1. Team completes Setup + Foundational together
-2. Once Foundational is done:
-   - Developer A: User Story 1
-   - Developer B: User Story 2
-   - Developer C: User Story 3
-3. Stories complete and integrate independently
+1. Setup + Domain + Infrastructure → backend contract is real
+2. Add User Story 1 → independently testable MVP
+3. Add User Story 2 → demo
+4. Add User Story 3 → demo
+5. Phase 5 (Polish) before merge
 
 ---
 
 ## Notes
 
 - [P] tasks = different files, no dependencies
-- [Story] label maps task to specific user story for traceability
-- Each user story should be independently completable and testable
-- Verify tests fail before implementing
-- Commit after each task or logical group
-- Stop at any checkpoint to validate story independently
-- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+- `[D]` / `[I]` / `[P]` (layer tags) map tasks to Clean Architecture layers; `[P1]` / `[P2]` map Presentation tasks to user stories
+- Verify tests fail before implementing (only when tests are requested)
+- Commit after each task or logical group, using Conventional Commits (`feat(<feature>):`, `test(<feature>):`, etc. — Constitution Principle VII)
+- Stop at any checkpoint to validate the layer in isolation
+- Avoid: domain importing from infra/presentation; default exports outside `src/app/` and `src/screens/[feature]/index.tsx`; React Query hooks bypassing `useAppQuery` / `useAppSuspenseQuery`; `bun test` (use `bun run test`)

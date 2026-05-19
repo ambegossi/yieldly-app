@@ -18,27 +18,27 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Language/Version**: TypeScript 5.9.2 (strict mode), React 19.1.0, React Native 0.81.4
 
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Primary Dependencies**: Expo SDK 54, Expo Router v6, React Query v5 (`@tanstack/react-query`), Axios, NativeWind v4 + Tailwind 3.4, `@shopify/flash-list` v2, `@gorhom/bottom-sheet`, `victory-native` + `@shopify/react-native-skia`, `lucide-react-native`
 
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Storage**: React Query cache (server state); no client-state library; AsyncStorage / MMKV only if explicitly required by the feature (specify and justify in Complexity Tracking)
 
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
+**Testing**: Jest 30 + `jest-expo` preset, `@testing-library/react-native` 13; run with `bun run test` (NOT `bun test`)
 
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Target Platform**: iOS, Android (new architecture enabled), Web (Metro static output)
 
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
+**Project Type**: Cross-platform mobile app (single module, Clean Architecture three-layer)
 
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Performance Goals**: [60fps interactions on mid-tier device; list scroll without dropped frames via FlashList; or feature-specific target]
 
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
+**Constraints**: [API latency budget, bundle size impact, offline behavior, accessibility requirements — fill in per feature]
 
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Scale/Scope**: [Number of screens/routes added; expected data volume; or feature-specific scope]
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 [Gates determined based on constitution file]
 
@@ -57,57 +57,62 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
+  Yieldly is a single-module cross-platform mobile app with Clean Architecture
+  (Domain → Infrastructure → Presentation). The tree below is the standard layout
+  any new feature follows. List the *specific* paths this feature will add/touch.
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+├── domain/
+│   └── [feature]/
+│       ├── [feature].ts                    # Domain entity (e.g. Pool)
+│       ├── [feature]-repo.ts               # Repository interface
+│       ├── use-cases/
+│       │   ├── use-[feature]-find-all.ts          # Non-suspense hook
+│       │   ├── use-[feature]-find-all-suspense.ts # Suspense variant
+│       │   └── __tests__/
+│       └── __tests__/
+├── infra/
+│   ├── http/clients/
+│   │   └── defi-llama-http-client.ts       # (or new client per data source)
+│   ├── repositories/
+│   │   ├── repository-provider.tsx         # DI provider (extend `Repositories`)
+│   │   └── http-repository/
+│   │       ├── index.ts                    # Wires `HttpRepositories`
+│   │       └── [feature]/
+│   │           ├── http-[feature]-repo.ts  # Repo implementation
+│   │           ├── [feature]-adapter.ts    # DTO → domain mapping
+│   │           ├── [feature]-dto.ts        # External API shape
+│   │           └── __tests__/
+│   └── use-cases/
+│       ├── use-app-query.ts                # (reused — do not duplicate)
+│       └── use-app-suspense-query.ts       # (reused — do not duplicate)
+├── app/
+│   └── [route].tsx                         # Expo Router route — wraps screen in ScreenWrapper
+├── screens/
+│   └── [feature]/
+│       ├── index.tsx                       # Screen entry (default export OK here)
+│       ├── components/                     # Screen-local components
+│       ├── hooks/                          # Screen-local hooks
+│       └── __tests__/
+├── components/
+│   ├── core/                               # Reusable primitives (Button, Text, Badge…)
+│   └── [shared]/                           # Composite shared components (Header, ScreenWrapper…)
+├── hooks/                                  # Cross-feature hooks (e.g. use-device-layout)
+├── lib/                                    # Utilities (cn, theme, format-apy)
+└── config/                                 # Env access via expo-constants
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Document the exact files this feature will add under each layer (Domain, Infrastructure, Presentation). If the feature touches only some layers, explicitly note which layers are unaffected. Reference real paths, not placeholders.
 
 ## Complexity Tracking
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |
