@@ -52,8 +52,9 @@ Dependency direction: **presentation → domain ← infrastructure**. The domain
 ### VII. Conventional Commits and Branching
 
 - Commit messages follow **Conventional Commits**: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `style:`, `test:`. Scoped form is allowed and preferred for feature work: `feat(favorites): add pin toggle`.
-- All branches use one of three prefixes paired with a kebab-case slug: **`feat/<slug>`** for features, **`fix/<slug>`** for bug fixes, **`chore/<slug>`** for refactors / dependency bumps / tooling / docs-only changes. Examples: `feat/favorites`, `fix/deep-link-fallback`, `chore/upgrade-expo-55`.
-- The numbered form (`002-pool-details`) is reserved for **spec-kit artifact directories under `specs/`** (where it provides natural ordering and matches `/speckit-specify` defaults). It is **not** a branch naming convention — a spec-kit feature whose artifacts live at `specs/002-pool-details/` is still developed on `feat/pool-details`.
+- **Non-spec-kit work** uses one of three prefixes paired with a kebab-case slug: **`feat/<slug>`** for features, **`fix/<slug>`** for bug fixes, **`chore/<slug>`** for refactors / dependency bumps / tooling / docs-only changes. Examples: `feat/favorites`, `fix/deep-link-fallback`, `chore/upgrade-expo-55`.
+- **Spec-kit features** (anything created via `/speckit-specify` or related commands) use spec-kit's native **`<NNN>-<slug>`** form for **both the branch and the spec directory**, kept identical. Examples: branch `003-pool-details` paired with `specs/003-pool-details/`. This matches `/speckit-specify`'s defaults — no script customization required.
+- Rationale for the split: spec-kit's tooling, hooks, and templates all assume the `<NNN>-<slug>` shape. Patching it locally created enough surface area to fall out of sync on upgrades, so we let spec-kit own its own convention end-to-end. Day-to-day non-spec-kit branches keep the human-friendly type prefix.
 
 ## Technology Constraints
 
@@ -90,4 +91,4 @@ Additional expectations:
 - Spec-kit artifacts (`.specify/templates/`, generated specs and plans) must remain consistent with these principles. The `/speckit-brownfield-validate` command verifies that.
 - Complexity that violates these principles requires explicit justification in the `Complexity Tracking` section of the relevant plan.
 
-**Version**: 1.1.0 | **Ratified**: 2026-05-18 | **Last Amended**: 2026-05-18
+**Version**: 1.2.0 | **Ratified**: 2026-05-18 | **Last Amended**: 2026-05-18
