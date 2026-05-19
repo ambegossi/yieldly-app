@@ -22,6 +22,8 @@ export function PoolInfoCard({
 }: PoolInfoCardProps) {
   const { isMobile } = useDeviceLayout();
   const formattedAPY = formatAPY(apy);
+  // Chart errors are handled in-zone by ApyChart, NOT bubbled to ScreenWrapper's
+  // ErrorBoundary — a failed chart must not blank APY, project, chain, and CTA.
   const { data, isPending, error, refetch } = usePoolApyHistory(poolId);
 
   return (
@@ -48,7 +50,10 @@ export function PoolInfoCard({
         <View className={cn("gap-1", !isMobile && "items-end")}>
           <Text className="text-base font-bold text-foreground">{project}</Text>
 
-          <Badge variant="subtle" className={isMobile ? "self-start" : "self-end"}>
+          <Badge
+            variant="subtle"
+            className={isMobile ? "self-start" : "self-end"}
+          >
             <Text className="text-brand dark:text-brand">{"\u2022 "}</Text>
 
             <Text>{chain}</Text>

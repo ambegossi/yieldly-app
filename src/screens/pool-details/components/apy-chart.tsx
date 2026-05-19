@@ -1,3 +1,7 @@
+// Native (iOS/Android) implementation — uses Victory Native + Skia.
+// Web has its own implementation in `apy-chart.web.tsx` (Skia underperforms in
+// the browser); Metro picks the right one via its platform-extension rule.
+// Keep both files' `ApyChartProps` contract in sync.
 import { matchFont } from "@shopify/react-native-skia";
 import { Platform, View } from "react-native";
 import { CartesianChart, Line } from "victory-native";

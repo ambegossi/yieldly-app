@@ -87,19 +87,19 @@ describe("PoolDetailsScreen", () => {
     expect(screen.getByText("Optimism")).toBeTruthy();
 
     // CTA button
-    expect(screen.getByText("Open Aave")).toBeTruthy();
+    expect(screen.getByText("View on DefiLlama")).toBeTruthy();
 
     unmount();
   });
 
-  it("CTA button shows Open {project} text", () => {
+  it("CTA button shows 'View on DefiLlama' text", () => {
     const onBack = jest.fn();
 
     const { unmount } = render(
       <PoolDetailsScreen pool={testPool} onBack={onBack} />,
     );
 
-    expect(screen.getByText("Open Aave")).toBeTruthy();
+    expect(screen.getByText("View on DefiLlama")).toBeTruthy();
 
     unmount();
   });
@@ -111,7 +111,7 @@ describe("PoolDetailsScreen", () => {
       <PoolDetailsScreen pool={testPool} onBack={onBack} />,
     );
 
-    fireEvent.press(screen.getByLabelText("Open Aave in external browser"));
+    fireEvent.press(screen.getByLabelText("View pool on DefiLlama"));
 
     expect(WebBrowser.openBrowserAsync).toHaveBeenCalledWith(
       "https://defillama.com/yields/pool/abc-123",
@@ -131,7 +131,7 @@ describe("PoolDetailsScreen", () => {
       <PoolDetailsScreen pool={testPool} onBack={onBack} />,
     );
 
-    fireEvent.press(screen.getByLabelText("Open Aave in external browser"));
+    fireEvent.press(screen.getByLabelText("View pool on DefiLlama"));
 
     expect(mockWindowOpen).toHaveBeenCalledWith(
       "https://defillama.com/yields/pool/abc-123",
@@ -177,7 +177,7 @@ describe("PoolDetailsScreen", () => {
       <PoolDetailsScreen pool={testPool} onBack={onBack} />,
     );
 
-    expect(screen.getByLabelText("Open Aave in external browser")).toBeTruthy();
+    expect(screen.getByLabelText("View pool on DefiLlama")).toBeTruthy();
 
     unmount();
   });

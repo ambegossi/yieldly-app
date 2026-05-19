@@ -1,3 +1,6 @@
+// Web implementation — sibling of `apy-chart.tsx` (native, Skia-based).
+// Metro's platform-extension resolution picks this file on web; the native file
+// elsewhere. Keep the `ApyChartProps` contract in sync between both.
 import { useCallback, useState } from "react";
 import { type LayoutChangeEvent, View } from "react-native";
 
