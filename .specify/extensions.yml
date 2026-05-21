@@ -116,6 +116,14 @@ hooks:
     prompt: Commit plan changes?
     description: Auto-commit after implementation planning
     condition: null
+  - extension: architecture-guard
+    command: speckit.architecture-guard.violation-detection
+    enabled: true
+    optional: true
+    prompt: Would you like to scan the technical plan for architectural drift and
+      Constitution violations?
+    description: ''
+    condition: null
   after_tasks:
   - extension: git
     command: speckit.git.commit
@@ -134,6 +142,13 @@ hooks:
 
       '
     condition: null
+  - extension: architecture-guard
+    command: speckit.architecture-guard.refactor-generator
+    enabled: true
+    optional: true
+    prompt: Would you like to generate architectural refactor tasks before implementation?
+    description: ''
+    condition: null
   after_implement:
   - extension: git
     command: speckit.git.commit
@@ -151,6 +166,13 @@ hooks:
       skill and extends it with spec-kit spec-coverage checks. Prevents false completions.
 
       '
+    condition: null
+  - extension: architecture-guard
+    command: speckit.architecture-guard.architecture-review
+    enabled: true
+    optional: true
+    prompt: Would you like to run a post-implementation architecture review?
+    description: ''
     condition: null
   after_checklist:
   - extension: git
